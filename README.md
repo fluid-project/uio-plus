@@ -1,6 +1,6 @@
 # UI Options Plus (UIO+)
 
-![CI build status badge](https://github.com/jobara/gpii-chrome-extension/workflows/CI/badge.svg)
+![CI build status badge](https://github.com/fluid-project/uio-plus/workflows/CI/badge.svg)
 
 User Interface Options Plus (UIO+) allows you to customize websites to match your own personal needs and preferences.
 Settings for the adaptations can be set via the UIO+ adjuster panel or, if on a [Morphic](https://morphic.world) enabled
@@ -28,16 +28,17 @@ R&D Center at University of Maryland under funding for the FLOE Project from the
 and the National Institute on Disability, Independent Living, and Rehabilitation Research (NIDILRR), Administration for
 Community Living under grant #90RE5027.
 
-## Filing issues
+[![Chrome Webstore](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)
 
-UIO+ issues are tracked in a [JIRA Issue tracker](https://issues.gpii.net/issues/?jql=project%20%3D%20GPII%20AND%20component%20%3D%20%22Web%20Personalization%20Browser%20Extension%22).
-Please file issues there.
+## Contributing
+
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details about our contribution process.
 
 ## Building the extension
 
 ### Dependencies
 
-Install *grunt-cli* globally:
+Install [grunt-cli](https://gruntjs.com) globally:
 
 ```bash
 npm install -g grunt-cli
@@ -88,7 +89,7 @@ npm test
 npm run test:vagrant
 ```
 
-## Trying out the extension
+## Trying UIO+ in the browser
 
 Requirements:
 
@@ -105,16 +106,6 @@ Follow these steps if you want to use the unpacked version of the extension:
 
 _**NOTE:** Published versions can be installed from the [Chrome Web Store](
     https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)._
-
-## 3rd Party Software
-
-### BSD (3-Clause)
-
-* [Infusion v3.0.0-dev](https://fluidproject.org/infusion.html)
-
-### MIT License
-
-* [Font-Awesome-SVG-PNG v1.1.5](https://github.com/encharm/Font-Awesome-SVG-PNG)
 
 ## Publishing to the Chrome Web Store
 
@@ -186,3 +177,13 @@ _**NOTE:** Published versions can be installed from the [Chrome Web Store](
    2. Install the version from the Chrome Web Store, and run through the manual testing again. (See: step 1.2.3 above)
    3. If everything is working, announce release where required (e.g., fluid-work list, GPII list, project teams, etc.).
       If there are any issues, fix them and repeat the process.
+
+## 3rd Party Software
+
+### BSD 3-Clause
+
+* [Infusion v3.0.0-dev](https://fluidproject.org/infusion.html)
+
+### MIT License
+
+* [Font-Awesome-SVG-PNG v1.1.5](https://github.com/encharm/Font-Awesome-SVG-PNG)
