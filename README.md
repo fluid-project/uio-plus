@@ -3,8 +3,7 @@
 ![CI build status badge](https://github.com/fluid-project/uio-plus/workflows/CI/badge.svg)
 
 User Interface Options Plus (UIO+) allows you to customize websites to match your own personal needs and preferences.
-Settings for the adaptations can be set via the UIO+ adjuster panel or, if on a [Morphic](https://morphic.world) enabled
-machine, from a keyed in preference set.
+Settings for the adaptations can be set via the UIO+ adjuster panel.
 
 The following adaptations are supported:
 
@@ -120,19 +119,16 @@ _**NOTE:** Published versions can be installed from the [Chrome Web Store](
             1. In Chrome, go to [chrome://extensions](chrome://extensions)
             2. Ensure that "Developer mode" is enabled.
             3. Click "Load unpacked".
-            4. From the File Dialog, navigate to the "gpii-chrome-extension" repo and select the "build" directory.
+            4. From the File Dialog, navigate to the "uio-plus" repo and select the "build" directory.
          3. Test all of the preferences and ensure that they apply to web page content correctly.
             1. Refresh any Browser Tabs/Windows that were open prior to installing the extension.
             2. The preferences should be tested individually and in combinations to ensure that interactions between the
                preferences are working properly. For example (Text-to-Speech and Syllabification, Text-to-Speech with
                Reading Mode).
             3. Multiple web pages should be tested. However, not all preferences will work with all sites.
-         4. Load Morphic and ensure that logging in users (e.g. [uioPlusCommon](
-            https://github.com/GPII/universal/blob/master/testData/preferences/uioPlusCommon.json5)) applies the
-            preferences to UIO+.
    3. Increase the "version" number in the [manifest](
-      https://github.com/GPII/gpii-chrome-extension/blob/master/extension/manifest.json#L5) file, and push changes to
-      master.
+      https://github.com/fluid-project/uio-plus/blob/d1b188fc22860b8edf067361baae696ae62dfe5f/src/manifest.json#L5)
+      file, and push changes to master.
 2. Create the release package.
    1. Create a release build: `grunt build`
       1. If making a beta, open the manifest file, located in the newly created build directory, and add a
@@ -159,8 +155,7 @@ _**NOTE:** Published versions can be installed from the [Chrome Web Store](
       1. The actual publishing to the Chrome Web Store will take about an hour.
    9. Tag the master branch with the release (e.g., v0.1.0-beta.10).
    10. Create a GitHub release for the tag.
-       1. Go to the [gpii-chrome-extension](
-          https://github.com/GPII/gpii-chrome-extension) GitHub page.
+       1. Go to the [uio-plus](https://github.com/fluid-project/uio-plus) GitHub page.
        2. Click on "releases".
        3. Click "Draft a new release".
        4. For "Tag Version" and "Release Title", enter the tag name created in step 3.9 (e.g., v0.1.0-beta.10).
@@ -175,7 +170,7 @@ _**NOTE:** Published versions can be installed from the [Chrome Web Store](
       https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek) page on the
       Chrome Web Store appear correct. Double check things like version number/name, descriptions, screenshots, etc.
    2. Install the version from the Chrome Web Store, and run through the manual testing again. (See: step 1.2.3 above)
-   3. If everything is working, announce release where required (e.g., fluid-work list, GPII list, project teams, etc.).
+   3. If everything is working, announce release where required (e.g., fluid-work list, project teams, etc.).
       If there are any issues, fix them and repeat the process.
 
 ## 3rd Party Software
