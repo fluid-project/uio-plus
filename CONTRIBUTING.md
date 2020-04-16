@@ -48,6 +48,7 @@ After a Pull Request (PR) has been submitted, one or more members of the communi
 typically results in a back and forth conversation and modifications to the PR. Merging into the project repo is a
 manual process and requires at least one Maintainer to sign off on the PR and merge it into the project repo.
 
-When merging a Pull Request, it is recommended to use a [Squash Merge](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits). While this does
-modify commit history, it will enable us to more easily establish a link between code changes and Issues that
-precipitated them.
+When merging a Pull Request, it is recommended to use a [Squash Merge](
+https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits).
+While this does modify commit history, it will enable us to more easily establish a link between code changes and Issues
+that precipitated them.
