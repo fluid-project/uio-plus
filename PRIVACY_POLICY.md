@@ -1,15 +1,13 @@
 # Privacy Policy
 
 User Interface Options Plus (UIO+) allows you to customize websites to match your own personal needs and preferences.
-Settings for the adaptations can be set via the UIO+ adjuster panel or, if on a [Morphic](https://morphic.world) enable
-machine, from a keyed in preference set. Due to the nature of applying user preferences, UIO+
-requires permission to interact with the web content in the browser's windows, tabs, and iframes.
+Settings for the adaptations can be set via the UIO+ adjuster panel. Due to the nature of applying user preferences,
+UIO+ requires permission to interact with the web content in the browser's windows, tabs, and iframes.
 
 ## Information UIO+ collects
 
-UIO+ makes use of user preferences, collected via direct user input to its adjuster panel and from Morphic, when run on
-a Morphic enabled machine. To apply certain adaptations, e.g. syllabifiaction, text-to-speech, the content of active
-websites may be parsed.
+UIO+ makes use of user preferences, collected via direct user input to its adjuster panel. To apply certain adaptations,
+(e.g. syllabifiaction, text-to-speech) the content of active websites may be parsed.
 
 ## How UIO+ uses the information
 
