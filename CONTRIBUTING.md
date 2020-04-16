@@ -1,7 +1,5 @@
 # Contributing
 
-## Licensing
-
 ## Process/Workflow
 
 UIO+'s [source code](https://github.com/fluid-project/uio-plus) is hosted on GitHub. All of the code that is
