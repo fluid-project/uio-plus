@@ -2,7 +2,7 @@
     "name": "ui-options-chrome",
     "version": "0.1.0",
     "description": "User Interface Options Plus (UIO+) allows you to customize websites to match your own personal needs and preferences.",
-    "license": "(BSD-3-Clause OR ECL-2.0)",
+    "license": "BSD-3-Clause",
     "repository": {
         "type": "git",
         "url": "git://github.com/GPII/gpii-chrome-extension.git"
