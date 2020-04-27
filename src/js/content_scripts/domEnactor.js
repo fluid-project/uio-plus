@@ -140,7 +140,7 @@
                                     selectionReader: {
                                         options: {
                                             markup: {
-                                                control: "<button class=\"flc-orator-selectionReader-control gpiic-simplify-visible \"><span class=\"fl-icon-orator\"></span><span class=\"flc-orator-selectionReader-controlLabel\"></span></button>"
+                                                control: "<button class=\"flc-orator-selectionReader-control gpiic-simplify-visible \"><span class=\"uioPlus-icon-orator\"></span><span class=\"flc-orator-selectionReader-controlLabel\"></span></button>"
                                             }
                                         }
                                     }
@@ -243,7 +243,7 @@
     // Inputs larger
     fluid.defaults("gpii.chrome.enactor.inputsLarger", {
         gradeNames: ["fluid.prefs.enactor.enhanceInputs"],
-        cssClass: "gpii-ext-input-enhanced"
+        cssClass: "uioPlus-input-enhanced"
     });
 
     // Selection highlight
@@ -251,9 +251,9 @@
         gradeNames: ["fluid.prefs.enactor.classSwapper"],
         classes: {
             "default": "",
-            "yellow": "gpii-ext-selection-yellow",
-            "green": "gpii-ext-selection-green",
-            "pink": "gpii-ext-selection-pink"
+            "yellow": "uioPlus-selection-yellow",
+            "green": "uioPlus-selection-green",
+            "pink": "uioPlus-selection-pink"
         },
         listeners: {
             "onCreate.rightClick": {
@@ -315,7 +315,7 @@
             patternPrefix: "js/lib/syllablePatterns"
         },
         markup: {
-            separator: "<span class=\"flc-syllabification-separator gpii-ext-syllabification-separator\"></span>"
+            separator: "<span class=\"flc-syllabification-separator uioPlus-syllabification-separator\"></span>"
         },
         invokers: {
             injectScript: "gpii.chrome.enactor.syllabification.injectScript"
@@ -376,7 +376,7 @@
             }
         },
         markup: {
-            tocContainer: "<div class=\"flc-toc-tocContainer gpii-toc-tocContainer\"></div>"
+            tocContainer: "<div class=\"flc-toc-tocContainer uioPlus-toc-tocContainer\"></div>"
         },
         distributeOptions: {
             source: "{that}.options.selectors.tocContainer",

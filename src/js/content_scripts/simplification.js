@@ -41,7 +41,7 @@
             navToggle: "Show/Hide Navigation"
         },
         styles: {
-            navToggle: "gpii-simplify-navToggle"
+            navToggle: "uioPlus-simplify-navToggle"
         },
         members: {
             nav: {

@@ -482,9 +482,9 @@
             classnameMap: {
                 "theme": {
                     "default": "fl-theme-prefsEditor-default",
-                    "yellow": "gpii-ext-selection-preview-yellow",
-                    "green": "gpii-ext-selection-preview-green",
-                    "pink": "gpii-ext-selection-preview-pink"
+                    "yellow": "uioPlus-selection-preview-yellow",
+                    "green": "uioPlus-selection-preview-green",
+                    "pink": "uioPlus-selection-preview-pink"
                 }
             }
         });

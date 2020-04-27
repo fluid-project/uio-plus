@@ -26,26 +26,6 @@ spinnerSize = 5em;
     font-style: normal;
 }
 
-// Overrides
-.fl-prefsEditor-separatedPanel {
-    background-image: none;
-
-    .fl-prefsEditor-panels {
-        .fl-prefsEditor-panel {
-            border-top: transparent;
-            border-bottom: transparent;
-        }
-    }
-}
-
-.fl-prefsEditor-separatedPanel .fl-prefsEditor-panels .fl-prefsEditor-panel
-
-body {
-    font-size: 1rem;
-    width: panelWidth;
-    min-height: panelHeight;
-}
-
 /**
  * CSS Spinner adapted from Lea Verou's Cleanest CSS Spinner
  * http://lea.verou.me/2013/11/cleanest-css-spinner-ever/
@@ -55,14 +35,14 @@ body {
     to { transform: rotate(1turn); }
 }
 
-.fl-loading {
+.uioPlus-loading {
     display: flex;
     justify-content: center;
     align-items: center;
     height: panelHeight;
 }
 
-.fl-spinner {
+.uioPlus-spinner {
     position: relative;
     display: inline-block;
     width: spinnerSize;
@@ -73,10 +53,10 @@ body {
     animation: spin 1s infinite steps(8);
 }
 
-.fl-spinner:before,
-.fl-spinner:after,
-.fl-spinner > div:before,
-.fl-spinner > div:after {
+.uioPlus-spinner:before,
+.uioPlus-spinner:after,
+.uioPlus-spinner > div:before,
+.uioPlus-spinner > div:after {
     content: '';
     position: absolute;
     width: 0.5rem;
@@ -89,44 +69,63 @@ body {
     transform-origin: 50% (spinnerSize / 2);
 }
 
-.fl-spinner:before {
+.uioPlus-spinner:before {
     background: #555;
 }
 
-.fl-spinner:after {
+.uioPlus-spinner:after {
     transform: rotate(-45deg);
     background: #777;
 }
 
-.fl-spinner > div:before {
+.uioPlus-spinner > div:before {
     transform: rotate(-90deg);
     background: #999;
 }
 
-.fl-spinner > div:after {
+.uioPlus-spinner > div:after {
     transform: rotate(-135deg);
     background: #bbb;
 }
 
 // Selection Highlight Preview
 selectionThemes = {
-    ".gpii-ext-selection-preview-yellow": {
+    ".uioPlus-selection-preview-yellow": {
         foregroundColor: #000000,
         backgroundColor: #eeee1a
     }
-    ".gpii-ext-selection-preview-green": {
+    ".uioPlus-selection-preview-green": {
         foregroundColor: #000000,
         backgroundColor: #318712
     }
-    ".gpii-ext-selection-preview-pink": {
+    ".uioPlus-selection-preview-pink": {
         foregroundColor: #000000,
         backgroundColor: #de00a2
     }
 }
 
-gpii-stylus-selectionPreviewThemes(selectionThemes);
+uioPlus-stylus-selectionPreviewThemes(selectionThemes);
 
-// overrides
+// Overrides
+
+// Separated Panel Prefs Editor
+.fl-prefsEditor-separatedPanel {
+    background-image: none;
+
+    .fl-prefsEditor-panels {
+        .fl-prefsEditor-panel {
+            border-top: transparent;
+            border-bottom: transparent;
+        }
+    }
+}
+
+.fl-prefsEditor-separatedPanel .fl-prefsEditor-panels .fl-prefsEditor-panel
+body {
+    font-size: 1rem;
+    width: panelWidth;
+    min-height: panelHeight;
+}
 
 // Textfield Stepper
 .fl-prefsEditor .fl-textfieldStepper .fl-textfieldStepper-textField {

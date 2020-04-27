@@ -1,5 +1,5 @@
 
-gpii-stylus-selection(selector, theme) {
+uioPlus-stylus-selection(selector, theme) {
     {selector} {
         &::selection,
         & *::selection {
@@ -16,7 +16,7 @@ gpii-stylus-selection(selector, theme) {
     }
 }
 
-gpii-stylus-selectionPreview(selector, theme) {
+uioPlus-stylus-selectionPreview(selector, theme) {
     {selector} {
         &,
         & * {
@@ -26,14 +26,14 @@ gpii-stylus-selectionPreview(selector, theme) {
     }
 }
 
-gpii-stylus-selectionThemes(selectionThemes) {
+uioPlus-stylus-selectionThemes(selectionThemes) {
     for selector in selectionThemes {
-        gpii-stylus-selection(selector, selectionThemes[selector]);
+        uioPlus-stylus-selection(selector, selectionThemes[selector]);
     }
 }
 
-gpii-stylus-selectionPreviewThemes(selectionThemes) {
+uioPlus-stylus-selectionPreviewThemes(selectionThemes) {
     for selector in selectionThemes {
-        gpii-stylus-selectionPreview(selector, selectionThemes[selector]);
+        uioPlus-stylus-selectionPreview(selector, selectionThemes[selector]);
     }
 }
