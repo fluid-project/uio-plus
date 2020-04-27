@@ -38,15 +38,11 @@ fluid.defaults("gpii.chrome.settings", {
     },
     invokers: {
         // A dedicated invoker instead of declaratively setting up the model change is required to provide a default
-        // value for the `settings` to set. Specifically this is necessary for the web socket connection so that the
-        // `settings` can be "reset" by Morphic when a user is keyed out.
+        // value for the `settings` to set. This is useful for resetting the preferences.
         updateSettings: {
             funcName: "gpii.chrome.settings.updateSettings",
             args: ["{that}",  "{arguments}.0"]
         }
-    },
-    listeners: {
-        "{wsConnector}.events.onSettingsChange": "{settings}.updateSettings"
     },
     components: {
         domSettingsApplier: {
@@ -62,14 +58,6 @@ fluid.defaults("gpii.chrome.settings", {
                     magnifierEnabled: true, // set to true because fontSize is always enabled
                     magnification: "{settings}.model.settings.fontSize"
                 }
-            }
-        },
-        wsConnector: {
-            type: "gpii.wsConnector",
-            options: {
-                solutionId: "net.gpii.uioPlus",
-                flowManager: "ws://localhost:8081/browserChannel",
-                retryTime: 10
             }
         },
         contextMenuPanel: {

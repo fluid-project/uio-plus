@@ -13,7 +13,6 @@
 /* global require */
 "use strict";
 
-require("./wsConnectorTests.js");
 require("./zoomTests.js");
 require("./domSettingsApplierTests.js");
 require("./chromeEventedTests.js");
