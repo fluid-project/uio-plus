@@ -14,10 +14,10 @@
 "use strict";
 
 (function (fluid) {
-    var gpii = fluid.registerNamespace("gpii");
+    var uioPlus = fluid.registerNamespace("uioPlus");
 
     /*
-        The `gpii.chrome.portBinding` grade provides a system for creating a port connection and sending/receiving
+        The `uioPlus.chrome.portBinding` grade provides a system for creating a port connection and sending/receiving
         messages across that port. To verify that messages sent across a port are received and acted upon correctly,
         posts provide a promise that is resolved/rejected based on a returned receipt. Connections are also set to
         return receipts after an incoming message has been handled.
@@ -49,19 +49,19 @@
            - remove from message map
 
         By default the following message types are handled.
-        - "gpii.chrome.readRequest"
-        - "gpii.chrome.readReceipt"
-        - "gpii.chrome.writeRequest"
-        - "gpii.chrome.writeReceipt"
+        - "uioPlus.chrome.readRequest"
+        - "uioPlus.chrome.readReceipt"
+        - "uioPlus.chrome.writeRequest"
+        - "uioPlus.chrome.writeReceipt"
 
         By default the following message types are sent.
-        - "gpii.chrome.readRequest"
-        - "gpii.chrome.readReceipt"
-        - "gpii.chrome.writeRequest"
-        - "gpii.chrome.writeReceipt"
+        - "uioPlus.chrome.readRequest"
+        - "uioPlus.chrome.readReceipt"
+        - "uioPlus.chrome.writeRequest"
+        - "uioPlus.chrome.writeReceipt"
     */
 
-    fluid.defaults("gpii.chrome.portBinding", {
+    fluid.defaults("uioPlus.chrome.portBinding", {
         gradeNames: ["fluid.component"],
         // Name of the port connection. Will be sent as the `name` when a port connection is created.
         portName: "",
@@ -83,15 +83,15 @@
         },
         // Defines which types of messages may be handled and/or sent
         messageTypes: {
-            "readRequest": "gpii.chrome.readRequest",
-            "readReceipt": "gpii.chrome.readReceipt",
-            "writeRequest": "gpii.chrome.writeRequest",
-            "writeReceipt": "gpii.chrome.writeReceipt"
+            "readRequest": "uioPlus.chrome.readRequest",
+            "readReceipt": "uioPlus.chrome.readReceipt",
+            "writeRequest": "uioPlus.chrome.writeRequest",
+            "writeReceipt": "uioPlus.chrome.writeReceipt"
         },
         // an inverse lookup for the messageTypes
         messageTypeInverseMap: {
             expander: {
-                funcName: "gpii.chrome.portBinding.invertMap",
+                funcName: "uioPlus.chrome.portBinding.invertMap",
                 args: ["{that}.options.messageTypes"]
             }
         },
@@ -104,9 +104,9 @@
             writeReceipt: "onIncomingWriteReceipt"
         },
         listeners: {
-            "onCreate.bindPortEvents": "gpii.chrome.portBinding.bindPortEvents",
+            "onCreate.bindPortEvents": "uioPlus.chrome.portBinding.bindPortEvents",
             "onIncoming.filterMessages": {
-                listener: "gpii.chrome.portBinding.handleIncoming",
+                listener: "uioPlus.chrome.portBinding.handleIncoming",
                 args: ["{that}", "{arguments}.0"]
             },
             "onIncomingRead.handle": {
@@ -122,31 +122,31 @@
         },
         invokers: {
             read: {
-                funcName: "gpii.chrome.portBinding.postRequest",
+                funcName: "uioPlus.chrome.portBinding.postRequest",
                 args: ["{that}", "{that}.options.messageTypes.readRequest", "{arguments}.0"]
             },
             write: {
-                funcName: "gpii.chrome.portBinding.postRequest",
+                funcName: "uioPlus.chrome.portBinding.postRequest",
                 args: ["{that}", "{that}.options.messageTypes.writeRequest", "{arguments}.0"]
             },
             postReceipt: {
-                funcName: "gpii.chrome.portBinding.postReceipt",
+                funcName: "uioPlus.chrome.portBinding.postReceipt",
                 args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2", "{arguments}.3"]
             },
             setPort: {
-                funcName: "gpii.chrome.portBinding.setPort",
+                funcName: "uioPlus.chrome.portBinding.setPort",
                 args: [{name: "{that}.options.portName"}]
             },
             rejectMessage: {
-                funcName: "gpii.chrome.portBinding.requestNotAccepted",
+                funcName: "uioPlus.chrome.portBinding.requestNotAccepted",
                 args: ["{that}", "{arguments}.0", "{arguments}.1"]
             },
             handleMessage: {
-                funcName: "gpii.chrome.portBinding.handleMessage",
+                funcName: "uioPlus.chrome.portBinding.handleMessage",
                 args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
             },
             handleReceipt: {
-                funcName: "gpii.chrome.portBinding.handleReceipt",
+                funcName: "uioPlus.chrome.portBinding.handleReceipt",
                 args: ["{that}", "{arguments}.0"]
             },
             // handleRead and handleWrite must be implemented by an integrator. They will be called by the handleMessage
@@ -165,7 +165,7 @@
      *
      * @return {Object} - a new inverted map will be returned
      */
-    gpii.chrome.portBinding.invertMap = function (map) {
+    uioPlus.chrome.portBinding.invertMap = function (map) {
         var inverted = {};
         fluid.each(map, function (value, prop) {
             inverted[value] = prop;
@@ -189,16 +189,16 @@
      *
      * @return {Port} - the chrome port connection
      */
-    gpii.chrome.portBinding.setPort = function (options) {
+    uioPlus.chrome.portBinding.setPort = function (options) {
         return chrome.runtime.connect(options);
     };
 
     /**
      * Binds/relays {Port} events to infusion events that can be used by the component.
      *
-     * @param {Component} that - an instance of `gpii.chrome.portBinding`
+     * @param {Component} that - an instance of `uioPlus.chrome.portBinding`
      */
-    gpii.chrome.portBinding.bindPortEvents = function (that) {
+    uioPlus.chrome.portBinding.bindPortEvents = function (that) {
         that.port.onDisconnect.addListener(that.events.onDisconnect.fire);
         that.port.onMessage.addListener(that.events.onIncoming.fire);
     };
@@ -209,13 +209,13 @@
      * `id` is sent with the message and should be used as the `id` in a receipt to identify which message the receipt
      * is for.
      *
-     * @param {Component} that - an instance of `gpii.chrome.portBinding`
+     * @param {Component} that - an instance of `uioPlus.chrome.portBinding`
      * @param {String} type - identifies the type of message for listeners on the other end.
      * @param {Object} payload - the content of the message
      *
      * @return {Promise} - a promise that is resolved/rejected upon receipt from the other end.
      */
-    gpii.chrome.portBinding.postRequest = function (that, type, payload) {
+    uioPlus.chrome.portBinding.postRequest = function (that, type, payload) {
         var promise = fluid.promise();
         var id = type + "-" + fluid.allocateGuid();
         that.openRequests[id] = promise;
@@ -238,13 +238,13 @@
      * Posts the receipt over the {Port} connection to reply to a previously received message. Content of the receipt
      * may be provided in the `payload` argument.
      *
-     * @param {Component} that - an instance of `gpii.chrome.portBinding`
+     * @param {Component} that - an instance of `uioPlus.chrome.portBinding`
      * @param {String} type - identifies the type of message for listeners on the other end.
      * @param {String} id - must match a previously received message.
      * @param {Object} payload - the content to return
      * @param {Object} error - an error object to return if the previous message handling failed.
      */
-    gpii.chrome.portBinding.postReceipt = function (that, type, id, payload, error) {
+    uioPlus.chrome.portBinding.postReceipt = function (that, type, id, payload, error) {
         var toPost = {
             id: id,
             type: type,
@@ -262,11 +262,11 @@
      * Can be used to replace the listener for the onIncomingRead and onIncomingWrite events if those operations aren't
      * supported.
      *
-     * @param {Component} that - an instance of `gpii.chrome.portBinding`
+     * @param {Component} that - an instance of `uioPlus.chrome.portBinding`
      * @param {String} type - identifies the type of message for listeners on the other end.
      * @param {Object} data - the incoming data from the message.
      */
-    gpii.chrome.portBinding.requestNotAccepted = function (that, type, data) {
+    uioPlus.chrome.portBinding.requestNotAccepted = function (that, type, data) {
         that.postReceipt(type, data.id, null, {message: "Request of type: " + data.type + " are not accepted."});
     };
 
@@ -274,10 +274,10 @@
      * Directs the incoming message to the appropriate event:
      * `onIncomingRead`, `onIncomingReadReceipt`, `onIncomingWrite`, `onIncomingWriteReceipt`
      *
-     * @param {Component} that - an instance of `gpii.chrome.portBinding`
+     * @param {Component} that - an instance of `uioPlus.chrome.portBinding`
      * @param {Object} data - the data to handle from the incoming port message
      */
-    gpii.chrome.portBinding.handleIncoming = function (that, data) {
+    uioPlus.chrome.portBinding.handleIncoming = function (that, data) {
         var messageType = that.options.messageTypeInverseMap[data.type];
         var eventName = that.options.messageHandlingMap[messageType];
 
@@ -290,7 +290,7 @@
      * A function to handle incoming request messages. The function will be passed in the message `data` as its only
      * argument. The `data` in a well formed request will typically take the form of
      * {
-     *     type: {String} // the message type e.g. "gpii.chrome.readRequest"
+     *     type: {String} // the message type e.g. "uioPlus.chrome.readRequest"
      *     id: {String} // a unique ID. This will be returned in the receipt.
      *     payload: {Object} // the content of the request. May not be included in all requests
      * }
@@ -306,14 +306,14 @@
      * integrator. The result or promise returned by `handleMessageImpl` is used to determine if a receipt should be
      * sent with or without an error and with what payload.
      *
-     * @param {Component} that - an instance of `gpii.chrome.portBinding`
+     * @param {Component} that - an instance of `uioPlus.chrome.portBinding`
      * @param {String} type - identifies the type of message for listeners on the other end.
      * @param {Object} data - the incoming data from the message.
      * @param {MessageHandler} handleFn - a function to handle the message
      *
      * @return {Promise} - a promise that is resolved/rejected based on the result of `handleFn` execution
      */
-    gpii.chrome.portBinding.handleMessage = function (that, type, data, handleFn) {
+    uioPlus.chrome.portBinding.handleMessage = function (that, type, data, handleFn) {
         var promise = fluid.promise();
 
         promise.then(function (value) {
@@ -334,10 +334,10 @@
      * Handles the receipt of a posted message. Based on the `id` in the receipt, the promise related to the originally
      * sent message will be removed from the `openRequests` object and resolved/rejected as needed.
      *
-     * @param {Component} that - an instance of `gpii.chrome.portBinding`
+     * @param {Component} that - an instance of `uioPlus.chrome.portBinding`
      * @param {Object} receipt - the data from the receipt
      */
-    gpii.chrome.portBinding.handleReceipt = function (that, receipt) {
+    uioPlus.chrome.portBinding.handleReceipt = function (that, receipt) {
         var promise = that.openRequests[receipt.id];
 
         if (promise) {
@@ -356,8 +356,8 @@
      * port binding data store *
      ***************************/
 
-    fluid.defaults("gpii.chrome.portBinding.store", {
-        gradeNames: ["fluid.dataSource", "gpii.chrome.portBinding"],
+    fluid.defaults("uioPlus.chrome.portBinding.store", {
+        gradeNames: ["fluid.dataSource", "uioPlus.chrome.portBinding"],
         components: {
             encoding: {
                 type: "fluid.dataSource.encoding.model"
@@ -380,7 +380,7 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.portBinding.store.writable", {
+    fluid.defaults("uioPlus.chrome.portBinding.store.writable", {
         gradeNames: ["fluid.prefs.tempStore.writable"],
         listeners: {
             "onWrite.impl": {
@@ -389,6 +389,6 @@
         }
     });
 
-    fluid.makeGradeLinkage("gpii.chrome.portBinding.store.linkage", ["fluid.dataSource.writable", "gpii.chrome.portBinding.store"], "gpii.chrome.portBinding.store.writable");
+    fluid.makeGradeLinkage("uioPlus.chrome.portBinding.store.linkage", ["fluid.dataSource.writable", "uioPlus.chrome.portBinding.store"], "uioPlus.chrome.portBinding.store.writable");
 
 })(fluid);

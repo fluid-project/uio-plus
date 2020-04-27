@@ -10,15 +10,15 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid, gpii */
+/* global fluid, uioPlus */
 "use strict";
 
 (function ($, fluid) {
 
     // TODO: if possible automate the model transformation bindings so we don't
     //       have to know the model paths ahead of time.
-    fluid.defaults("gpii.chrome.prefs.extensionPanel.store", {
-        gradeNames: ["gpii.chrome.portBinding.store"],
+    fluid.defaults("uioPlus.chrome.prefs.extensionPanel.store", {
+        gradeNames: ["uioPlus.chrome.portBinding.store"],
         portName: "extensionPanel",
         rules: {
             "panelIndex": "panelIndex",
@@ -27,56 +27,56 @@
             "preferences.fluid_prefs_speak": "settings.selfVoicingEnabled",
             "preferences.fluid_prefs_syllabification": "settings.syllabificationEnabled",
             "preferences.fluid_prefs_tableOfContents": "settings.tableOfContentsEnabled",
-            "preferences.gpii_chrome_prefs_contrast": "settings.contrastTheme",
-            "preferences.gpii_chrome_prefs_clickToSelect": "settings.clickToSelectEnabled",
-            "preferences.gpii_chrome_prefs_highlight": "settings.selectionTheme",
-            "preferences.gpii_chrome_prefs_lineSpace": "settings.lineSpace",
-            "preferences.gpii_chrome_prefs_simplify": "settings.simplifiedUiEnabled",
-            "preferences.gpii_chrome_prefs_textSize": "settings.fontSize",
-            "preferences.gpii_chrome_prefs_wordSpace": "settings.wordSpace"
+            "preferences.uioPlus_chrome_prefs_contrast": "settings.contrastTheme",
+            "preferences.uioPlus_chrome_prefs_clickToSelect": "settings.clickToSelectEnabled",
+            "preferences.uioPlus_chrome_prefs_highlight": "settings.selectionTheme",
+            "preferences.uioPlus_chrome_prefs_lineSpace": "settings.lineSpace",
+            "preferences.uioPlus_chrome_prefs_simplify": "settings.simplifiedUiEnabled",
+            "preferences.uioPlus_chrome_prefs_textSize": "settings.fontSize",
+            "preferences.uioPlus_chrome_prefs_wordSpace": "settings.wordSpace"
         },
         listeners: {
             "onRead.transform": {
-                func: "gpii.chrome.prefs.extensionPanel.store.transform",
+                func: "uioPlus.chrome.prefs.extensionPanel.store.transform",
                 priority: "after:encoding",
                 args: ["{that}.options.rules", false, "{arguments}.0"]
             },
             "onWrite.transform": {
-                func: "gpii.chrome.prefs.extensionPanel.store.transform",
+                func: "uioPlus.chrome.prefs.extensionPanel.store.transform",
                 priority: "before:encoding",
                 args: ["{that}.options.rules", true, "{arguments}.0"]
             },
             "onWriteResponse.transform": {
-                func: "gpii.chrome.prefs.extensionPanel.store.transform",
+                func: "uioPlus.chrome.prefs.extensionPanel.store.transform",
                 priority: "after:encoding",
                 args: ["{that}.options.rules", false, "{arguments}.0"]
             }
         }
     });
 
-    gpii.chrome.prefs.extensionPanel.store.transform = function (rules, invert, data) {
+    uioPlus.chrome.prefs.extensionPanel.store.transform = function (rules, invert, data) {
         rules = invert ? fluid.model.transform.invertConfiguration(rules) : rules;
         return fluid.model.transform(data, rules);
     };
 
-    fluid.contextAware.makeChecks({"gpii.chrome.prefs.portBinding": true});
+    fluid.contextAware.makeChecks({"uioPlus.chrome.prefs.portBinding": true});
 
     fluid.contextAware.makeAdaptation({
-        distributionName: "gpii.chrome.prefs.portBinding.storeDistributor",
+        distributionName: "uioPlus.chrome.prefs.portBinding.storeDistributor",
         targetName: "fluid.prefs.store",
         adaptationName: "strategy",
         checkName: "portBinding",
         record: {
-            contextValue: "{gpii.chrome.prefs.portBinding}",
-            gradeNames: "gpii.chrome.prefs.extensionPanel.store",
+            contextValue: "{uioPlus.chrome.prefs.portBinding}",
+            gradeNames: "uioPlus.chrome.prefs.extensionPanel.store",
             priority: "after:user"
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.extensionPanel", {
+    fluid.defaults("uioPlus.chrome.prefs.extensionPanel", {
         gradeNames: ["fluid.prefs.fullNoPreview"],
         selectors: {
-            loading: ".flc-loading"
+            loading: ".uioPlusJS-loading"
         },
         listeners: {
             "onReady.removeSpinner": {
@@ -95,7 +95,7 @@
                 options: {
                     invokers: {
                         writeImpl: {
-                            funcName: "gpii.chrome.prefs.extensionPanel.writeImpl"
+                            funcName: "uioPlus.chrome.prefs.extensionPanel.writeImpl"
                         }
                     },
                     model: {
@@ -145,7 +145,7 @@
      *
      * @return {Promise} promise - a promise that is resolved when the model is saved.
      */
-    gpii.chrome.prefs.extensionPanel.writeImpl = function (that, modelToSave) {
+    uioPlus.chrome.prefs.extensionPanel.writeImpl = function (that, modelToSave) {
         var promise = fluid.promise();
 
         that.events.onSave.fire(modelToSave);
@@ -159,10 +159,10 @@
      * panels *
      **********/
 
-    fluid.defaults("gpii.chrome.prefs.panel.textSize", {
+    fluid.defaults("uioPlus.chrome.prefs.panel.textSize", {
         gradeNames: ["fluid.prefs.panel.textSize"],
         preferenceMap: {
-            "gpii.chrome.prefs.textSize": {
+            "uioPlus.chrome.prefs.textSize": {
                 "model.value": "value",
                 "range.min": "minimum",
                 "range.max": "maximum",
@@ -178,10 +178,10 @@
         }]
     });
 
-    fluid.defaults("gpii.chrome.prefs.panel.lineSpace", {
+    fluid.defaults("uioPlus.chrome.prefs.panel.lineSpace", {
         gradeNames: ["fluid.prefs.panel.lineSpace"],
         preferenceMap: {
-            "gpii.chrome.prefs.lineSpace": {
+            "uioPlus.chrome.prefs.lineSpace": {
                 "model.value": "value",
                 "range.min": "minimum",
                 "range.max": "maximum",
@@ -190,10 +190,10 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.panel.wordSpace", {
+    fluid.defaults("uioPlus.chrome.prefs.panel.wordSpace", {
         gradeNames: ["fluid.prefs.panel.wordSpace"],
         preferenceMap: {
-            "gpii.chrome.prefs.wordSpace": {
+            "uioPlus.chrome.prefs.wordSpace": {
                 "model.value": "value",
                 "range.min": "minimum",
                 "range.max": "maximum",
@@ -202,10 +202,10 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.panel.contrast", {
+    fluid.defaults("uioPlus.chrome.prefs.panel.contrast", {
         gradeNames: ["fluid.prefs.panel.contrast"],
         preferenceMap: {
-            "gpii.chrome.prefs.contrast": {
+            "uioPlus.chrome.prefs.contrast": {
                 "model.value": "value",
                 "controlValues.theme": "enum"
             }
@@ -227,34 +227,34 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.panel.simplify", {
+    fluid.defaults("uioPlus.chrome.prefs.panel.simplify", {
         gradeNames: ["fluid.prefs.panel.switchAdjuster"],
         preferenceMap: {
-            "gpii.chrome.prefs.simplify": {
+            "uioPlus.chrome.prefs.simplify": {
                 "model.value": "value"
             }
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.panel.clickToSelect", {
+    fluid.defaults("uioPlus.chrome.prefs.panel.clickToSelect", {
         gradeNames: ["fluid.prefs.panel.switchAdjuster"],
         preferenceMap: {
-            "gpii.chrome.prefs.clickToSelect": {
+            "uioPlus.chrome.prefs.clickToSelect": {
                 "model.value": "value"
             }
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.panel.highlight", {
+    fluid.defaults("uioPlus.chrome.prefs.panel.highlight", {
         gradeNames: ["fluid.prefs.panel.themePicker"],
         preferenceMap: {
-            "gpii.chrome.prefs.highlight": {
+            "uioPlus.chrome.prefs.highlight": {
                 "model.value": "value",
                 "controlValues.theme": "enum"
             }
         },
         selectors: {
-            header: ".flc-prefsEditor-highlight-header"
+            header: ".uioPlusJS-prefsEditor-highlight-header"
         },
         selectorsToIgnore: ["header"],
         stringArrayIndex: {
@@ -269,11 +269,11 @@
      * schemas *
      ***********/
 
-    fluid.defaults("gpii.chrome.prefs.auxSchema", {
+    fluid.defaults("uioPlus.chrome.prefs.auxSchema", {
         gradeNames: ["fluid.prefs.auxSchema"],
         auxiliarySchema: {
-            "loaderGrades": ["gpii.chrome.prefs.extensionPanel"],
-            "namespace": "gpii.chrome.prefs.constructed",
+            "loaderGrades": ["uioPlus.chrome.prefs.extensionPanel"],
+            "namespace": "uioPlus.chrome.prefs.constructed",
             "terms": {
                 "templatePrefix": "../templates/",
                 "messagePrefix": "../messages/"
@@ -284,22 +284,22 @@
                 "type": "fluid.prefs.letterSpace",
                 "panel": {
                     "type": "fluid.prefs.panel.letterSpace",
-                    "container": ".flc-prefsEditor-char-space",
+                    "container": ".uioPlusJS-prefsEditor-char-space",
                     "message": "%messagePrefix/charSpace.json",
                     "template": "%templatePrefix/PrefsEditorTemplate-letterSpace.html"
                 }
             },
             "clickToSelect": {
-                "type": "gpii.chrome.prefs.clickToSelect",
+                "type": "uioPlus.chrome.prefs.clickToSelect",
                 "panel": {
-                    "type": "gpii.chrome.prefs.panel.clickToSelect",
-                    "container": ".flc-prefsEditor-clickToSelect",
+                    "type": "uioPlus.chrome.prefs.panel.clickToSelect",
+                    "container": ".uioPlusJS-prefsEditor-clickToSelect",
                     "template": "%templatePrefix/ClickToSelectPanelTemplate.html",
                     "message": "%messagePrefix/clickToSelect.json"
                 }
             },
             "contrast": {
-                "type": "gpii.chrome.prefs.contrast",
+                "type": "uioPlus.chrome.prefs.contrast",
                 "classes": {
                     "default": "fl-theme-prefsEditor-default",
                     "bw": "fl-theme-bw",
@@ -312,8 +312,8 @@
 
                 },
                 "panel": {
-                    "type": "gpii.chrome.prefs.panel.contrast",
-                    "container": ".flc-prefsEditor-contrast",
+                    "type": "uioPlus.chrome.prefs.panel.contrast",
+                    "container": ".uioPlusJS-prefsEditor-contrast",
                     "classnameMap": {"theme": "@contrast.classes"},
                     "template": "%templatePrefix/PrefsEditorTemplate-contrast.html",
                     "message": "%messagePrefix/contrast.json"
@@ -323,22 +323,22 @@
                 "type": "fluid.prefs.enhanceInputs",
                 "panel": {
                     "type": "fluid.prefs.panel.enhanceInputs",
-                    "container": ".flc-prefsEditor-enhanceInputs",
+                    "container": ".uioPlusJS-prefsEditor-enhanceInputs",
                     "template": "%templatePrefix/PrefsEditorTemplate-enhanceInputs.html",
                     "message": "%messagePrefix/enhanceInputs.json"
                 }
             },
             "lineSpace": {
-                "type": "gpii.chrome.prefs.lineSpace",
+                "type": "uioPlus.chrome.prefs.lineSpace",
                 "panel": {
-                    "type": "gpii.chrome.prefs.panel.lineSpace",
-                    "container": ".flc-prefsEditor-line-space",
+                    "type": "uioPlus.chrome.prefs.panel.lineSpace",
+                    "container": ".uioPlusJS-prefsEditor-line-space",
                     "message": "%messagePrefix/lineSpace.json",
                     "template": "%templatePrefix/PrefsEditorTemplate-lineSpace.html"
                 }
             },
             "selectionHighlight": {
-                "type": "gpii.chrome.prefs.highlight",
+                "type": "uioPlus.chrome.prefs.highlight",
                 "classes": {
                     "default": "fl-theme-prefsEditor-default",
                     "yellow": "uioPlus-selection-preview-yellow",
@@ -346,8 +346,8 @@
                     "pink": "uioPlus-selection-preview-pink"
                 },
                 "panel": {
-                    "type": "gpii.chrome.prefs.panel.highlight",
-                    "container": ".flc-prefsEditor-selectionHighlight",
+                    "type": "uioPlus.chrome.prefs.panel.highlight",
+                    "container": ".uioPlusJS-prefsEditor-selectionHighlight",
                     "classnameMap": {"theme": "@selectionHighlight.classes"},
                     "template": "%templatePrefix/SelectionHighlightPanelTemplate.html",
                     "message": "%messagePrefix/selectionHighlight.json"
@@ -357,16 +357,16 @@
                 "type": "fluid.prefs.speak",
                 "panel": {
                     "type": "fluid.prefs.panel.speak",
-                    "container": ".flc-prefsEditor-selfVoicing",
+                    "container": ".uioPlusJS-prefsEditor-selfVoicing",
                     "template": "%templatePrefix/PrefsEditorTemplate-speak.html",
                     "message": "%messagePrefix/speak.json"
                 }
             },
             "simplify": {
-                "type": "gpii.chrome.prefs.simplify",
+                "type": "uioPlus.chrome.prefs.simplify",
                 "panel": {
-                    "type": "gpii.chrome.prefs.panel.simplify",
-                    "container": ".flc-prefsEditor-simplify",
+                    "type": "uioPlus.chrome.prefs.panel.simplify",
+                    "container": ".uioPlusJS-prefsEditor-simplify",
                     "template": "%templatePrefix/SimplifyPanelTemplate.html",
                     "message": "%messagePrefix/simplify.json"
                 }
@@ -375,7 +375,7 @@
                 "type": "fluid.prefs.syllabification",
                 "panel": {
                     "type": "fluid.prefs.panel.syllabification",
-                    "container": ".flc-prefsEditor-syllabification",
+                    "container": ".uioPlusJS-prefsEditor-syllabification",
                     "template": "%templatePrefix/PrefsEditorTemplate-syllabification.html",
                     "message": "%messagePrefix/syllabification.json"
                 }
@@ -384,25 +384,25 @@
                 "type": "fluid.prefs.tableOfContents",
                 "panel": {
                     "type": "fluid.prefs.panel.layoutControls",
-                    "container": ".flc-prefsEditor-layout-controls",
+                    "container": ".uioPlusJS-prefsEditor-layout-controls",
                     "template": "%templatePrefix/PrefsEditorTemplate-layout.html",
                     "message": "%messagePrefix/tableOfContents.json"
                 }
             },
             "textSize": {
-                "type": "gpii.chrome.prefs.textSize",
+                "type": "uioPlus.chrome.prefs.textSize",
                 "panel": {
-                    "type": "gpii.chrome.prefs.panel.textSize",
-                    "container": ".flc-prefsEditor-text-size",
+                    "type": "uioPlus.chrome.prefs.panel.textSize",
+                    "container": ".uioPlusJS-prefsEditor-text-size",
                     "message": "%messagePrefix/zoom.json",
                     "template": "%templatePrefix/PrefsEditorTemplate-textSize.html"
                 }
             },
             "wordSpace": {
-                "type": "gpii.chrome.prefs.wordSpace",
+                "type": "uioPlus.chrome.prefs.wordSpace",
                 "panel": {
-                    "type": "gpii.chrome.prefs.panel.wordSpace",
-                    "container": ".flc-prefsEditor-word-space",
+                    "type": "uioPlus.chrome.prefs.panel.wordSpace",
+                    "container": ".uioPlusJS-prefsEditor-word-space",
                     "message": "%messagePrefix/wordSpace.json",
                     "template": "%templatePrefix/PrefsEditorTemplate-wordSpace.html"
                 }
@@ -410,10 +410,10 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.schemas.textSize", {
+    fluid.defaults("uioPlus.chrome.prefs.schemas.textSize", {
         gradeNames: ["fluid.prefs.schemas"],
         schema: {
-            "gpii.chrome.prefs.textSize": {
+            "uioPlus.chrome.prefs.textSize": {
                 "type": "number",
                 "default": 1,
                 "minimum": 0.25,
@@ -423,10 +423,10 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.schemas.lineSpace", {
+    fluid.defaults("uioPlus.chrome.prefs.schemas.lineSpace", {
         gradeNames: ["fluid.prefs.schemas"],
         schema: {
-            "gpii.chrome.prefs.lineSpace": {
+            "uioPlus.chrome.prefs.lineSpace": {
                 "type": "number",
                 "default": 1,
                 "minimum": 0.7,
@@ -436,10 +436,10 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.schemas.contrast", {
+    fluid.defaults("uioPlus.chrome.prefs.schemas.contrast", {
         gradeNames: ["fluid.prefs.schemas"],
         schema: {
-            "gpii.chrome.prefs.contrast": {
+            "uioPlus.chrome.prefs.contrast": {
                 "type": "string",
                 "default": "default",
                 "enum": ["default", "bw", "wb", "by", "yb", "gw", "gd", "bbr"]
@@ -447,30 +447,30 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.schemas.simplify", {
+    fluid.defaults("uioPlus.chrome.prefs.schemas.simplify", {
         gradeNames: ["fluid.prefs.schemas"],
         schema: {
-            "gpii.chrome.prefs.simplify": {
+            "uioPlus.chrome.prefs.simplify": {
                 "type": "boolean",
                 "default": false
             }
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.schemas.clickToSelect", {
+    fluid.defaults("uioPlus.chrome.prefs.schemas.clickToSelect", {
         gradeNames: ["fluid.prefs.schemas"],
         schema: {
-            "gpii.chrome.prefs.clickToSelect": {
+            "uioPlus.chrome.prefs.clickToSelect": {
                 "type": "boolean",
                 "default": false
             }
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.schemas.highlight", {
+    fluid.defaults("uioPlus.chrome.prefs.schemas.highlight", {
         gradeNames: ["fluid.prefs.schemas"],
         schema: {
-            "gpii.chrome.prefs.highlight": {
+            "uioPlus.chrome.prefs.highlight": {
                 "type": "string",
                 "default": "default",
                 "enum": ["default", "yellow", "green", "pink"]
@@ -478,10 +478,10 @@
         }
     });
 
-    fluid.defaults("gpii.chrome.prefs.schemas.wordSpace", {
+    fluid.defaults("uioPlus.chrome.prefs.schemas.wordSpace", {
         gradeNames: ["fluid.prefs.schemas"],
         schema: {
-            "gpii.chrome.prefs.wordSpace": {
+            "uioPlus.chrome.prefs.wordSpace": {
                 "type": "number",
                 "default": 1,
                 "minimum": 0.7,

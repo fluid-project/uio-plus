@@ -14,9 +14,9 @@
 "use strict";
 
 (function ($, fluid) {
-    fluid.registerNamespace("gpii");
+    fluid.registerNamespace("uioPlus");
 
     fluid.contextAware.makeChecks({
-        "gpii.chrome.allowSimplification": true
+        "uioPlus.chrome.allowSimplification": true
     });
 })(jQuery, fluid);

@@ -10,14 +10,14 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid, jqUnit, chrome, gpii */
+/* global fluid, jqUnit, chrome, uioPlus */
 "use strict";
 
 (function ($) {
 
     $(document).ready(function () {
 
-        fluid.registerNamespace("gpii.tests");
+        fluid.registerNamespace("uioPlus.tests");
 
         /*********************************************************************************************************
          * Chrome Mocks
@@ -34,7 +34,7 @@
          * Common Assertions
          ********************************************************************************************************/
 
-        gpii.tests.assertClasses = function (that, setting) {
+        uioPlus.tests.assertClasses = function (that, setting) {
             fluid.each(that.options.classes, function (className, settingName) {
                 if (settingName === setting && className) {
                     jqUnit.assertTrue("The " + className + " class should be applied.", that.container.hasClass(className));
@@ -44,7 +44,7 @@
             });
         };
 
-        gpii.tests.assertSubComponentNotCreated = function (that, subComponentName) {
+        uioPlus.tests.assertSubComponentNotCreated = function (that, subComponentName) {
             jqUnit.assertUndefined("The " + subComponentName + " subcomponent should not have be created yet.", that[subComponentName]);
         };
 
@@ -54,33 +54,33 @@
 
         jqUnit.module("Selection Highlight Tests");
 
-        gpii.tests.clearSelection = function () {
+        uioPlus.tests.clearSelection = function () {
             window.getSelection()
                   .removeAllRanges();
         };
 
-        gpii.tests.cloneSelectedNode = function () {
+        uioPlus.tests.cloneSelectedNode = function () {
             return window.getSelection()
                          .getRangeAt(0)
                          .cloneContents()
                          .children[0];
         };
 
-        jqUnit.test("gpii.chrome.enactor.selectionHighlight.selectParagraph tests", function () {
-            gpii.tests.clearSelection();
+        jqUnit.test("uioPlus.chrome.enactor.selectionHighlight.selectParagraph tests", function () {
+            uioPlus.tests.clearSelection();
 
-            gpii.chrome.enactor.selectionHighlight.selectParagraph($(".gpii-test-selectionHighlight-nestedElm")[0]);
-            var selectedParagraph = gpii.tests.cloneSelectedNode();
+            uioPlus.chrome.enactor.selectionHighlight.selectParagraph($(".gpii-test-selectionHighlight-nestedElm")[0]);
+            var selectedParagraph = uioPlus.tests.cloneSelectedNode();
             jqUnit.assertTrue("The paragraph should be selected", $(selectedParagraph).is(".gpii-test-selectionHighlight-paragraph"));
-            gpii.tests.clearSelection();
+            uioPlus.tests.clearSelection();
 
-            gpii.chrome.enactor.selectionHighlight.selectParagraph($(".gpii-test-selectionHighlight-node")[0]);
-            var selectedNode = gpii.tests.cloneSelectedNode();
+            uioPlus.chrome.enactor.selectionHighlight.selectParagraph($(".gpii-test-selectionHighlight-node")[0]);
+            var selectedNode = uioPlus.tests.cloneSelectedNode();
             jqUnit.assertTrue("The node should be selected", $(selectedNode).is(".gpii-test-selectionHighlight-node"));
-            gpii.tests.clearSelection();
+            uioPlus.tests.clearSelection();
         });
 
-        gpii.tests.getContextMenuEvent = function (mousePressed) {
+        uioPlus.tests.getContextMenuEvent = function (mousePressed) {
             var event = jQuery.Event("contextmenu");
             if (mousePressed) {
                 event.button = 2;
@@ -88,33 +88,33 @@
             return event;
         };
 
-        gpii.tests.handleRightClickTestCases = [{
+        uioPlus.tests.handleRightClickTestCases = [{
             model: {
                 selectParagraph: true
             },
-            event: gpii.tests.getContextMenuEvent()
+            event: uioPlus.tests.getContextMenuEvent()
         }, {
             model: {
                 selectParagraph: false
             },
-            event: gpii.tests.getContextMenuEvent()
+            event: uioPlus.tests.getContextMenuEvent()
         }, {
             model: {
                 selectParagraph: true
             },
-            event: gpii.tests.getContextMenuEvent(true)
+            event: uioPlus.tests.getContextMenuEvent(true)
         }, {
             model: {
                 selectParagraph: false
             },
-            event: gpii.tests.getContextMenuEvent(true)
+            event: uioPlus.tests.getContextMenuEvent(true)
         }];
 
-        jqUnit.test("gpii.chrome.enactor.selectionHighlight.handleRightClick tests", function () {
+        jqUnit.test("uioPlus.chrome.enactor.selectionHighlight.handleRightClick tests", function () {
             jqUnit.expect(3);
 
-            fluid.each(gpii.tests.handleRightClickTestCases, function (testCase) {
-                gpii.chrome.enactor.selectionHighlight.handleRightClick(testCase.model, testCase.event, function () {
+            fluid.each(uioPlus.tests.handleRightClickTestCases, function (testCase) {
+                uioPlus.chrome.enactor.selectionHighlight.handleRightClick(testCase.model, testCase.event, function () {
                     jqUnit.assert("The rick click handler was fired");
                     jqUnit.assertEquals("The second button should have been pressed", 2, testCase.event.button);
                     jqUnit.assertTrue("The selectParagraph model value should be set to true", testCase.model.selectParagraph);
@@ -122,11 +122,11 @@
             });
         });
 
-        fluid.defaults("gpii.tests.selectionHighlightTests", {
+        fluid.defaults("uioPlus.tests.selectionHighlightTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 selectionHighlight: {
-                    type: "gpii.chrome.enactor.selectionHighlight",
+                    type: "uioPlus.chrome.enactor.selectionHighlight",
                     container: ".gpii-test-selectionHighlight",
                     options: {
                         model: {
@@ -135,17 +135,17 @@
                     }
                 },
                 selectionHighlightTester: {
-                    type: "gpii.tests.selectionHighlightTester"
+                    type: "uioPlus.tests.selectionHighlightTester"
                 }
             }
         });
 
-        gpii.tests.selectionHighlightTests.assertSelectedText = function (expectedSelector) {
-            var selectedNode = gpii.tests.cloneSelectedNode();
+        uioPlus.tests.selectionHighlightTests.assertSelectedText = function (expectedSelector) {
+            var selectedNode = uioPlus.tests.cloneSelectedNode();
             jqUnit.assertTrue("The node with selector '" + expectedSelector + "' should be selected", $(selectedNode).is(expectedSelector));
         };
 
-        fluid.defaults("gpii.tests.selectionHighlightTester", {
+        fluid.defaults("uioPlus.tests.selectionHighlightTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             modules: [{
                 name: "Selection Highlight Tests",
@@ -164,7 +164,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"yellow\"", "yellow", "{selectionHighlight}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{selectionHighlight}", "yellow"]
                     }, {
                         func: "{selectionHighlight}.applier.change",
@@ -175,7 +175,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"pink\"", "pink", "{selectionHighlight}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{selectionHighlight}", "pink"]
                     }, {
                         func: "{selectionHighlight}.applier.change",
@@ -186,7 +186,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"green\"", "green", "{selectionHighlight}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{selectionHighlight}", "green"]
                     }, {
                         func: "{selectionHighlight}.applier.change",
@@ -197,7 +197,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"default\"", "default", "{selectionHighlight}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{selectionHighlight}", "default"]
                     }]
                 }, {
@@ -215,22 +215,22 @@
                         listener: "jqUnit.assertTrue",
                         args: ["The selectParagraph model value is updated", "{selectionHighlight}.model.selectParagraph"]
                     }, {
-                        jQueryTrigger: gpii.tests.getContextMenuEvent(true),
+                        jQueryTrigger: uioPlus.tests.getContextMenuEvent(true),
                         element: ".gpii-test-selectionHighlight-paragraph"
                     }, {
-                        func: "gpii.tests.selectionHighlightTests.assertSelectedText",
+                        func: "uioPlus.tests.selectionHighlightTests.assertSelectedText",
                         args: [".gpii-test-selectionHighlight-paragraph"]
                     }, {
-                        jQueryTrigger: gpii.tests.getContextMenuEvent(true),
+                        jQueryTrigger: uioPlus.tests.getContextMenuEvent(true),
                         element: ".gpii-test-selectionHighlight-nestedElm"
                     }, {
-                        func: "gpii.tests.selectionHighlightTests.assertSelectedText",
+                        func: "uioPlus.tests.selectionHighlightTests.assertSelectedText",
                         args: [".gpii-test-selectionHighlight-paragraph"]
                     }, {
-                        jQueryTrigger: gpii.tests.getContextMenuEvent(true),
+                        jQueryTrigger: uioPlus.tests.getContextMenuEvent(true),
                         element: $(".gpii-test-selectionHighlight-node")
                     }, {
-                        func: "gpii.tests.selectionHighlightTests.assertSelectedText",
+                        func: "uioPlus.tests.selectionHighlightTests.assertSelectedText",
                         args: [".gpii-test-selectionHighlight-node"]
                     }]
                 }]
@@ -243,11 +243,11 @@
 
         jqUnit.module("Contrast Tests");
 
-        fluid.defaults("gpii.tests.contrastTests", {
+        fluid.defaults("uioPlus.tests.contrastTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 contrast: {
-                    type: "gpii.chrome.enactor.contrast",
+                    type: "uioPlus.chrome.enactor.contrast",
                     container: ".gpii-test-contrast",
                     options: {
                         model: {
@@ -256,12 +256,12 @@
                     }
                 },
                 contrastTester: {
-                    type: "gpii.tests.contrastTester"
+                    type: "uioPlus.tests.contrastTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.contrastTester", {
+        fluid.defaults("uioPlus.tests.contrastTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             modules: [{
                 name: "Contrast Tests",
@@ -280,7 +280,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"by\"", "by", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "by"]
                     }, {
                         func: "{contrast}.applier.change",
@@ -291,7 +291,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"yb\"", "yb", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "yb"]
                     }, {
                         func: "{contrast}.applier.change",
@@ -302,7 +302,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"wb\"", "wb", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "wb"]
                     }, {
                         func: "{contrast}.applier.change",
@@ -313,7 +313,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"bw\"", "bw", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "bw"]
                     }, {
                         func: "{contrast}.applier.change",
@@ -324,7 +324,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"gd\"", "gd", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "gd"]
                     }, {
                         func: "{contrast}.applier.change",
@@ -335,7 +335,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"gw\"", "gw", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "gw"]
                     }, {
                         func: "{contrast}.applier.change",
@@ -346,7 +346,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"bbr\"", "bbr", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "bbr"]
                     }, {
                         func: "{contrast}.applier.change",
@@ -357,7 +357,7 @@
                         listener: "jqUnit.assertEquals",
                         args: ["The model.value should be set to \"default\"", "default", "{contrast}.model.value"]
                     }, {
-                        func: "gpii.tests.assertClasses",
+                        func: "uioPlus.tests.assertClasses",
                         args: ["{contrast}", "default"]
                     }]
                 }]
@@ -368,11 +368,11 @@
          * Line Space Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.lineSpaceTests", {
+        fluid.defaults("uioPlus.tests.lineSpaceTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 lineSpace: {
-                    type: "gpii.chrome.enactor.lineSpace",
+                    type: "uioPlus.chrome.enactor.lineSpace",
                     container: ".gpii-test-lineSpace",
                     options: {
                         model: {
@@ -381,19 +381,19 @@
                     }
                 },
                 lineSpaceTester: {
-                    type: "gpii.tests.lineSpaceTester"
+                    type: "uioPlus.tests.lineSpaceTester"
                 }
             }
         });
 
-        gpii.tests.lineSpaceTests.assertLineSpace = function (that, expectedMultiplier, baseLineSpace) {
+        uioPlus.tests.lineSpaceTests.assertLineSpace = function (that, expectedMultiplier, baseLineSpace) {
             baseLineSpace = baseLineSpace || 1.2;
             var expectedLineHeight = baseLineSpace * expectedMultiplier;
             jqUnit.assertEquals("The model value should be set to " + expectedMultiplier, expectedMultiplier, that.model.value);
             jqUnit.assertEquals("The line height should be set to " + expectedLineHeight, "line-height: " + expectedLineHeight + ";", that.container.attr("style"));
         };
 
-        fluid.defaults("gpii.tests.lineSpaceTester", {
+        fluid.defaults("uioPlus.tests.lineSpaceTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             modules: [{
                 name: "Line Space Tests",
@@ -401,7 +401,7 @@
                     name: "Model Changes",
                     expect: 8,
                     sequence: [{
-                        func: "gpii.tests.lineSpaceTests.assertLineSpace",
+                        func: "uioPlus.tests.lineSpaceTests.assertLineSpace",
                         args: ["{lineSpace}", 1]
                     }, {
                         func: "{lineSpace}.applier.change",
@@ -409,7 +409,7 @@
                     }, {
                         changeEvent: "{lineSpace}.applier.modelChanged",
                         path: "value",
-                        listener: "gpii.tests.lineSpaceTests.assertLineSpace",
+                        listener: "uioPlus.tests.lineSpaceTests.assertLineSpace",
                         args: ["{lineSpace}", 1.3]
                     }, {
                         func: "{lineSpace}.applier.change",
@@ -417,7 +417,7 @@
                     }, {
                         changeEvent: "{lineSpace}.applier.modelChanged",
                         path: "value",
-                        listener: "gpii.tests.lineSpaceTests.assertLineSpace",
+                        listener: "uioPlus.tests.lineSpaceTests.assertLineSpace",
                         args: ["{lineSpace}", 2]
                     }, {
                         func: "{lineSpace}.applier.change",
@@ -425,7 +425,7 @@
                     }, {
                         changeEvent: "{lineSpace}.applier.modelChanged",
                         path: "value",
-                        listener: "gpii.tests.lineSpaceTests.assertLineSpace",
+                        listener: "uioPlus.tests.lineSpaceTests.assertLineSpace",
                         args: ["{lineSpace}", 1]
                     }]
                 }]
@@ -436,12 +436,12 @@
          * Character and Word Space Test Helpers
          ********************************************************************************************************/
 
-        fluid.registerNamespace("gpii.tests.spacingSetterTester");
+        fluid.registerNamespace("uioPlus.tests.spacingSetterTester");
 
-        fluid.defaults("gpii.tests.spacingSetter.modelChanges", {
+        fluid.defaults("uioPlus.tests.spacingSetter.modelChanges", {
             gradeNames: "fluid.test.sequenceElement",
             sequence: [{
-                func: "gpii.tests.spacingSetterTester.assertSpace",
+                func: "uioPlus.tests.spacingSetterTester.assertSpace",
                 args: ["{spacingSetter}", "{testCaseHolder}.options.cssProp", 1, 0.2]
             }, {
                 func: "{spacingSetter}.applier.change",
@@ -449,7 +449,7 @@
             }, {
                 changeEvent: "{spacingSetter}.applier.modelChanged",
                 path: "value",
-                listener: "gpii.tests.spacingSetterTester.assertSpace",
+                listener: "uioPlus.tests.spacingSetterTester.assertSpace",
                 args: ["{spacingSetter}", "{testCaseHolder}.options.cssProp", 1.3, 0.2]
             }, {
                 func: "{spacingSetter}.applier.change",
@@ -457,7 +457,7 @@
             }, {
                 changeEvent: "{spacingSetter}.applier.modelChanged",
                 path: "value",
-                listener: "gpii.tests.spacingSetterTester.assertSpace",
+                listener: "uioPlus.tests.spacingSetterTester.assertSpace",
                 args: ["{spacingSetter}", "{testCaseHolder}.options.cssProp", 2, 0.2]
             }, {
                 func: "{spacingSetter}.applier.change",
@@ -465,22 +465,22 @@
             }, {
                 changeEvent: "{spacingSetter}.applier.modelChanged",
                 path: "value",
-                listener: "gpii.tests.spacingSetterTester.assertSpace",
+                listener: "uioPlus.tests.spacingSetterTester.assertSpace",
                 args: ["{spacingSetter}", "{testCaseHolder}.options.cssProp", 1, 0.2]
             }]
         });
 
-        fluid.defaults("gpii.tests.spacingSetter.sequences", {
+        fluid.defaults("uioPlus.tests.spacingSetter.sequences", {
             gradeNames: "fluid.test.sequence",
             sequenceElements: {
                 modelChanges: {
-                    gradeNames: "gpii.tests.spacingSetter.modelChanges",
+                    gradeNames: "uioPlus.tests.spacingSetter.modelChanges",
                     priority: "after:end"
                 }
             }
         });
 
-        gpii.tests.spacingSetterTester.assertSpace = function (that, cssProp, expectedValue, baseSpace) {
+        uioPlus.tests.spacingSetterTester.assertSpace = function (that, cssProp, expectedValue, baseSpace) {
             baseSpace = baseSpace || 0;
             var expectedUnit = fluid.roundToDecimal(expectedValue - 1, 2);
             var expectedSpacing = fluid.roundToDecimal(baseSpace + expectedUnit, 2) + "em";
@@ -493,7 +493,7 @@
          * Character Space Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.charSpaceTests", {
+        fluid.defaults("uioPlus.tests.charSpaceTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 charSpace: {
@@ -506,12 +506,12 @@
                     }
                 },
                 charSpaceTester: {
-                    type: "gpii.tests.charSpaceTester"
+                    type: "uioPlus.tests.charSpaceTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.charSpaceTester", {
+        fluid.defaults("uioPlus.tests.charSpaceTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             cssProp: "letter-spacing",
             modules: [{
@@ -519,7 +519,7 @@
                 tests: [{
                     name: "Model Changes",
                     expect: 12,
-                    sequenceGrade: "gpii.tests.spacingSetter.sequences"
+                    sequenceGrade: "uioPlus.tests.spacingSetter.sequences"
                 }]
             }]
         });
@@ -528,7 +528,7 @@
          * Word Space Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.wordSpaceTests", {
+        fluid.defaults("uioPlus.tests.wordSpaceTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 wordSpace: {
@@ -541,12 +541,12 @@
                     }
                 },
                 wordSpaceTester: {
-                    type: "gpii.tests.wordSpaceTester"
+                    type: "uioPlus.tests.wordSpaceTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.wordSpaceTester", {
+        fluid.defaults("uioPlus.tests.wordSpaceTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             cssProp: "word-spacing",
             modules: [{
@@ -554,7 +554,7 @@
                 tests: [{
                     name: "Model Changes",
                     expect: 12,
-                    sequenceGrade: "gpii.tests.spacingSetter.sequences"
+                    sequenceGrade: "uioPlus.tests.spacingSetter.sequences"
                 }]
             }]
         });
@@ -563,11 +563,11 @@
          * Inputs Larger Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.inputsLargerTests", {
+        fluid.defaults("uioPlus.tests.inputsLargerTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 inputsLarger: {
-                    type: "gpii.chrome.enactor.inputsLarger",
+                    type: "uioPlus.chrome.enactor.inputsLarger",
                     container: ".gpii-test-inputsLarger",
                     options: {
                         model: {
@@ -576,12 +576,12 @@
                     }
                 },
                 inputsLargerTester: {
-                    type: "gpii.tests.inputsLargerTester"
+                    type: "uioPlus.tests.inputsLargerTester"
                 }
             }
         });
 
-        gpii.tests.inputsLargerTests.assertClass = function (that, applied) {
+        uioPlus.tests.inputsLargerTests.assertClass = function (that, applied) {
             var enhanceClass = that.options.cssClass;
 
             if (applied) {
@@ -593,7 +593,7 @@
             }
         };
 
-        fluid.defaults("gpii.tests.inputsLargerTester", {
+        fluid.defaults("uioPlus.tests.inputsLargerTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             modules: [{
                 name: "Inputs Larger Tests",
@@ -601,7 +601,7 @@
                     name: "Model Changes",
                     expect: 6,
                     sequence: [{
-                        func: "gpii.tests.inputsLargerTests.assertClass",
+                        func: "uioPlus.tests.inputsLargerTests.assertClass",
                         args: ["{inputsLarger}", false]
                     }, {
                         func: "{inputsLarger}.applier.change",
@@ -609,7 +609,7 @@
                     }, {
                         changeEvent: "{inputsLarger}.applier.modelChanged",
                         path: "value",
-                        listener: "gpii.tests.inputsLargerTests.assertClass",
+                        listener: "uioPlus.tests.inputsLargerTests.assertClass",
                         args: ["{inputsLarger}", true]
                     }, {
                         func: "{inputsLarger}.applier.change",
@@ -617,7 +617,7 @@
                     }, {
                         changeEvent: "{inputsLarger}.applier.modelChanged",
                         path: "value",
-                        listener: "gpii.tests.inputsLargerTests.assertClass",
+                        listener: "uioPlus.tests.inputsLargerTests.assertClass",
                         args: ["{inputsLarger}", false]
                     }]
                 }]
@@ -628,11 +628,11 @@
          * Table of Contents Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.tocTests", {
+        fluid.defaults("uioPlus.tests.tocTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 toc: {
-                    type: "gpii.chrome.enactor.tableOfContents",
+                    type: "uioPlus.chrome.enactor.tableOfContents",
                     container: ".gpii-test-toc",
                     options: {
                         selectors: {
@@ -644,12 +644,12 @@
                     }
                 },
                 tocTester: {
-                    type: "gpii.tests.tocTester"
+                    type: "uioPlus.tests.tocTester"
                 }
             }
         });
 
-        gpii.tests.tocTests.assertToc = function (that, applied) {
+        uioPlus.tests.tocTests.assertToc = function (that, applied) {
             var tocElm = that.locate("tocContainer");
             if (applied) {
                 jqUnit.isVisible("The Table of Contents should be visible", tocElm);
@@ -659,7 +659,7 @@
             }
         };
 
-        fluid.defaults("gpii.tests.tocTester", {
+        fluid.defaults("uioPlus.tests.tocTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             modules: [{
                 name: "Table of Contents Tests",
@@ -668,14 +668,14 @@
                     expect: 5,
                     sequence: [{
                         // The table of contents subcomponent is not initialized until the enactor is enabled for the first time.
-                        func: "gpii.tests.assertSubComponentNotCreated",
+                        func: "uioPlus.tests.assertSubComponentNotCreated",
                         args: ["{toc}", "tableOfContents"]
                     }, {
                         func: "{toc}.applier.change",
                         args: ["toc", true]
                     }, {
                         event: "{toc}.events.afterTocRender",
-                        listener: "gpii.tests.tocTests.assertToc",
+                        listener: "uioPlus.tests.tocTests.assertToc",
                         args: ["{toc}", true]
                     }, {
                         func: "jqUnit.assertTrue",
@@ -686,7 +686,7 @@
                     }, {
                         changeEvent: "{toc}.applier.modelChanged",
                         path: "toc",
-                        listener: "gpii.tests.tocTests.assertToc",
+                        listener: "uioPlus.tests.tocTests.assertToc",
                         args: ["{toc}", false]
                     }]
                 }]
@@ -697,11 +697,11 @@
          * Self Voicing Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.selfVoicingTests", {
+        fluid.defaults("uioPlus.tests.selfVoicingTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 selfVoicing: {
-                    type: "gpii.chrome.enactor.selfVoicing",
+                    type: "uioPlus.chrome.enactor.selfVoicing",
                     container: ".gpii-test-selfVoicing",
                     options: {
                         model: {
@@ -710,12 +710,12 @@
                     }
                 },
                 selfVoicingTester: {
-                    type: "gpii.tests.selfVoicingTester"
+                    type: "uioPlus.tests.selfVoicingTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.selfVoicingTester", {
+        fluid.defaults("uioPlus.tests.selfVoicingTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             modules: [{
                 name: "Self Voicing Tests",
@@ -724,7 +724,7 @@
                     expect: 5,
                     sequence: [{
                         // The orator subcomponent is not initialized until the enactor is enabled for the first time.
-                        func: "gpii.tests.assertSubComponentNotCreated",
+                        func: "uioPlus.tests.assertSubComponentNotCreated",
                         args: ["{selfVoicing}", "orator"]
                     }, {
                         func: "{selfVoicing}.applier.change",
@@ -732,7 +732,7 @@
                     }, {
                         event: "{selfVoicing}.events.onInitOrator",
                         spec: {priority: "last:testing"},
-                        listener: "gpii.tests.selfVoicingTester.assertOratorInit",
+                        listener: "uioPlus.tests.selfVoicingTester.assertOratorInit",
                         args: ["{selfVoicing}"]
                     }, {
                         func: "{selfVoicing}.applier.change",
@@ -747,7 +747,7 @@
             }]
         });
 
-        gpii.tests.selfVoicingTester.assertOratorInit = function (that) {
+        uioPlus.tests.selfVoicingTester.assertOratorInit = function (that) {
             var controller = that.orator.controller;
             var domReader = that.orator.domReader;
 
@@ -760,11 +760,11 @@
          * Syllabification Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.syllabificationTests", {
+        fluid.defaults("uioPlus.tests.syllabificationTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 syllabification: {
-                    type: "gpii.chrome.enactor.syllabification",
+                    type: "uioPlus.chrome.enactor.syllabification",
                     container: ".gpii-test-syllabification",
                     options: {
                         terms: {
@@ -776,12 +776,12 @@
                     }
                 },
                 syllabificationTester: {
-                    type: "gpii.tests.syllabificationTester"
+                    type: "uioPlus.tests.syllabificationTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.syllabificationTester", {
+        fluid.defaults("uioPlus.tests.syllabificationTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             testOpts: {
                 text: "Global temperature has increased over the past 50 years.",
@@ -810,7 +810,7 @@
                     text: "creased over the past 50 years."
                 }],
                 injectRequestMessage: {
-                    type: "gpii.chrome.contentScriptInjectionRequest",
+                    type: "uioPlus.chrome.contentScriptInjectionRequest",
                     src: "../../../node_modules/infusion/src/lib/hypher/patterns/en-us.js"
                 }
             },
@@ -820,9 +820,9 @@
                     name: "Model Changes",
                     expect: 25,
                     sequence: [{
-                        func: "gpii.tests.syllabificationTester.setup"
+                        func: "uioPlus.tests.syllabificationTester.setup"
                     }, {
-                        func: "gpii.tests.syllabificationTester.assertUnsyllabified",
+                        func: "uioPlus.tests.syllabificationTester.assertUnsyllabified",
                         args: ["Init", "{syllabification}", "{that}.options.testOpts.text"]
                     }, {
                         func: "{syllabification}.applier.change",
@@ -830,10 +830,10 @@
                     }, {
                         event: "{syllabification}.events.afterSyllabification",
                         priority: "last:testing",
-                        listener: "gpii.tests.syllabificationTester.assertInjectionCall",
+                        listener: "uioPlus.tests.syllabificationTester.assertInjectionCall",
                         args: ["Syllabified", 0, "{that}.options.testOpts.injectRequestMessage"]
                     }, {
-                        func: "gpii.tests.syllabificationTester.assertSyllabified",
+                        func: "uioPlus.tests.syllabificationTester.assertSyllabified",
                         args: ["Syllabified", "{syllabification}", "{that}.options.testOpts.syllabified", "{that}.options.testOpts.text"]
                     }, {
                         func: "{syllabification}.applier.change",
@@ -841,17 +841,17 @@
                     }, {
                         changeEvent: "{syllabification}.applier.modelChanged",
                         spec: {path: "enabled", priority: "last:testing"},
-                        listener: "gpii.tests.syllabificationTester.assertUnsyllabified",
+                        listener: "uioPlus.tests.syllabificationTester.assertUnsyllabified",
                         args: ["Syllabification Removed", "{syllabification}", "{that}.options.testOpts.text"]
                     }, {
                         // tear down
-                        func: "gpii.tests.syllabificationTester.tearDown"
+                        func: "uioPlus.tests.syllabificationTester.tearDown"
                     }]
                 }]
             }]
         });
 
-        gpii.tests.syllabificationTester.setup = function () {
+        uioPlus.tests.syllabificationTester.setup = function () {
             var browserInject = function (msg, callback) {
                 var injectPromise = $.ajax({
                     url: msg.src,
@@ -863,21 +863,21 @@
             chrome.runtime.sendMessage.callsFake(browserInject);
         };
 
-        gpii.tests.syllabificationTester.tearDown = function () {
+        uioPlus.tests.syllabificationTester.tearDown = function () {
             chrome.runtime.sendMessage.flush();
         };
 
-        gpii.tests.syllabificationTester.assertInjectionCall = function (prefix, callNum, expectedMessage) {
+        uioPlus.tests.syllabificationTester.assertInjectionCall = function (prefix, callNum, expectedMessage) {
             var result = chrome.runtime.sendMessage.getCall(callNum).calledWith(expectedMessage);
             jqUnit.assertTrue(prefix + ": Call index #" + callNum + " of chrome.runtime.sendMessage should have been called with the correct message", result);
         };
 
-        gpii.tests.syllabificationTester.assertUnsyllabified = function (prefix, that, expectedText) {
+        uioPlus.tests.syllabificationTester.assertUnsyllabified = function (prefix, that, expectedText) {
             jqUnit.assertEquals(prefix + ": The text value should be correct", expectedText, that.container.text());
             jqUnit.assertEquals(prefix + ": There should be no separator elements", 0, that.locate("separator").length);
         };
 
-        gpii.tests.syllabificationTester.assertSyllabified = function (prefix, that, syllabified, expectedText) {
+        uioPlus.tests.syllabificationTester.assertSyllabified = function (prefix, that, syllabified, expectedText) {
             var childNodes = that.container[0].childNodes;
             var separatorCount = 0;
 
@@ -902,39 +902,39 @@
          * domEnactor Tests
          ********************************************************************************************************/
 
-        fluid.defaults("gpii.tests.domEnactorTests", {
+        fluid.defaults("uioPlus.tests.domEnactorTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 domEnactor: {
-                    type: "gpii.chrome.domEnactor",
+                    type: "uioPlus.chrome.domEnactor",
                     container: ".gpii-test-domEnactor"
                 },
                 domEnactorTester: {
-                    type: "gpii.tests.domEnactorTester"
+                    type: "uioPlus.tests.domEnactorTester"
                 }
             }
         });
 
-        gpii.tests.domEnactorTests.assertConnection = function (that) {
+        uioPlus.tests.domEnactorTests.assertConnection = function (that) {
             jqUnit.assertTrue("Connection only triggered once", chrome.runtime.connect.calledOnce);
             jqUnit.assertTrue("Connection called with the correct arguments", chrome.runtime.connect.withArgs({name: "domEnactor-" + that.id}));
         };
 
-        gpii.tests.domEnactorTests.assertHasGrade = function (that, grade, expected) {
+        uioPlus.tests.domEnactorTests.assertHasGrade = function (that, grade, expected) {
             jqUnit.assertEquals("The " + grade + " grade should " + (expected ? "" : "not ") + "be applied", expected, fluid.hasGrade(that.options, grade));
         };
 
-        fluid.defaults("gpii.tests.domEnactorTester", {
+        fluid.defaults("uioPlus.tests.domEnactorTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             testOpts: {
                 messages: {
                     one: {
-                        type: "gpii.chrome.writeRequest",
+                        type: "uioPlus.chrome.writeRequest",
                         id: "test-1",
                         payload: {settings: {testOne: 1}}
                     },
                     two: {
-                        type: "gpii.chrome.writeRequest",
+                        type: "uioPlus.chrome.writeRequest",
                         id: "test-2",
                         payload: {settings: {testTwo: 2}}
                     }
@@ -949,10 +949,10 @@
                     name: "Port Connection",
                     expect: 4,
                     sequence: [{
-                        func: "gpii.tests.domEnactorTests.assertConnection",
+                        func: "uioPlus.tests.domEnactorTests.assertConnection",
                         args: ["{domEnactor}"]
                     }, {
-                        func: "gpii.tests.mockPort.trigger.onMessage",
+                        func: "uioPlus.tests.mockPort.trigger.onMessage",
                         args: ["{domEnactor}.portBinding.port", "{that}.options.testOpts.messages.one"]
                     }, {
                         event: "{domEnactor}.events.onIncomingSettings",
@@ -960,7 +960,7 @@
                         priority: "last:testing",
                         args: ["The onIncomingSettings event was fired", "{that}.options.testOpts.messages.one.payload.settings", "{arguments}.0"]
                     }, {
-                        func: "gpii.tests.mockPort.trigger.onMessage",
+                        func: "uioPlus.tests.mockPort.trigger.onMessage",
                         args: ["{domEnactor}.portBinding.port", "{that}.options.testOpts.messages.two"]
                     }, {
                         changeEvent: "{domEnactor}.applier.modelChanged",
@@ -972,8 +972,8 @@
                     name: "Simplification",
                     expect: 2,
                     sequence: [{
-                        func: "gpii.tests.domEnactorTests.assertHasGrade",
-                        args: ["{domEnactor}", "gpii.chrome.domEnactor.simplify", true]
+                        func: "uioPlus.tests.domEnactorTests.assertHasGrade",
+                        args: ["{domEnactor}", "uioPlus.chrome.domEnactor.simplify", true]
                     }, {
                         func: "jqUnit.assertValue",
                         args: ["The simplify subcomponent should have been added", "{domEnactor}.simplify"]
@@ -982,36 +982,36 @@
             }]
         });
 
-        fluid.defaults("gpii.tests.domEnactorWithoutSimplificationTests", {
+        fluid.defaults("uioPlus.tests.domEnactorWithoutSimplificationTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             events: {
                 afterSetup: null
             },
             components: {
                 domEnactor: {
-                    type: "gpii.chrome.domEnactor",
+                    type: "uioPlus.chrome.domEnactor",
                     container: ".gpii-test-domEnactor",
                     createOnEvent: "afterSetup"
                 },
                 domEnactorTester: {
-                    type: "gpii.tests.domEnactorWithoutSimplificationTester",
+                    type: "uioPlus.tests.domEnactorWithoutSimplificationTester",
                     createOnEvent: "afterSetup"
                 }
             },
             listeners: {
                 "onCreate.setup": {
-                    listener: "gpii.tests.domEnactorWithoutSimplificationTests.setup",
+                    listener: "uioPlus.tests.domEnactorWithoutSimplificationTests.setup",
                     priority: "first"
                 }
             }
         });
 
-        gpii.tests.domEnactorWithoutSimplificationTests.setup = function (that) {
-            fluid.contextAware.forgetChecks(["gpii.chrome.allowSimplification"]);
+        uioPlus.tests.domEnactorWithoutSimplificationTests.setup = function (that) {
+            fluid.contextAware.forgetChecks(["uioPlus.chrome.allowSimplification"]);
             that.events.afterSetup.fire();
         };
 
-        fluid.defaults("gpii.tests.domEnactorWithoutSimplificationTester", {
+        fluid.defaults("uioPlus.tests.domEnactorWithoutSimplificationTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             modules: [{
                 name: "domEnactor without Simplify Tests",
@@ -1019,8 +1019,8 @@
                     name: "Simplification",
                     expect: 2,
                     sequence: [{
-                        func: "gpii.tests.domEnactorTests.assertHasGrade",
-                        args: ["{domEnactor}", "gpii.tests.domEnactorTests.assertHasGrade", false]
+                        func: "uioPlus.tests.domEnactorTests.assertHasGrade",
+                        args: ["{domEnactor}", "uioPlus.tests.domEnactorTests.assertHasGrade", false]
                     }, {
                         func: "jqUnit.assertUndefined",
                         args: ["The simplify subcomponent should not have been added", "{domEnactor}.simplify"]
@@ -1030,17 +1030,17 @@
         });
 
         fluid.test.runTests([
-            "gpii.tests.selectionHighlightTests",
-            "gpii.tests.contrastTests",
-            "gpii.tests.lineSpaceTests",
-            "gpii.tests.charSpaceTests",
-            "gpii.tests.wordSpaceTests",
-            "gpii.tests.inputsLargerTests",
-            "gpii.tests.tocTests",
-            "gpii.tests.selfVoicingTests",
-            "gpii.tests.syllabificationTests",
-            "gpii.tests.domEnactorTests",
-            "gpii.tests.domEnactorWithoutSimplificationTests"
+            "uioPlus.tests.selectionHighlightTests",
+            "uioPlus.tests.contrastTests",
+            "uioPlus.tests.lineSpaceTests",
+            "uioPlus.tests.charSpaceTests",
+            "uioPlus.tests.wordSpaceTests",
+            "uioPlus.tests.inputsLargerTests",
+            "uioPlus.tests.tocTests",
+            "uioPlus.tests.selfVoicingTests",
+            "uioPlus.tests.syllabificationTests",
+            "uioPlus.tests.domEnactorTests",
+            "uioPlus.tests.domEnactorWithoutSimplificationTests"
         ]);
     });
 })(jQuery);

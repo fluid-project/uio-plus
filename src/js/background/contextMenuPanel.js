@@ -15,10 +15,10 @@
 
 "use strict";
 
-var gpii = fluid.registerNamespace("gpii");
+var uioPlus = fluid.registerNamespace("uioPlus");
 var chrome = chrome || fluid.require("sinon-chrome", require, "chrome");
 
-fluid.defaults("gpii.chrome.contextMenuPanel", {
+fluid.defaults("uioPlus.chrome.contextMenuPanel", {
     gradeNames: ["fluid.modelComponent"],
     strings: {
         parent: "Preferences Quick Panel",
@@ -28,17 +28,17 @@ fluid.defaults("gpii.chrome.contextMenuPanel", {
         afterContextMenuItemsCreated: null
     },
     listeners: {
-        "onCreate.createContextMenuItems": "gpii.chrome.contextMenuPanel.createContextMenuItems"
+        "onCreate.createContextMenuItems": "uioPlus.chrome.contextMenuPanel.createContextMenuItems"
     },
     invokers: {
         getSortedContextItems: {
-            funcName: "gpii.chrome.contextMenuPanel.getSortedContextItems",
+            funcName: "uioPlus.chrome.contextMenuPanel.getSortedContextItems",
             args: ["{that}"]
         }
     },
     components: {
         "parent": {
-            type: "gpii.chrome.contextItem",
+            type: "uioPlus.chrome.contextItem",
             options: {
                 contextProps: {
                     title: "{contextMenuPanel}.options.strings.parent"
@@ -46,7 +46,7 @@ fluid.defaults("gpii.chrome.contextMenuPanel", {
             }
         },
         "reset": {
-            type: "gpii.chrome.contextItem.button",
+            type: "uioPlus.chrome.contextItem.button",
             options: {
                 priority: "after:parent",
                 contextProps: {
@@ -57,8 +57,8 @@ fluid.defaults("gpii.chrome.contextMenuPanel", {
     }
 });
 
-gpii.chrome.contextMenuPanel.getSortedContextItems = function (that, contextItemBaseGrade) {
-    var contextMenuItemComponents = fluid.queryIoCSelector(that, contextItemBaseGrade || "gpii.chrome.contextItem", true);
+uioPlus.chrome.contextMenuPanel.getSortedContextItems = function (that, contextItemBaseGrade) {
+    var contextMenuItemComponents = fluid.queryIoCSelector(that, contextItemBaseGrade || "uioPlus.chrome.contextItem", true);
 
     var components = {};
     fluid.each(contextMenuItemComponents, function (component) {
@@ -73,13 +73,13 @@ gpii.chrome.contextMenuPanel.getSortedContextItems = function (that, contextItem
     return fluid.getMembers(sorted, "component");
 };
 
-gpii.chrome.contextMenuPanel.createContextMenuItems = function (that) {
+uioPlus.chrome.contextMenuPanel.createContextMenuItems = function (that) {
     var sequence = fluid.getMembers(that.getSortedContextItems(), "createPeerMenu");
 
     fluid.promise.sequence(sequence).then(that.events.afterContextMenuItemsCreated.fire);
 };
 
-fluid.defaults("gpii.chrome.contextItem", {
+fluid.defaults("uioPlus.chrome.contextItem", {
     gradeNames: ["fluid.component"],
     contextProps: {
         id: "{that}.id",
@@ -88,17 +88,17 @@ fluid.defaults("gpii.chrome.contextItem", {
     },
     listeners: {
         "onDestroy.removeContextMenuItem": {
-            funcName: "gpii.chrome.contextItem.callContextMenuAPI",
+            funcName: "uioPlus.chrome.contextItem.callContextMenuAPI",
             args: ["remove", "{that}.options.contextProps.id"]
         }
     },
     invokers: {
         createPeerMenu: {
-            funcName: "gpii.chrome.contextItem.callContextMenuAPI",
+            funcName: "uioPlus.chrome.contextItem.callContextMenuAPI",
             args: ["create", "{that}.options.contextProps"]
         },
         updatePeerMenu: {
-            funcName: "gpii.chrome.contextItem.callContextMenuAPI",
+            funcName: "uioPlus.chrome.contextItem.callContextMenuAPI",
             args: ["update", "{that}.options.contextProps.id", "{arguments}.0"]
         }
     }
@@ -113,7 +113,7 @@ fluid.defaults("gpii.chrome.contextItem", {
  *
  * @return {Promise} a promise that is resolved when the method's callback function is fired
  */
-gpii.chrome.contextItem.callContextMenuAPI = function () {
+uioPlus.chrome.contextItem.callContextMenuAPI = function () {
     var promise = fluid.promise();
     var args = fluid.makeArray(arguments);
     var method = args.shift();
@@ -123,8 +123,8 @@ gpii.chrome.contextItem.callContextMenuAPI = function () {
     return promise;
 };
 
-fluid.defaults("gpii.chrome.contextItem.checkbox", {
-    gradeNames: ["gpii.chrome.contextItem", "fluid.modelComponent"],
+fluid.defaults("uioPlus.chrome.contextItem.checkbox", {
+    gradeNames: ["uioPlus.chrome.contextItem", "fluid.modelComponent"],
     contextProps: {
         type: "checkbox",
         checked: "{that}.model.value",
@@ -153,8 +153,8 @@ fluid.defaults("gpii.chrome.contextItem.checkbox", {
     }
 });
 
-fluid.defaults("gpii.chrome.contextItem.button", {
-    gradeNames: ["gpii.chrome.contextItem"],
+fluid.defaults("uioPlus.chrome.contextItem.button", {
+    gradeNames: ["uioPlus.chrome.contextItem"],
     contextProps: {
         onclick: "{that}.click"
     },

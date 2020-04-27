@@ -10,23 +10,23 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid, jqUnit, gpii */
+/* global fluid, jqUnit, uioPlus */
 "use strict";
 
 (function ($) {
 
     $(document).ready(function () {
 
-        fluid.registerNamespace("gpii.tests");
+        fluid.registerNamespace("uioPlus.tests");
 
-        fluid.defaults("gpii.tests.chrome.contentView", {
-            gradeNames: ["gpii.chrome.contentView"],
+        fluid.defaults("uioPlus.tests.chrome.contentView", {
+            gradeNames: ["uioPlus.chrome.contentView"],
             selectors: {
                 toFind: "span"
             }
         });
 
-        gpii.tests.chrome.contentView.asssertSelection = function (that, prefix, selection, selectorName, expected) {
+        uioPlus.tests.chrome.contentView.asssertSelection = function (that, prefix, selection, selectorName, expected) {
             expected = $(expected);
             var selector = that.options.selectors[selectorName];
 
@@ -39,15 +39,15 @@
             });
         };
 
-        gpii.tests.chrome.contentView.assertSearch = function (that, prefix, method, expected) {
+        uioPlus.tests.chrome.contentView.assertSearch = function (that, prefix, method, expected) {
             var selection = that[method]("toFind");
-            gpii.tests.chrome.contentView.asssertSelection(that, prefix + " - " + method, selection, "toFind", expected);
+            uioPlus.tests.chrome.contentView.asssertSelection(that, prefix + " - " + method, selection, "toFind", expected);
         };
 
-        fluid.defaults("gpii.tests.contentView.check", {
+        fluid.defaults("uioPlus.tests.contentView.check", {
             gradeNames: "fluid.test.sequenceElement",
             sequence: [{
-                func: "gpii.tests.chrome.contentView.asssertSelection",
+                func: "uioPlus.tests.chrome.contentView.asssertSelection",
                 args: [
                     "{contentView}",
                     "{testCaseHolder}.options.testOpts.prefix",
@@ -56,7 +56,7 @@
                     "{testCaseHolder}.options.testOpts.expectedSelection"
                 ]
             }, {
-                func: "gpii.tests.chrome.contentView.assertSearch",
+                func: "uioPlus.tests.chrome.contentView.assertSearch",
                 args: [
                     "{contentView}",
                     "{testCaseHolder}.options.testOpts.prefix",
@@ -64,7 +64,7 @@
                     "{testCaseHolder}.options.testOpts.expectedInContent"
                 ]
             }, {
-                func: "gpii.tests.chrome.contentView.assertSearch",
+                func: "uioPlus.tests.chrome.contentView.assertSearch",
                 args: [
                     "{contentView}",
                     "{testCaseHolder}.options.testOpts.prefix",
@@ -74,11 +74,11 @@
             }]
         });
 
-        fluid.defaults("gpii.tests.contentView.priority", {
+        fluid.defaults("uioPlus.tests.contentView.priority", {
             gradeNames: "fluid.test.sequence",
             sequenceElements: {
                 main: {
-                    gradeNames: "gpii.tests.contentView.check"
+                    gradeNames: "uioPlus.tests.contentView.check"
                 }
             }
         });
@@ -87,33 +87,33 @@
          * Found Article Content
          ******************************************************/
 
-        fluid.defaults("gpii.tests.contentViewArticleTests", {
+        fluid.defaults("uioPlus.tests.contentViewArticleTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 contentView: {
-                    type: "gpii.tests.chrome.contentView",
-                    container: ".gpiic-contentView-article"
+                    type: "uioPlus.tests.chrome.contentView",
+                    container: ".uioPlusJS-contentView-article"
                 },
                 contentViewTester: {
-                    type: "gpii.tests.contentViewArticleTester"
+                    type: "uioPlus.tests.contentViewArticleTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.contentViewArticleTester", {
+        fluid.defaults("uioPlus.tests.contentViewArticleTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             testOpts: {
                 prefix: "Article",
                 selector: "article",
-                expectedSelection: ".gpiic-contentView-articleSelection",
-                expectedInContent: ".gpiic-contentView-articleSelection-inContent",
-                expectedOutOfContent: ".gpiic-contentView-articleSelection-outOfContent"
+                expectedSelection: ".uioPlusJS-contentView-articleSelection",
+                expectedInContent: ".uioPlusJS-contentView-articleSelection-inContent",
+                expectedOutOfContent: ".uioPlusJS-contentView-articleSelection-outOfContent"
             },
             modules: [{
                 name: "Content View Tests",
                 tests: [{
                     name: "Article Content",
-                    sequenceGrade: "gpii.tests.contentView.priority"
+                    sequenceGrade: "uioPlus.tests.contentView.priority"
                 }]
             }]
         });
@@ -122,33 +122,33 @@
          * Found Main Content
          ******************************************************/
 
-        fluid.defaults("gpii.tests.contentViewMainTests", {
+        fluid.defaults("uioPlus.tests.contentViewMainTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 contentView: {
-                    type: "gpii.tests.chrome.contentView",
-                    container: ".gpiic-contentView-main"
+                    type: "uioPlus.tests.chrome.contentView",
+                    container: ".uioPlusJS-contentView-main"
                 },
                 contentViewTester: {
-                    type: "gpii.tests.contentViewMainTester"
+                    type: "uioPlus.tests.contentViewMainTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.contentViewMainTester", {
+        fluid.defaults("uioPlus.tests.contentViewMainTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             testOpts: {
                 prefix: "Main",
                 selector: "main",
-                expectedSelection: ".gpiic-contentView-mainSelection",
-                expectedInContent: ".gpiic-contentView-mainSelection-inContent",
-                expectedOutOfContent: ".gpiic-contentView-mainSelection-outOfContent"
+                expectedSelection: ".uioPlusJS-contentView-mainSelection",
+                expectedInContent: ".uioPlusJS-contentView-mainSelection-inContent",
+                expectedOutOfContent: ".uioPlusJS-contentView-mainSelection-outOfContent"
             },
             modules: [{
                 name: "Content View Tests",
                 tests: [{
                     name: "Main Content",
-                    sequenceGrade: "gpii.tests.contentView.priority"
+                    sequenceGrade: "uioPlus.tests.contentView.priority"
                 }]
             }]
         });
@@ -157,33 +157,33 @@
          * Found Generic Content
          ******************************************************/
 
-        fluid.defaults("gpii.tests.contentViewGenericTests", {
+        fluid.defaults("uioPlus.tests.contentViewGenericTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 contentView: {
-                    type: "gpii.tests.chrome.contentView",
-                    container: ".gpiic-contentView-genericContent"
+                    type: "uioPlus.tests.chrome.contentView",
+                    container: ".uioPlusJS-contentView-genericContent"
                 },
                 contentViewTester: {
-                    type: "gpii.tests.contentViewGenericTester"
+                    type: "uioPlus.tests.contentViewGenericTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.contentViewGenericTester", {
+        fluid.defaults("uioPlus.tests.contentViewGenericTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             testOpts: {
                 prefix: "Generic",
                 selector: "genericContent",
-                expectedSelection: ".gpiic-contentView-genericSelection",
-                expectedInContent: ".gpiic-contentView-genericSelection-inContent",
-                expectedOutOfContent: ".gpiic-contentView-genericSelection-outOfContent"
+                expectedSelection: ".uioPlusJS-contentView-genericSelection",
+                expectedInContent: ".uioPlusJS-contentView-genericSelection-inContent",
+                expectedOutOfContent: ".uioPlusJS-contentView-genericSelection-outOfContent"
             },
             modules: [{
                 name: "Content View Tests",
                 tests: [{
                     name: "Generic Content",
-                    sequenceGrade: "gpii.tests.contentView.priority"
+                    sequenceGrade: "uioPlus.tests.contentView.priority"
                 }]
             }]
         });
@@ -192,33 +192,33 @@
          * All Content types present
          ******************************************************/
 
-        fluid.defaults("gpii.tests.contentViewAllTypesTests", {
+        fluid.defaults("uioPlus.tests.contentViewAllTypesTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 contentView: {
-                    type: "gpii.tests.chrome.contentView",
-                    container: ".gpiic-contentView-allContent"
+                    type: "uioPlus.tests.chrome.contentView",
+                    container: ".uioPlusJS-contentView-allContent"
                 },
                 contentViewTester: {
-                    type: "gpii.tests.contentViewAllTypesTester"
+                    type: "uioPlus.tests.contentViewAllTypesTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.contentViewAllTypesTester", {
+        fluid.defaults("uioPlus.tests.contentViewAllTypesTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             testOpts: {
                 prefix: "All Content Types",
                 selector: "main",
-                expectedSelection: ".gpiic-contentView-allSelection",
-                expectedInContent: ".gpiic-contentView-allSelection-inContent",
-                expectedOutOfContent: ".gpiic-contentView-allSelection-outOfContent"
+                expectedSelection: ".uioPlusJS-contentView-allSelection",
+                expectedInContent: ".uioPlusJS-contentView-allSelection-inContent",
+                expectedOutOfContent: ".uioPlusJS-contentView-allSelection-outOfContent"
             },
             modules: [{
                 name: "Content View Tests",
                 tests: [{
                     name: "All Content Types",
-                    sequenceGrade: "gpii.tests.contentView.priority"
+                    sequenceGrade: "uioPlus.tests.contentView.priority"
                 }]
             }]
         });
@@ -227,43 +227,43 @@
          * No Content types present
          ******************************************************/
 
-        fluid.defaults("gpii.tests.contentViewNoTypesTests", {
+        fluid.defaults("uioPlus.tests.contentViewNoTypesTests", {
             gradeNames: ["fluid.test.testEnvironment"],
             components: {
                 contentView: {
-                    type: "gpii.tests.chrome.contentView",
-                    container: ".gpiic-contentView-noContent"
+                    type: "uioPlus.tests.chrome.contentView",
+                    container: ".uioPlusJS-contentView-noContent"
                 },
                 contentViewTester: {
-                    type: "gpii.tests.contentViewNoTypesTester"
+                    type: "uioPlus.tests.contentViewNoTypesTester"
                 }
             }
         });
 
-        fluid.defaults("gpii.tests.contentViewNoTypesTester", {
+        fluid.defaults("uioPlus.tests.contentViewNoTypesTester", {
             gradeNames: ["fluid.test.testCaseHolder"],
             testOpts: {
                 prefix: "No Content Types",
                 selector: "article",
-                expectedSelection: ".gpiic-contentView-noSelection",
-                expectedInContent: ".gpiic-contentView-noSelection-inContent",
-                expectedOutOfContent: ".gpiic-contentView-noSelection-outOfContent"
+                expectedSelection: ".uioPlusJS-contentView-noSelection",
+                expectedInContent: ".uioPlusJS-contentView-noSelection-inContent",
+                expectedOutOfContent: ".uioPlusJS-contentView-noSelection-outOfContent"
             },
             modules: [{
                 name: "Content View Tests",
                 tests: [{
                     name: "No Content Types",
-                    sequenceGrade: "gpii.tests.contentView.priority"
+                    sequenceGrade: "uioPlus.tests.contentView.priority"
                 }]
             }]
         });
 
         fluid.test.runTests([
-            "gpii.tests.contentViewArticleTests",
-            "gpii.tests.contentViewMainTests",
-            "gpii.tests.contentViewGenericTests",
-            "gpii.tests.contentViewAllTypesTests",
-            "gpii.tests.contentViewNoTypesTests"
+            "uioPlus.tests.contentViewArticleTests",
+            "uioPlus.tests.contentViewMainTests",
+            "uioPlus.tests.contentViewGenericTests",
+            "uioPlus.tests.contentViewAllTypesTests",
+            "uioPlus.tests.contentViewNoTypesTests"
         ]);
 
     });

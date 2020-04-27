@@ -12,7 +12,7 @@
 
 "use strict";
 
-var gpii = gpii || {};
+var uioPlus = uioPlus || {};
 
 [
     "../js/lib/infusion/infusion-uio.min.js",

@@ -15,11 +15,11 @@
 
 "use strict";
 
-var gpii = fluid.registerNamespace("gpii");
+var uioPlus = fluid.registerNamespace("uioPlus");
 var chrome = chrome || fluid.require("sinon-chrome", require, "chrome");
 
 /*
- * `gpii.chrome.zome` sets the browser zoom. This can be used for enacting preferences such as magnification or
+ * `uioPlus.chrome.zoom` sets the browser zoom. This can be used for enacting preferences such as magnification or
  * font size. The browser zoom updates tabs in the currently focused window, updated tabs, created tabs, and tabs in
  * other windows as they become focused.
  *
@@ -28,8 +28,8 @@ var chrome = chrome || fluid.require("sinon-chrome", require, "chrome");
  * that change to other tabs. See https://issues.gpii.net/browse/GPII-3386
  */
 
-fluid.defaults("gpii.chrome.zoom", {
-    gradeNames: ["fluid.modelComponent", "gpii.chrome.eventedComponent"],
+fluid.defaults("uioPlus.chrome.zoom", {
+    gradeNames: ["fluid.modelComponent", "uioPlus.chrome.eventedComponent"],
     model: {
         magnifierEnabled: false,
         magnification: 1
@@ -51,15 +51,15 @@ fluid.defaults("gpii.chrome.zoom", {
     },
     invokers: {
         applyZoomSettings: {
-            funcName: "gpii.chrome.zoom.applyZoomSettings",
+            funcName: "uioPlus.chrome.zoom.applyZoomSettings",
             args: "{that}"
         },
         applyZoomInTab: {
-            funcName: "gpii.chrome.zoom.applyZoomInTab",
+            funcName: "uioPlus.chrome.zoom.applyZoomInTab",
             args: ["{that}", "{arguments}.0", "{arguments}.1"]
         },
         updateTab: {
-            funcName: "gpii.chrome.zoom.updateTab",
+            funcName: "uioPlus.chrome.zoom.updateTab",
             args: ["{that}", "{arguments}.0"]
         }
     },
@@ -79,13 +79,13 @@ fluid.defaults("gpii.chrome.zoom", {
         "onTabActivated.applyZoom": "{that}.updateTab",
         "onWindowFocusChanged.applyZoomSettings": "{that}.applyZoomSettings",
         "onZoomChanged.updateMagnification": {
-            funcName: "gpii.chrome.zoom.updateFromZoomChange",
+            funcName: "uioPlus.chrome.zoom.updateFromZoomChange",
             args: ["{that}", "{arguments}.0"]
         }
     }
 });
 
-gpii.chrome.zoom.updateFromZoomChange = function (that, ZoomChangeInfo) {
+uioPlus.chrome.zoom.updateFromZoomChange = function (that, ZoomChangeInfo) {
     // Only fire the onZoomChanged event if the Zoom factor is actually different.
     // This is necessary because chrome will fire its onZoomChange event when a new tab or window is opened;
     // with old and new zoom factors of 0. If this check isn't present, all pages will be reset.
@@ -94,7 +94,7 @@ gpii.chrome.zoom.updateFromZoomChange = function (that, ZoomChangeInfo) {
     }
 };
 
-gpii.chrome.zoom.applyZoomInTab = function (that, tab, value) {
+uioPlus.chrome.zoom.applyZoomInTab = function (that, tab, value) {
     // set the zoom value if it hasn't already been set.
     chrome.tabs.getZoom(tab.id, function (currentZoom) {
         if (currentZoom !== value) {
@@ -110,7 +110,7 @@ gpii.chrome.zoom.applyZoomInTab = function (that, tab, value) {
     });
 };
 
-gpii.chrome.zoom.applyZoomSettings = function (that) {
+uioPlus.chrome.zoom.applyZoomSettings = function (that) {
     var value = that.model.magnifierEnabled ? that.model.magnification : 1;
     // Iterate over all tabs in the current window and set the zoom factor
     // Only changing in the current window to address cases where changing the
@@ -122,7 +122,7 @@ gpii.chrome.zoom.applyZoomSettings = function (that) {
     });
 };
 
-gpii.chrome.zoom.updateTab = function (that, tab) {
+uioPlus.chrome.zoom.updateTab = function (that, tab) {
     var value = that.model.magnifierEnabled ? that.model.magnification : 1;
     that.applyZoomInTab(tab, value);
 };

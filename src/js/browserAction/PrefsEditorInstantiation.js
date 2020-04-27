@@ -14,9 +14,9 @@
 "use strict";
 
 $("document").ready(function () {
-    fluid.prefs.create("#gpiic-ext-adjusters", {
+    fluid.prefs.create("#uioPlusJS-adjusters", {
         build: {
-            gradeNames: ["gpii.chrome.prefs.auxSchema"]
+            gradeNames: ["uioPlus.chrome.prefs.auxSchema"]
         },
         prefsEditor: {
             prefsEditor: {

@@ -10,13 +10,13 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid, gpii */
+/* global fluid, uioPlus */
 "use strict";
 
 (function ($, fluid) {
 
     /*
-     * `gpii.chrome.contentView` is a type of view component which extends the typical viewComponent facilities for
+     * `uioPlus.chrome.contentView` is a type of view component which extends the typical viewComponent facilities for
      * searching for selectors. The extended features allow for searching for "content" amongst a variety of selectors,
      * and returning the first one found. This is useful when trying to determine the primary content of a page, and is
      * typically used by enactors acting upon an entire document without explicit knowledge of the primary content area.
@@ -32,7 +32,7 @@
      * `locate`; which is also still available for use. However, they cannot be used in IoC expressions like `locate`
      * can.
      */
-    fluid.defaults("gpii.chrome.contentView", {
+    fluid.defaults("uioPlus.chrome.contentView", {
         gradeNames: ["fluid.viewComponent"],
         selectors: {
             article: "article, [role~='article'], .article, #article",
@@ -48,18 +48,18 @@
             // We assign this as a member so that it is available at creation, and only has to be executed once.
             content: {
                 expander: {
-                    funcName: "gpii.chrome.contentView.findFirstSelector",
+                    funcName: "uioPlus.chrome.contentView.findFirstSelector",
                     args: ["{that}.locate", "{that}.options.content", "{that}.options.defaultContent"]
                 }
             }
         },
         invokers: {
             locateInContent: {
-                funcName: "gpii.chrome.contentView.locateInContent",
+                funcName: "uioPlus.chrome.contentView.locateInContent",
                 args: ["{that}", "{arguments}.0"]
             },
             locateOutOfContent: {
-                funcName: "gpii.chrome.contentView.locateOutOfContent",
+                funcName: "uioPlus.chrome.contentView.locateOutOfContent",
                 // the last argument isn't directly used, but is provided to force IoC resolution of the method which is
                 // used within the executed function.
                 args: ["{that}", "{arguments}.0", "{that}.locateInContent"]
@@ -81,7 +81,7 @@
      * @return {Any} - a jQuery object if found. If nothing found, either the `deflt` value or an empty jQuery is
      *                 returned.
      */
-    gpii.chrome.contentView.findFirstSelector = function (locate, selectorNames, deflt) {
+    uioPlus.chrome.contentView.findFirstSelector = function (locate, selectorNames, deflt) {
         selectorNames = fluid.makeArray(selectorNames);
 
         var found = fluid.find_if(selectorNames, function (selector) {
@@ -96,24 +96,24 @@
      * Similar to `that.locate` but the scope of the search is within just the content and not the container whole
      * container.
      *
-     * @param {Component} that - an instance of `gpii.chrome.contentView`
+     * @param {Component} that - an instance of `uioPlus.chrome.contentView`
      * @param {String} selectorName - a selector name as defined in the selector's block. Similar to using `that.locate`
      *
      * @return {jQuery} - a jQuery object representing the selection found within the content
      */
-    gpii.chrome.contentView.locateInContent = function (that, selectorName) {
+    uioPlus.chrome.contentView.locateInContent = function (that, selectorName) {
         return that.content.find(that.options.selectors[selectorName]);
     };
 
     /**
      * Similar to `that.locate` but the search excludes any items found within the scope of the content.
      *
-     * @param {Component} that - an instance of `gpii.chrome.contentView`
+     * @param {Component} that - an instance of `uioPlus.chrome.contentView`
      * @param {String} selectorName - a selector name as defined in the selectors block. Similar to using `that.locate`
      *
      * @return {jQuery} - a jQuery object representing the selection found outside of the content
      */
-    gpii.chrome.contentView.locateOutOfContent = function (that, selectorName) {
+    uioPlus.chrome.contentView.locateOutOfContent = function (that, selectorName) {
         var inContent = that.locateInContent(selectorName);
         return that.locate(selectorName).not(inContent);
     };

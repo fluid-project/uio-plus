@@ -15,11 +15,11 @@
 
 (function ($, fluid) {
 
-    var gpii = fluid.registerNamespace("gpii");
+    var uioPlus = fluid.registerNamespace("uioPlus");
 
     // The main component to handle settings that require DOM manipulations.
     // It contains various subcomponents for handling various settings.
-    fluid.defaults("gpii.chrome.domEnactor", {
+    fluid.defaults("uioPlus.chrome.domEnactor", {
         gradeNames: ["fluid.contextAware", "fluid.viewComponent"],
         model: {
             // Accepted model values:
@@ -43,15 +43,15 @@
             simplify: {
                 checks: {
                     allowSimplification: {
-                        contextValue: "{gpii.chrome.allowSimplification}",
-                        gradeNames: "gpii.chrome.domEnactor.simplify"
+                        contextValue: "{uioPlus.chrome.allowSimplification}",
+                        gradeNames: "uioPlus.chrome.domEnactor.simplify"
                     }
                 }
             }
         },
         invokers: {
             updateModel: {
-                funcName: "gpii.chrome.domEnactor.updateModel",
+                funcName: "uioPlus.chrome.domEnactor.updateModel",
                 args: ["{that}", "{arguments}.0"]
             }
         },
@@ -61,7 +61,7 @@
         },
         components: {
             portBinding: {
-                type: "gpii.chrome.portBinding",
+                type: "uioPlus.chrome.portBinding",
                 options: {
                     portName: "contentScript",
                     listeners: {
@@ -80,7 +80,7 @@
                 }
             },
             charSpace: {
-                type: "gpii.chrome.enactor.charSpace",
+                type: "uioPlus.chrome.enactor.charSpace",
                 options: {
                     model: {
                         value: "{domEnactor}.model.characterSpace"
@@ -88,7 +88,7 @@
                 }
             },
             contrast: {
-                type: "gpii.chrome.enactor.contrast",
+                type: "uioPlus.chrome.enactor.contrast",
                 options: {
                     model: {
                         value: "{domEnactor}.model.contrastTheme"
@@ -96,7 +96,7 @@
                 }
             },
             inputsLarger: {
-                type: "gpii.chrome.enactor.inputsLarger",
+                type: "uioPlus.chrome.enactor.inputsLarger",
                 options: {
                     model: {
                         value: "{domEnactor}.model.inputsLargerEnabled"
@@ -104,7 +104,7 @@
                 }
             },
             lineSpace: {
-                type: "gpii.chrome.enactor.lineSpace",
+                type: "uioPlus.chrome.enactor.lineSpace",
                 options: {
                     model: {
                         value: "{domEnactor}.model.lineSpace"
@@ -112,7 +112,7 @@
                 }
             },
             selectionHighlight: {
-                type: "gpii.chrome.enactor.selectionHighlight",
+                type: "uioPlus.chrome.enactor.selectionHighlight",
                 options: {
                     model: {
                         value: "{domEnactor}.model.selectionTheme",
@@ -121,12 +121,13 @@
                 }
             },
             selfVoicing: {
-                type: "gpii.chrome.enactor.selfVoicing",
+                type: "uioPlus.chrome.enactor.selfVoicing",
                 options: {
                     model: {
                         enabled: "{domEnactor}.model.selfVoicingEnabled"
                     },
                     // GPII-3373: temporarily remove the page level TTS until GPII-3286 is fixed
+                    // https://issues.gpii.net/browse/GPII-3286
                     components: {
                         orator: {
                             options: {
@@ -140,7 +141,7 @@
                                     selectionReader: {
                                         options: {
                                             markup: {
-                                                control: "<button class=\"flc-orator-selectionReader-control gpiic-simplify-visible \"><span class=\"uioPlus-icon-orator\"></span><span class=\"flc-orator-selectionReader-controlLabel\"></span></button>"
+                                                control: "<button class=\"flc-orator-selectionReader-control uioPlusJS-simplify-visible \"><span class=\"uioPlus-icon-orator\"></span><span class=\"flc-orator-selectionReader-controlLabel\"></span></button>"
                                             }
                                         }
                                     }
@@ -151,7 +152,7 @@
                 }
             },
             syllabification: {
-                type: "gpii.chrome.enactor.syllabification",
+                type: "uioPlus.chrome.enactor.syllabification",
                 options: {
                     model: {
                         enabled: "{domEnactor}.model.syllabificationEnabled"
@@ -159,7 +160,7 @@
                 }
             },
             tableOfContents: {
-                type: "gpii.chrome.enactor.tableOfContents",
+                type: "uioPlus.chrome.enactor.tableOfContents",
                 options: {
                     model: {
                         toc: "{domEnactor}.model.tableOfContentsEnabled"
@@ -167,7 +168,7 @@
                 }
             },
             wordSpace: {
-                type: "gpii.chrome.enactor.wordSpace",
+                type: "uioPlus.chrome.enactor.wordSpace",
                 options: {
                     model: {
                         value: "{domEnactor}.model.wordSpace"
@@ -177,17 +178,17 @@
         }
     });
 
-    gpii.chrome.domEnactor.updateModel = function (that, model) {
+    uioPlus.chrome.domEnactor.updateModel = function (that, model) {
         var transaction = that.applier.initiate();
         transaction.fireChangeRequest({path: "", type: "DELETE"});
         transaction.change("", model);
         transaction.commit();
     };
 
-    fluid.defaults("gpii.chrome.domEnactor.simplify", {
+    fluid.defaults("uioPlus.chrome.domEnactor.simplify", {
         components: {
             simplify: {
-                type: "gpii.chrome.enactor.simplify",
+                type: "uioPlus.chrome.enactor.simplify",
                 options: {
                     model: {
                         simplify: "{domEnactor}.model.simplifiedUiEnabled"
@@ -198,7 +199,7 @@
     });
 
     // High contrast
-    fluid.defaults("gpii.chrome.enactor.contrast", {
+    fluid.defaults("uioPlus.chrome.enactor.contrast", {
         gradeNames: ["fluid.prefs.enactor.contrast"],
         classes: {
             "default": "",
@@ -213,7 +214,7 @@
     });
 
     // fontsize map
-    fluid.defaults("gpii.chrome.enactor.fontSizeMap", {
+    fluid.defaults("uioPlus.chrome.enactor.fontSizeMap", {
         fontSizeMap: {
             "xx-small": "9px",
             "x-small": "11px",
@@ -226,28 +227,28 @@
     });
 
     // Character space
-    fluid.defaults("gpii.chrome.enactor.charSpace", {
-        gradeNames: ["gpii.chrome.enactor.fontSizeMap", "fluid.prefs.enactor.letterSpace"]
+    fluid.defaults("uioPlus.chrome.enactor.charSpace", {
+        gradeNames: ["uioPlus.chrome.enactor.fontSizeMap", "fluid.prefs.enactor.letterSpace"]
     });
 
     // Line space
-    fluid.defaults("gpii.chrome.enactor.lineSpace", {
-        gradeNames: ["gpii.chrome.enactor.fontSizeMap", "fluid.prefs.enactor.lineSpace"]
+    fluid.defaults("uioPlus.chrome.enactor.lineSpace", {
+        gradeNames: ["uioPlus.chrome.enactor.fontSizeMap", "fluid.prefs.enactor.lineSpace"]
     });
 
     // Word space
-    fluid.defaults("gpii.chrome.enactor.wordSpace", {
-        gradeNames: ["gpii.chrome.enactor.fontSizeMap", "fluid.prefs.enactor.wordSpace"]
+    fluid.defaults("uioPlus.chrome.enactor.wordSpace", {
+        gradeNames: ["uioPlus.chrome.enactor.fontSizeMap", "fluid.prefs.enactor.wordSpace"]
     });
 
     // Inputs larger
-    fluid.defaults("gpii.chrome.enactor.inputsLarger", {
+    fluid.defaults("uioPlus.chrome.enactor.inputsLarger", {
         gradeNames: ["fluid.prefs.enactor.enhanceInputs"],
         cssClass: "uioPlus-input-enhanced"
     });
 
     // Selection highlight
-    fluid.defaults("gpii.chrome.enactor.selectionHighlight", {
+    fluid.defaults("uioPlus.chrome.enactor.selectionHighlight", {
         gradeNames: ["fluid.prefs.enactor.classSwapper"],
         classes: {
             "default": "",
@@ -263,15 +264,15 @@
             }
         },
         invokers: {
-            selectParagraph: "gpii.chrome.enactor.selectionHighlight.selectParagraph",
+            selectParagraph: "uioPlus.chrome.enactor.selectionHighlight.selectParagraph",
             handleRightClick: {
-                funcName: "gpii.chrome.enactor.selectionHighlight.handleRightClick",
+                funcName: "uioPlus.chrome.enactor.selectionHighlight.handleRightClick",
                 args: ["{that}.model", "{arguments}.0", "{that}.selectParagraph"]
             }
         }
     });
 
-    gpii.chrome.enactor.selectionHighlight.selectParagraph = function (node) {
+    uioPlus.chrome.enactor.selectionHighlight.selectParagraph = function (node) {
         // find closest paragraph node
         node = $(node);
         var paragraphNode = node.closest("p")[0] || node[0];
@@ -292,7 +293,7 @@
         }
     };
 
-    gpii.chrome.enactor.selectionHighlight.handleRightClick = function (model, event, handler) {
+    uioPlus.chrome.enactor.selectionHighlight.handleRightClick = function (model, event, handler) {
         // Check if the right mouse button was pressed so that this isn't
         // triggered by the context menu key ( https://api.jquery.com/contextmenu/ ).
         // Only trigger the handler if the appropriate model condition is met.
@@ -303,13 +304,13 @@
     };
 
     // Simplification
-    fluid.defaults("gpii.chrome.enactor.simplify", {
-        gradeNames: ["fluid.prefs.enactor", "gpii.simplify"],
+    fluid.defaults("uioPlus.chrome.enactor.simplify", {
+        gradeNames: ["fluid.prefs.enactor", "uioPlus.simplify"],
         injectNavToggle: false
     });
 
     // Syllabification
-    fluid.defaults("gpii.chrome.enactor.syllabification", {
+    fluid.defaults("uioPlus.chrome.enactor.syllabification", {
         gradeNames: ["fluid.prefs.enactor.syllabification"],
         terms: {
             patternPrefix: "js/lib/syllablePatterns"
@@ -318,15 +319,15 @@
             separator: "<span class=\"flc-syllabification-separator uioPlus-syllabification-separator\"></span>"
         },
         invokers: {
-            injectScript: "gpii.chrome.enactor.syllabification.injectScript"
+            injectScript: "uioPlus.chrome.enactor.syllabification.injectScript"
         }
     });
 
-    gpii.chrome.enactor.syllabification.injectScript = function (src) {
+    uioPlus.chrome.enactor.syllabification.injectScript = function (src) {
         var promise = fluid.promise();
 
         chrome.runtime.sendMessage({
-            type: "gpii.chrome.contentScriptInjectionRequest",
+            type: "uioPlus.chrome.contentScriptInjectionRequest",
             src: src
         }, promise.resolve);
 
@@ -334,8 +335,8 @@
     };
 
     // Table of contents
-    fluid.defaults("gpii.chrome.enactor.tableOfContents", {
-        gradeNames: ["gpii.chrome.contentView", "fluid.prefs.enactor.tableOfContents"],
+    fluid.defaults("uioPlus.chrome.enactor.tableOfContents", {
+        gradeNames: ["uioPlus.chrome.contentView", "fluid.prefs.enactor.tableOfContents"],
         tocTemplate: {
             // Converts the relative path to a fully-qualified URL in the extension.
             expander: {
@@ -371,7 +372,7 @@
         },
         invokers: {
             injectToCContainer: {
-                funcName: "gpii.chrome.enactor.tableOfContents.injectToCContainer",
+                funcName: "uioPlus.chrome.enactor.tableOfContents.injectToCContainer",
                 args: ["{that}"]
             }
         },
@@ -384,7 +385,7 @@
         }
     });
 
-    gpii.chrome.enactor.tableOfContents.injectToCContainer = function (that) {
+    uioPlus.chrome.enactor.tableOfContents.injectToCContainer = function (that) {
         if (!that.locate("tocContainer").length) {
             if (that.content.length === 1) {
                 that.content.prepend(that.options.markup.tocContainer);
@@ -395,8 +396,8 @@
     };
 
     // Self Voicing
-    fluid.defaults("gpii.chrome.enactor.selfVoicing", {
-        gradeNames: ["gpii.chrome.contentView", "fluid.prefs.enactor.selfVoicing"],
+    fluid.defaults("uioPlus.chrome.enactor.selfVoicing", {
+        gradeNames: ["uioPlus.chrome.contentView", "fluid.prefs.enactor.selfVoicing"],
         selectors: {
             controllerParentContainer: ".flc-prefs-selfVoicingWidget",
             domReaderContent: ".flc-orator-content"
@@ -406,7 +407,7 @@
         distributeOptions: [{
             record: {
                 expander: {
-                    funcName: "gpii.chrome.contentView.findFirstSelector",
+                    funcName: "uioPlus.chrome.contentView.findFirstSelector",
                     args: ["{selfVoicing}.locate", "{selfVoicing}.options.controllerParentContainer", "{selfVoicing}.container"]
                 }
             },
@@ -415,7 +416,7 @@
         }, {
             record: {
                 expander: {
-                    funcName: "gpii.chrome.contentView.findFirstSelector",
+                    funcName: "uioPlus.chrome.contentView.findFirstSelector",
                     args: ["{selfVoicing}.locate", "{selfVoicing}.options.domReaderContent", "{selfVoicing}.container"]
                 }
             },

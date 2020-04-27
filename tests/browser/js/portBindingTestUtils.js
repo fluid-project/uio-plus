@@ -10,24 +10,24 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid, chrome, gpii, jqUnit*/
+/* global fluid, chrome, uioPlus, jqUnit*/
 "use strict";
 
 (function () {
 
-    fluid.defaults("gpii.tests.portBinding.portName", {
+    fluid.defaults("uioPlus.tests.portBinding.portName", {
         testOpts: {
             expectedPortName: "{portBinding}.options.portName"
         }
     });
 
-    fluid.registerNamespace("gpii.tests.chrome.portBinding");
+    fluid.registerNamespace("uioPlus.tests.chrome.portBinding");
 
-    gpii.tests.chrome.portBinding.assertConnection = function (expectedPortName) {
+    uioPlus.tests.chrome.portBinding.assertConnection = function (expectedPortName) {
         jqUnit.assertTrue("Connection called with the correct arguments", chrome.runtime.connect.withArgs({name: expectedPortName}).calledOnce);
     };
 
-    gpii.tests.chrome.portBinding.assertPostMessage = function (port, postedMessage) {
+    uioPlus.tests.chrome.portBinding.assertPostMessage = function (port, postedMessage) {
         jqUnit.assertTrue("postMessage called with the correct arguments", port.postMessage.calledWith(postedMessage));
     };
 
@@ -40,19 +40,19 @@
      *                               "resetBehavior": just resets the behavior
      *                               "resetHistory": just resets the history
      */
-    gpii.tests.chrome.portBinding.resetPostMessage = function (port, resetMethod) {
+    uioPlus.tests.chrome.portBinding.resetPostMessage = function (port, resetMethod) {
         var method = resetMethod || "reset";
         port.postMessage[method]();
     };
 
-    gpii.tests.chrome.portBinding.assertPostMessageWithUnknownID = function (prefix, port, expectedPost, callIndex) {
+    uioPlus.tests.chrome.portBinding.assertPostMessageWithUnknownID = function (prefix, port, expectedPost, callIndex) {
         callIndex = callIndex || 0;
         var actualPost = port.postMessage.args[callIndex][0];
         jqUnit.assertEquals(prefix + ": The posted message type is correct", expectedPost.type, actualPost.type);
         jqUnit.assertDeepEq(prefix + ": The posted message payload is correct", expectedPost.payload, actualPost.payload);
     };
 
-    gpii.tests.chrome.portBinding.returnReceipt = function (that, receipt) {
+    uioPlus.tests.chrome.portBinding.returnReceipt = function (that, receipt) {
         that.port.postMessage.callsFake(function () {
             // Needs to get the actual id used in the post request.
             // Best to make sure that there is only one open request to ensure that
@@ -60,7 +60,7 @@
             var ids = fluid.keys(that.openRequests);
             if (ids.length) {
                 receipt.id = ids[0];
-                gpii.tests.mockPort.trigger.onMessage(that.port, receipt);
+                uioPlus.tests.mockPort.trigger.onMessage(that.port, receipt);
             }
         });
     };

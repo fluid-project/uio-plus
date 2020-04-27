@@ -14,7 +14,7 @@
 "use strict";
 
 (function ($, fluid) {
-    var gpii = fluid.registerNamespace("gpii");
+    var uioPlus = fluid.registerNamespace("uioPlus");
 
     /*
      * Provides the mechanism for enacting the simplification preference.
@@ -25,17 +25,17 @@
      * is added to show them after they are added to the DOM, if the simplification is enabled.
      */
 
-    fluid.defaults("gpii.simplify", {
-        gradeNames: ["gpii.chrome.contentView"],
+    fluid.defaults("uioPlus.simplify", {
+        gradeNames: ["uioPlus.chrome.contentView"],
         selectors: {
-            navToggle: ".gpiic-simplify-navToggle",
+            navToggle: ".uioPlusJS-simplify-navToggle",
             nav: "nav, [role~='navigation'], .navigation, .nav, #nav, #navigation",
             search: "[role~='search'], [type~='search']",
-            visible: ".gpiic-simplify-visible"
+            visible: ".uioPlusJS-simplify-visible"
         },
         alwaysVisible: ["search", "visible"],
         markup: {
-            navToggle: "<button class='gpiic-simplify-navToggle'></button>"
+            navToggle: "<button class='uioPlusJS-simplify-navToggle'></button>"
         },
         strings: {
             navToggle: "Show/Hide Navigation"
@@ -91,7 +91,7 @@
                     },
                     listeners: {
                         "onNodeAdded.makeVisible": {
-                            listener: "gpii.simplify.setVisible",
+                            listener: "uioPlus.simplify.setVisible",
                             args: ["{simplify}", "{arguments}.0", "{arguments}.1"]
                         }
                     }
@@ -100,17 +100,17 @@
         },
         invokers: {
             set: {
-                funcName: "gpii.simplify.set",
+                funcName: "uioPlus.simplify.set",
                 args: ["{that}", "{arguments}.0"]
             },
             toggleNav: {
-                funcName: "gpii.simplify.toggleNav",
+                funcName: "uioPlus.simplify.toggleNav",
                 args: ["{that}", "{arguments}.0"]
             }
         }
     });
 
-    gpii.simplify.injectToggle = function (that, content) {
+    uioPlus.simplify.injectToggle = function (that, content) {
         var navToggle = that.locate("navToggle");
 
         if (!navToggle.length && that.nav.length) {
@@ -127,7 +127,7 @@
         }
     };
 
-    gpii.simplify.setVisible = function (that, node, mutationRecord) {
+    uioPlus.simplify.setVisible = function (that, node, mutationRecord) {
         var elm = node.nodeType === Node.ELEMENT_NODE ? $(node) : $(mutationRecord.target);
 
         var makeVisible = fluid.find(that.options.alwaysVisible, function (selectorName) {
@@ -139,7 +139,7 @@
         }
     };
 
-    gpii.simplify.set = function (that, state) {
+    uioPlus.simplify.set = function (that, state) {
         if (state && that.content.length) {
             that.content.css("visibility", "visible");
             fluid.each(that.options.alwaysVisible, function (selector) {
@@ -147,7 +147,7 @@
             });
             that.container.css("visibility", "hidden");
             if (that.options.injectNavToggle) {
-                gpii.simplify.injectToggle(that, that.content);
+                uioPlus.simplify.injectToggle(that, that.content);
             }
             that.locate("navToggle").show();
             that.observer.observe();
@@ -162,7 +162,7 @@
         }
     };
 
-    gpii.simplify.toggleNav = function (that, state) {
+    uioPlus.simplify.toggleNav = function (that, state) {
         var navToggle = that.locate("navToggle");
         if (state && that.model.simplify) {
             that.nav.css("visibility", "visible");

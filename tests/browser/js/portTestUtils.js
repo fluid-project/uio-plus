@@ -10,16 +10,16 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid, chrome, sinon, gpii */
+/* global fluid, chrome, sinon, uioPlus */
 "use strict";
 
 (function ($) {
 
     $(document).ready(function () {
 
-        fluid.registerNamespace("gpii.tests.mockPort");
+        fluid.registerNamespace("uioPlus.tests.mockPort");
 
-        gpii.tests.mockPort.returnPort = function () {
+        uioPlus.tests.mockPort.returnPort = function () {
             var port = {
                 onMessage: {
                     addListener: function (handler) {
@@ -38,7 +38,7 @@
             return port;
         };
 
-        gpii.tests.mockPort.trigger = {
+        uioPlus.tests.mockPort.trigger = {
             onMessage: function (port, msg) {
                 fluid.each(port.onMessage.listeners, function (handler) {
                     handler(msg, port);
@@ -51,11 +51,11 @@
             }
         };
 
-        gpii.tests.mockPort.reset = function () {
+        uioPlus.tests.mockPort.reset = function () {
             // using the sinon-chrome stub we return a fresh mockPort
-            chrome.runtime.connect.returns(gpii.tests.mockPort.returnPort());
+            chrome.runtime.connect.returns(uioPlus.tests.mockPort.returnPort());
         };
 
-        gpii.tests.mockPort.reset();
+        uioPlus.tests.mockPort.reset();
     });
 })(jQuery);

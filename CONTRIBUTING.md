@@ -52,3 +52,15 @@ When merging a Pull Request, it is recommended to use a [Squash Merge](
 https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits).
 While this does modify commit history, it will enable us to more easily establish a link between code changes and Issues
 that precipitated them.
+
+## Class name conventions
+
+Class names can either be used as CSS selectors for styling or an element selector for JavaScript actions. To reduce confusion when styling, modifying HTML, or refactoring code; the same classes must not be used for both. The following outlines the conventions used.
+
+### Classes for styling
+
+Styling classes must be prefixed with `uioPlus-`. Styling classes for components coming from Infusion may be prefixed with `fl-`.
+
+### Classes used by JavaScript
+
+Classes used by JavaScript to locate and manipulate DOM elements must be prefixed with `uioPlusJS-`. Classes used by Infusion components may be prefixed with `flc-`

@@ -15,14 +15,14 @@
 
 "use strict";
 
-var gpii = fluid.registerNamespace("gpii");
+var uioPlus = fluid.registerNamespace("uioPlus");
 var chrome = chrome || fluid.require("sinon-chrome", require, "chrome");
 
 // This component makes use of css/Enactor.css to perform the adaptations
 // of the web content, and this is done through chrome.tabs.executeScript.
 //
-fluid.defaults("gpii.chrome.domSettingsApplier", {
-    gradeNames: ["fluid.modelComponent", "gpii.chrome.eventedComponent"],
+fluid.defaults("uioPlus.chrome.domSettingsApplier", {
+    gradeNames: ["fluid.modelComponent", "uioPlus.chrome.eventedComponent"],
     domSettingsHandler: "content_scripts/domSettingsHandler.js",
     events: {
         onConnect: null
@@ -46,7 +46,7 @@ fluid.defaults("gpii.chrome.domSettingsApplier", {
     },
     dynamicComponents: {
         port: {
-            type: "gpii.chrome.portConnection",
+            type: "uioPlus.chrome.portConnection",
             createOnEvent: "onConnect",
             options: {
                 port: "{arguments}.0"
@@ -55,13 +55,13 @@ fluid.defaults("gpii.chrome.domSettingsApplier", {
     },
     components: {
         contentScriptInjector: {
-            type: "gpii.chrome.contentScriptInjector"
+            type: "uioPlus.chrome.contentScriptInjector"
         }
     }
 });
 
 /*******************************************************************************************
- * gpii.chrome.portConnection manages a port a connection
+ * uioPlus.chrome.portConnection manages a port a connection
  *
  * Typically this is used as a dynamic component with an instance created for each
  * port.
@@ -71,8 +71,8 @@ fluid.defaults("gpii.chrome.domSettingsApplier", {
 //      modify it's own model and share with the parent. This is because ports are created for every window/page/iframe
 //      and even the browser action. If there are too many of these connections, which may occur even on a single page
 //      with many iframes, the model relay will abort and throw an error because of too many relays.
-fluid.defaults("gpii.chrome.portConnection", {
-    gradeNames: ["gpii.chrome.portBinding", "fluid.modelComponent"],
+fluid.defaults("uioPlus.chrome.portConnection", {
+    gradeNames: ["uioPlus.chrome.portBinding", "fluid.modelComponent"],
     // TODO: When FLUID-5912 is fixed, move port to the members block.
     //       https://issues.fluidproject.org/browse/FLUID-5912
     port: null, // must be supplied by integrator
@@ -84,7 +84,7 @@ fluid.defaults("gpii.chrome.portConnection", {
         // model writes will be triggered by the browser_action (UIO+ panel) and any enactor that also provides a
         // settings UI to the user.
         handleWrite: {
-            funcName: "gpii.chrome.portConnection.updateModel",
+            funcName: "uioPlus.chrome.portConnection.updateModel",
             args: ["{domSettingsApplier}", "{arguments}.0.payload"]
         },
         handleRead: {
@@ -107,7 +107,7 @@ fluid.defaults("gpii.chrome.portConnection", {
     }
 });
 
-gpii.chrome.portConnection.updateModel = function (that, model) {
+uioPlus.chrome.portConnection.updateModel = function (that, model) {
     var transaction = that.applier.initiate();
     transaction.fireChangeRequest({path: "", type: "DELETE"});
     transaction.change("", model);
@@ -116,35 +116,35 @@ gpii.chrome.portConnection.updateModel = function (that, model) {
 };
 
 /*******************************************************************************************
- * gpii.chrome.contentScriptInjector handles dynamically injecting content scripts
+ * uioPlus.chrome.contentScriptInjector handles dynamically injecting content scripts
  *******************************************************************************************/
 
-fluid.defaults("gpii.chrome.contentScriptInjector", {
-    gradeNames: ["fluid.component", "gpii.chrome.eventedComponent"],
-    requestType: "gpii.chrome.contentScriptInjectionRequest",
+fluid.defaults("uioPlus.chrome.contentScriptInjector", {
+    gradeNames: ["fluid.component", "uioPlus.chrome.eventedComponent"],
+    requestType: "uioPlus.chrome.contentScriptInjectionRequest",
     listeners: {
         "onCreate.bindEvents": {
-            listener: "gpii.chrome.contentScriptInjector.bindEvents",
+            listener: "uioPlus.chrome.contentScriptInjector.bindEvents",
             args: ["{that}"]
         },
         "onDestroy.unbindEvents": {
-            listener: "gpii.chrome.contentScriptInjector.bindEvents",
+            listener: "uioPlus.chrome.contentScriptInjector.bindEvents",
             args: ["{that}", true]
         }
     },
     invokers: {
-        injectContentScript: "gpii.chrome.contentScriptInjector.injectContentScript",
+        injectContentScript: "uioPlus.chrome.contentScriptInjector.injectContentScript",
         handleRequest: {
-            funcName: "gpii.chrome.contentScriptInjector.handleRequest",
+            funcName: "uioPlus.chrome.contentScriptInjector.handleRequest",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
         }
     }
 });
 
-gpii.chrome.contentScriptInjector.bindEvents = function (that, unbind) {
-    // The onMessage event is bound manually and doesn't make use of `gpii.chrome.eventedComponent` because the handler
+uioPlus.chrome.contentScriptInjector.bindEvents = function (that, unbind) {
+    // The onMessage event is bound manually and doesn't make use of `uioPlus.chrome.eventedComponent` because the handler
     // is required to return `true` in order to indicate that the `sendResponse` will be communicated asynchronously.
-    // When using `gpii.chrome.eventedComponent` the return value of the handler is lost.
+    // When using `uioPlus.chrome.eventedComponent` the return value of the handler is lost.
     // (See: https://developer.chrome.com/extensions/messaging#simple)
     var eventFuncName = [unbind ? "removeListener" : "addListener"];
     chrome.runtime.onMessage[eventFuncName](function (request, sender, sendResponse) {
@@ -154,7 +154,7 @@ gpii.chrome.contentScriptInjector.bindEvents = function (that, unbind) {
     });
 };
 
-gpii.chrome.contentScriptInjector.handleRequest = function (that, request, sender, sendResponse) {
+uioPlus.chrome.contentScriptInjector.handleRequest = function (that, request, sender, sendResponse) {
     var tabID = fluid.get(sender, ["tab", "id"]);
     if (request.type === that.options.requestType && tabID) {
         var promise = that.injectContentScript(tabID, request.src);
@@ -162,7 +162,7 @@ gpii.chrome.contentScriptInjector.handleRequest = function (that, request, sende
     }
 };
 
-gpii.chrome.contentScriptInjector.injectContentScript = function (tabID, src) {
+uioPlus.chrome.contentScriptInjector.injectContentScript = function (tabID, src) {
     var promise = fluid.promise();
     chrome.tabs.executeScript(tabID, {
         file: src,

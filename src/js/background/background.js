@@ -15,5 +15,5 @@
 "use strict";
 
 fluid.setLogging(true);
-var gpii = fluid.registerNamespace("gpii");
-gpii.chrome.settings();
+var uioPlus = fluid.registerNamespace("uioPlus");
+uioPlus.chrome.settings();

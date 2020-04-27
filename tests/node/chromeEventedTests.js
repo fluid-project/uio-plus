@@ -18,13 +18,13 @@
 var fluid = require("infusion");
 var chrome = fluid.require("sinon-chrome"); // eslint-disable-line no-unused-vars
 var jqUnit = fluid.require("node-jqunit", require, "jqUnit"); // eslint-disable-line no-unused-vars
-var gpii = fluid.registerNamespace("gpii"); // eslint-disable-line no-unused-vars
+var uioPlus = fluid.registerNamespace("uioPlus"); // eslint-disable-line no-unused-vars
 
 require("./testUtils.js");
 require("../../src/js/background/chromeEvented.js");
 
-fluid.defaults("gpii.tests.chrome.eventedComponent", {
-    gradeNames: ["gpii.chrome.eventedComponent"],
+fluid.defaults("uioPlus.tests.chrome.eventedComponent", {
+    gradeNames: ["uioPlus.chrome.eventedComponent"],
     events: {
         onTabOpened: null,
         onTabUpdated: null,
@@ -37,34 +37,34 @@ fluid.defaults("gpii.tests.chrome.eventedComponent", {
     }
 });
 
-fluid.defaults("gpii.tests.chromeEventedTests", {
+fluid.defaults("uioPlus.tests.chromeEventedTests", {
     gradeNames: ["fluid.test.testEnvironment"],
     components: {
         chromeEvented: {
-            type: "gpii.tests.chrome.eventedComponent",
+            type: "uioPlus.tests.chrome.eventedComponent",
             createOnEvent: "{chromeEventedTester}.events.onTestCaseStart"
         },
         chromeEventedTester: {
-            type: "gpii.tests.chromeEventedTester"
+            type: "uioPlus.tests.chromeEventedTester"
         }
     }
 });
 
-fluid.defaults("gpii.tests.chromeEventedTester", {
+fluid.defaults("uioPlus.tests.chromeEventedTester", {
     gradeNames: ["fluid.test.testCaseHolder"],
     modules: [{
-        name: "GPII Chrome Extension chromeEvented unit tests",
+        name: "UIO+ chromeEvented unit tests",
         tests: [{
             name: "interaction",
             expect: 9,
             sequence: [{
                 event: "{chromeEventedTests chromeEvented}.events.onCreate",
                 priority: "last:testing",
-                listener: "gpii.tests.utils.assertEventRelayBound",
+                listener: "uioPlus.tests.utils.assertEventRelayBound",
                 args: ["{chromeEvented}", "{chromeEvented}.options.eventRelayMap"]
             }, {
                 // Dispatch tabs onCreated event
-                func: "gpii.tests.dispatchChromeEvent",
+                func: "uioPlus.tests.dispatchChromeEvent",
                 args: [chrome.tabs.onCreated]
             }, {
                 event: "{chromeEvented}.events.onTabOpened",
@@ -72,7 +72,7 @@ fluid.defaults("gpii.tests.chromeEventedTester", {
                 args: ["The onTabOpened event was fired"]
             }, {
                 // Dispatch tabs onUpdated event
-                func: "gpii.tests.dispatchChromeEvent",
+                func: "uioPlus.tests.dispatchChromeEvent",
                 args: [chrome.tabs.onUpdated]
             }, {
                 event: "{chromeEvented}.events.onTabUpdated",
@@ -80,7 +80,7 @@ fluid.defaults("gpii.tests.chromeEventedTester", {
                 args: ["The onTabUpdated event was fired"]
             }, {
                 // Dispatch window onFocusChanged event
-                func: "gpii.tests.dispatchChromeEvent",
+                func: "uioPlus.tests.dispatchChromeEvent",
                 args: [chrome.windows.onFocusChanged]
             }, {
                 event: "{chromeEvented}.events.onWindowFocusChanged",
@@ -91,7 +91,7 @@ fluid.defaults("gpii.tests.chromeEventedTester", {
             }, {
                 event: "{chromeEvented}.events.onDestroy",
                 priority: "last:testing",
-                listener: "gpii.tests.utils.assertEventRelayUnbound",
+                listener: "uioPlus.tests.utils.assertEventRelayUnbound",
                 args: ["{chromeEvented}", "{chromeEvented}.options.eventRelayMap"]
             }]
         }]
@@ -99,5 +99,5 @@ fluid.defaults("gpii.tests.chromeEventedTester", {
 });
 
 fluid.test.runTests([
-    "gpii.tests.chromeEventedTests"
+    "uioPlus.tests.chromeEventedTests"
 ]);

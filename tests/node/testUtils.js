@@ -17,11 +17,11 @@
 
 var fluid = require("infusion");
 var jqUnit = fluid.require("node-jqunit", require, "jqUnit"); // eslint-disable-line no-unused-vars
-var gpii = fluid.registerNamespace("gpii"); // eslint-disable-line no-unused-vars
+var uioPlus = fluid.registerNamespace("uioPlus"); // eslint-disable-line no-unused-vars
 
-fluid.registerNamespace("gpii.tests.utils");
+fluid.registerNamespace("uioPlus.tests.utils");
 
-fluid.defaults("gpii.tests.testEnvironmentWithSetup", {
+fluid.defaults("uioPlus.tests.testEnvironmentWithSetup", {
     gradeNames: ["fluid.test.testEnvironment"],
     invokers: {
         setup: "fluid.identity",
@@ -36,12 +36,12 @@ fluid.defaults("gpii.tests.testEnvironmentWithSetup", {
     }
 });
 
-gpii.tests.dispatchChromeEvent = function (chromeEvent, args) {
+uioPlus.tests.dispatchChromeEvent = function (chromeEvent, args) {
     args = fluid.makeArray(args);
     chromeEvent.dispatch.apply(chromeEvent, args);
 };
 
-gpii.tests.utils.assertEventRelayBound = function (that, eventRelayMap) {
+uioPlus.tests.utils.assertEventRelayBound = function (that, eventRelayMap) {
     fluid.each(eventRelayMap, function (componentEventName, chromeEventName) {
         var addListenerFunc = fluid.getGlobalValue(chromeEventName).addListener;
         var isBound = addListenerFunc.calledWithExactly(that.events[componentEventName].fire);
@@ -49,7 +49,7 @@ gpii.tests.utils.assertEventRelayBound = function (that, eventRelayMap) {
     });
 };
 
-gpii.tests.utils.assertEventRelayUnbound = function (that, eventRelayMap) {
+uioPlus.tests.utils.assertEventRelayUnbound = function (that, eventRelayMap) {
     fluid.each(eventRelayMap, function (componentEventName, chromeEventName) {
         var removeListenerFunc = fluid.getGlobalValue(chromeEventName).removeListener;
         var isUnbound = removeListenerFunc.calledWithExactly(that.events[componentEventName].fire);

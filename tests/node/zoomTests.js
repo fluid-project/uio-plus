@@ -18,21 +18,21 @@
 var fluid = fluid || require("infusion");
 var chrome = chrome || fluid.require("sinon-chrome", require, "chrome");
 var jqUnit = jqUnit || fluid.require("node-jqunit", require, "jqUnit");
-var gpii = fluid.registerNamespace("gpii");
+var uioPlus = fluid.registerNamespace("uioPlus");
 
 require("../../src/js/background/chromeEvented.js");
 require("../../src/js/background/zoom.js");
 
-fluid.defaults("gpii.chrome.tests.zoom.testEnvironment", {
+fluid.defaults("uioPlus.chrome.tests.zoom.testEnvironment", {
     gradeNames: ["fluid.test.testEnvironment"],
     components: {
         tester: {
-            type: "gpii.chrome.tests.zoom.tester"
+            type: "uioPlus.chrome.tests.zoom.tester"
         }
     }
 });
 
-fluid.defaults("gpii.chrome.tests.zoom.tester", {
+fluid.defaults("uioPlus.chrome.tests.zoom.tester", {
     gradeNames: ["fluid.test.testCaseHolder"],
     model: {},
     tabs: [{ id: 1 },
@@ -61,13 +61,13 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
     },
     invokers: {
         mockChrome: {
-            funcName: "gpii.chrome.tests.zoom.mockChrome",
+            funcName: "uioPlus.chrome.tests.zoom.mockChrome",
             args: "{that}"
         }
     },
     components: {
         zoom: {
-            type: "gpii.chrome.zoom"
+            type: "uioPlus.chrome.zoom"
         }
     },
     events: {
@@ -79,23 +79,23 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
             name: "All tabs are configured when settings change",
             expect: 6,
             sequence: [{
-                funcName: "gpii.chrome.tests.zoom.setSettings",
+                funcName: "uioPlus.chrome.tests.zoom.setSettings",
                 args: ["{that}", "{that}.options.settings"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.0.id",
                        "{that}.options.settings.magnification"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.1.id",
                        "{that}.options.settings.magnification"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.2.id",
                        "{that}.options.settings.magnification"]
@@ -108,7 +108,7 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
                 args: "{that}.options.openedTab"
             },{
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.openedTab.id",
                        "{that}.options.settings.magnification"]
@@ -122,7 +122,7 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
                        "{that}.options.updatedTab"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.updatedTab.id",
                        "{that}.options.settings.magnification"]
@@ -135,7 +135,7 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
                 args: "{that}.options.updatedTab"
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.updatedTab.id",
                        "{that}.options.settings.magnification"]
@@ -144,23 +144,23 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
             name: "magnification changes, tabs are updated",
             expect: 6,
             sequence: [{
-                funcName: "gpii.chrome.tests.zoom.setSettings",
+                funcName: "uioPlus.chrome.tests.zoom.setSettings",
                 args: ["{that}", "{that}.options.newZoomLevel"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.0.id",
                        "{that}.options.newZoomLevel.magnification"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.1.id",
                        "{that}.options.newZoomLevel.magnification"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.2.id",
                        "{that}.options.newZoomLevel.magnification"]
@@ -195,23 +195,23 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
             name: "magnification disabled, tabs are updated",
             expect: 6,
             sequence: [{
-                funcName: "gpii.chrome.tests.zoom.setSettings",
+                funcName: "uioPlus.chrome.tests.zoom.setSettings",
                 args: ["{that}", "{that}.options.disableZoom"]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.0.id",
                        1]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.1.id",
                        1]
             }, {
                 event: "{that}.events.onSetZoom",
-                listener: "gpii.chrome.tests.zoom.checkSetZoom",
+                listener: "uioPlus.chrome.tests.zoom.checkSetZoom",
                 args: ["{arguments}.0", "{arguments}.1",
                        "{that}.options.tabs.2.id",
                        1]
@@ -220,26 +220,26 @@ fluid.defaults("gpii.chrome.tests.zoom.tester", {
     }],
     listeners: {
         "onCreate.mockChrome": "{that}.mockChrome",
-        "afterDestroy": "gpii.chrome.tests.zoom.clearTestEnv"
+        "afterDestroy": "uioPlus.chrome.tests.zoom.clearTestEnv"
     }
 });
 
-gpii.chrome.tests.zoom.clearTestEnv = function () {
+uioPlus.chrome.tests.zoom.clearTestEnv = function () {
     chrome.tabs.setZoom.resetBehavior;
     chrome.tabs.getZoom.resetBehavior;
     chrome.tabs.query.resetBehavior;
 };
 
-gpii.chrome.tests.zoom.checkSetZoom = function (id, level, expectedId, expectedLevel) {
+uioPlus.chrome.tests.zoom.checkSetZoom = function (id, level, expectedId, expectedLevel) {
     jqUnit.assertEquals("setZoom receives the expected tab id", expectedId, id);
     jqUnit.assertEquals("setZoom receives the expected zoom level", expectedLevel, level);
 };
 
-gpii.chrome.tests.zoom.setSettings = function (that, settings) {
+uioPlus.chrome.tests.zoom.setSettings = function (that, settings) {
     that.zoom.applier.change("", settings);
 };
 
-gpii.chrome.tests.zoom.mockChrome = function (that) {
+uioPlus.chrome.tests.zoom.mockChrome = function (that) {
     chrome.tabs.getZoom.yields(1.1);
     chrome.tabs.query.yields(that.options.tabs);
     chrome.tabs.setZoom.func = function (tabId, zoomLevel) {
@@ -247,4 +247,4 @@ gpii.chrome.tests.zoom.mockChrome = function (that) {
     };
 };
 
-fluid.test.runTests("gpii.chrome.tests.zoom.testEnvironment");
+fluid.test.runTests("uioPlus.chrome.tests.zoom.testEnvironment");

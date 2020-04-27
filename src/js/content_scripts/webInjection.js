@@ -10,22 +10,22 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid, gpii, chrome */
+/* global fluid, uioPlus, chrome */
 "use strict";
 
 (function ($, fluid) {
 
-    fluid.registerNamespace("gpii.chrome.webInjection");
+    fluid.registerNamespace("uioPlus.chrome.webInjection");
 
-    gpii.chrome.webInjection.fonts = [{
+    uioPlus.chrome.webInjection.fonts = [{
         fontFamily: "Orator-Icons",
         urls: [chrome.runtime.getURL("fonts/Orator-Icons.woff")]
     }];
 
-    gpii.chrome.webInjection.styleTemplate = "<style>@font-face {font-family: \"%fontFamily\"; src: %src;}</style>";
+    uioPlus.chrome.webInjection.styleTemplate = "<style>@font-face {font-family: \"%fontFamily\"; src: %src;}</style>";
 
     // inject fonts
-    fluid.each(gpii.chrome.webInjection.fonts, function (fontInfo) {
+    fluid.each(uioPlus.chrome.webInjection.fonts, function (fontInfo) {
         var urls = fluid.transform(fluid.makeArray(fontInfo.urls), function (url) {
             return "url(\"" + url + "\")";
         });
@@ -35,7 +35,7 @@
             src: urls.join(",")
         };
 
-        var styleElm = $(fluid.stringTemplate(gpii.chrome.webInjection.styleTemplate, info));
+        var styleElm = $(fluid.stringTemplate(uioPlus.chrome.webInjection.styleTemplate, info));
 
         $("head").append(styleElm);
     });

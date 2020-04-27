@@ -10,7 +10,7 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global gpii */
+/* global uioPlus */
 "use strict";
 
-gpii.chrome.domEnactor("body");
+uioPlus.chrome.domEnactor("body");

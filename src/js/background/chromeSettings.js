@@ -11,12 +11,12 @@
  */
 
 /* eslint-env node */
-/* global fluid, gpii */
+/* global fluid, uioPlus */
 
 "use strict";
 
-fluid.defaults("gpii.chrome.settings", {
-    gradeNames: ["fluid.modelComponent", "gpii.chrome.eventedComponent"],
+fluid.defaults("uioPlus.chrome.settings", {
+    gradeNames: ["fluid.modelComponent", "uioPlus.chrome.eventedComponent"],
     defaultSettings: {
         // not all of the following settings are in the common terms yet.
         // and may need to be updated once they are added there.
@@ -40,19 +40,19 @@ fluid.defaults("gpii.chrome.settings", {
         // A dedicated invoker instead of declaratively setting up the model change is required to provide a default
         // value for the `settings` to set. This is useful for resetting the preferences.
         updateSettings: {
-            funcName: "gpii.chrome.settings.updateSettings",
+            funcName: "uioPlus.chrome.settings.updateSettings",
             args: ["{that}",  "{arguments}.0"]
         }
     },
     components: {
         domSettingsApplier: {
-            type: "gpii.chrome.domSettingsApplier",
+            type: "uioPlus.chrome.domSettingsApplier",
             options: {
                 model: "{settings}.model"
             }
         },
         zoom: {
-            type: "gpii.chrome.zoom",
+            type: "uioPlus.chrome.zoom",
             options: {
                 model: {
                     magnifierEnabled: true, // set to true because fontSize is always enabled
@@ -61,7 +61,7 @@ fluid.defaults("gpii.chrome.settings", {
             }
         },
         contextMenuPanel: {
-            type: "gpii.chrome.settingsContextPanel",
+            type: "uioPlus.chrome.settingsContextPanel",
             options: {
                 model: "{settings}.model",
                 distributeOptions: {
@@ -78,12 +78,12 @@ fluid.defaults("gpii.chrome.settings", {
     }
 });
 
-gpii.chrome.settings.updateSettings = function (that, settings) {
+uioPlus.chrome.settings.updateSettings = function (that, settings) {
     that.applier.change("settings", settings || that.options.defaultSettings);
 };
 
-fluid.defaults("gpii.chrome.settingsContextPanel", {
-    gradeNames: ["gpii.chrome.contextMenuPanel"],
+fluid.defaults("uioPlus.chrome.settingsContextPanel", {
+    gradeNames: ["uioPlus.chrome.contextMenuPanel"],
     strings: {
         inputsLarger: "enhance inputs",
         rightClickToSelect: "right-click to select",
@@ -96,11 +96,11 @@ fluid.defaults("gpii.chrome.settingsContextPanel", {
         afterContextMenuItemsCreated: null
     },
     listeners: {
-        "onCreate.createContextMenuItems": "gpii.chrome.contextMenuPanel.createContextMenuItems"
+        "onCreate.createContextMenuItems": "uioPlus.chrome.contextMenuPanel.createContextMenuItems"
     },
     components: {
         "syllabification": {
-            type: "gpii.chrome.contextItem.checkbox",
+            type: "uioPlus.chrome.contextItem.checkbox",
             options: {
                 priority: "after:parent",
                 contextProps: {
@@ -113,7 +113,7 @@ fluid.defaults("gpii.chrome.settingsContextPanel", {
             }
         },
         "rightClickToSelect": {
-            type: "gpii.chrome.contextItem.checkbox",
+            type: "uioPlus.chrome.contextItem.checkbox",
             options: {
                 priority: "after:syllabification",
                 contextProps: {
@@ -126,7 +126,7 @@ fluid.defaults("gpii.chrome.settingsContextPanel", {
             }
         },
         "selfVoicing": {
-            type: "gpii.chrome.contextItem.checkbox",
+            type: "uioPlus.chrome.contextItem.checkbox",
             options: {
                 priority: "after:rightClickToSelect",
                 contextProps: {
@@ -139,7 +139,7 @@ fluid.defaults("gpii.chrome.settingsContextPanel", {
             }
         },
         "simplifiedUI": {
-            type: "gpii.chrome.contextItem.checkbox",
+            type: "uioPlus.chrome.contextItem.checkbox",
             options: {
                 priority: "after:selfVoicing",
                 contextProps: {
@@ -152,7 +152,7 @@ fluid.defaults("gpii.chrome.settingsContextPanel", {
             }
         },
         "tableOfContents": {
-            type: "gpii.chrome.contextItem.checkbox",
+            type: "uioPlus.chrome.contextItem.checkbox",
             options: {
                 priority: "after:simplifiedUI",
                 contextProps: {
@@ -165,7 +165,7 @@ fluid.defaults("gpii.chrome.settingsContextPanel", {
             }
         },
         "inputsLarger": {
-            type: "gpii.chrome.contextItem.checkbox",
+            type: "uioPlus.chrome.contextItem.checkbox",
             options: {
                 priority: "after:tableOfContents",
                 contextProps: {
