@@ -7,7 +7,7 @@
  * compliance with this license.
  *
  * You may obtain a copy of the license at
- * https://github.com/GPII/gpii-chrome-extension/blob/master/LICENSE.txt
+ * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
 /* global fluid, gpii, chrome */
