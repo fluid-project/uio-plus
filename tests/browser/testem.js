@@ -14,15 +14,15 @@
 var fluid = require("infusion");
 fluid.setLogging(true);
 
-fluid.require("%ui-options-chrome");
+fluid.require("%uio-plus");
 require("gpii-testem");
 
 fluid.defaults("fluid.tests.testem", {
     gradeNames: ["gpii.testem.instrumentation"],
-    coverageDir: "%ui-options-chrome/coverage",
-    reportsDir: "%ui-options-chrome/reports",
+    coverageDir: "%uio-plus/coverage",
+    reportsDir: "%uio-plus/reports",
     testPages:  ["tests/browser/all-tests.html"],
-    instrumentedSourceDir: "%ui-options-chrome/instrumented",
+    instrumentedSourceDir: "%uio-plus/instrumented",
     instrumentationOptions: {
         nonSources: [
             "./**/*.!(js)",
@@ -30,10 +30,10 @@ fluid.defaults("fluid.tests.testem", {
         ]
     },
     sourceDirs: {
-        extension: "%ui-options-chrome/src"
+        extension: "%uio-plus/src"
     },
     contentDirs: {
-        tests:   "%ui-options-chrome/tests"
+        tests:   "%uio-plus/tests"
     },
     testemOptions: {
         // Due to https://issues.gpii.net/browse/GPII-4064 skipping "Headless Chrome"
