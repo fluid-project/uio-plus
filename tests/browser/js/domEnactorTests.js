@@ -69,14 +69,14 @@
         jqUnit.test("uioPlus.chrome.enactor.selectionHighlight.selectParagraph tests", function () {
             uioPlus.tests.clearSelection();
 
-            uioPlus.chrome.enactor.selectionHighlight.selectParagraph($(".gpii-test-selectionHighlight-nestedElm")[0]);
+            uioPlus.chrome.enactor.selectionHighlight.selectParagraph($(".uioPlusJS-test-selectionHighlight-nestedElm")[0]);
             var selectedParagraph = uioPlus.tests.cloneSelectedNode();
-            jqUnit.assertTrue("The paragraph should be selected", $(selectedParagraph).is(".gpii-test-selectionHighlight-paragraph"));
+            jqUnit.assertTrue("The paragraph should be selected", $(selectedParagraph).is(".uioPlusJS-test-selectionHighlight-paragraph"));
             uioPlus.tests.clearSelection();
 
-            uioPlus.chrome.enactor.selectionHighlight.selectParagraph($(".gpii-test-selectionHighlight-node")[0]);
+            uioPlus.chrome.enactor.selectionHighlight.selectParagraph($(".uioPlusJS-test-selectionHighlight-node")[0]);
             var selectedNode = uioPlus.tests.cloneSelectedNode();
-            jqUnit.assertTrue("The node should be selected", $(selectedNode).is(".gpii-test-selectionHighlight-node"));
+            jqUnit.assertTrue("The node should be selected", $(selectedNode).is(".uioPlusJS-test-selectionHighlight-node"));
             uioPlus.tests.clearSelection();
         });
 
@@ -127,7 +127,7 @@
             components: {
                 selectionHighlight: {
                     type: "uioPlus.chrome.enactor.selectionHighlight",
-                    container: ".gpii-test-selectionHighlight",
+                    container: ".uioPlusJS-test-selectionHighlight",
                     options: {
                         model: {
                             value: "default"
@@ -216,22 +216,22 @@
                         args: ["The selectParagraph model value is updated", "{selectionHighlight}.model.selectParagraph"]
                     }, {
                         jQueryTrigger: uioPlus.tests.getContextMenuEvent(true),
-                        element: ".gpii-test-selectionHighlight-paragraph"
+                        element: ".uioPlusJS-test-selectionHighlight-paragraph"
                     }, {
                         func: "uioPlus.tests.selectionHighlightTests.assertSelectedText",
-                        args: [".gpii-test-selectionHighlight-paragraph"]
+                        args: [".uioPlusJS-test-selectionHighlight-paragraph"]
                     }, {
                         jQueryTrigger: uioPlus.tests.getContextMenuEvent(true),
-                        element: ".gpii-test-selectionHighlight-nestedElm"
+                        element: ".uioPlusJS-test-selectionHighlight-nestedElm"
                     }, {
                         func: "uioPlus.tests.selectionHighlightTests.assertSelectedText",
-                        args: [".gpii-test-selectionHighlight-paragraph"]
+                        args: [".uioPlusJS-test-selectionHighlight-paragraph"]
                     }, {
                         jQueryTrigger: uioPlus.tests.getContextMenuEvent(true),
-                        element: $(".gpii-test-selectionHighlight-node")
+                        element: $(".uioPlusJS-test-selectionHighlight-node")
                     }, {
                         func: "uioPlus.tests.selectionHighlightTests.assertSelectedText",
-                        args: [".gpii-test-selectionHighlight-node"]
+                        args: [".uioPlusJS-test-selectionHighlight-node"]
                     }]
                 }]
             }]
@@ -248,7 +248,7 @@
             components: {
                 contrast: {
                     type: "uioPlus.chrome.enactor.contrast",
-                    container: ".gpii-test-contrast",
+                    container: ".uioPlusJS-test-contrast",
                     options: {
                         model: {
                             value: "default"
@@ -373,7 +373,7 @@
             components: {
                 lineSpace: {
                     type: "uioPlus.chrome.enactor.lineSpace",
-                    container: ".gpii-test-lineSpace",
+                    container: ".uioPlusJS-test-lineSpace",
                     options: {
                         model: {
                             value: 1
@@ -498,7 +498,7 @@
             components: {
                 charSpace: {
                     type: "fluid.prefs.enactor.letterSpace",
-                    container: ".gpii-test-charSpace",
+                    container: ".uioPlusJS-test-charSpace",
                     options: {
                         model: {
                             value: 1
@@ -533,7 +533,7 @@
             components: {
                 wordSpace: {
                     type: "fluid.prefs.enactor.wordSpace",
-                    container: ".gpii-test-wordSpace",
+                    container: ".uioPlusJS-test-wordSpace",
                     options: {
                         model: {
                             value: 1
@@ -568,7 +568,7 @@
             components: {
                 inputsLarger: {
                     type: "uioPlus.chrome.enactor.inputsLarger",
-                    container: ".gpii-test-inputsLarger",
+                    container: ".uioPlusJS-test-inputsLarger",
                     options: {
                         model: {
                             value: false
@@ -633,7 +633,7 @@
             components: {
                 toc: {
                     type: "uioPlus.chrome.enactor.tableOfContents",
-                    container: ".gpii-test-toc",
+                    container: ".uioPlusJS-test-toc",
                     options: {
                         selectors: {
                             tocContainer: ".flc-toc-tocContainer"
@@ -702,7 +702,7 @@
             components: {
                 selfVoicing: {
                     type: "uioPlus.chrome.enactor.selfVoicing",
-                    container: ".gpii-test-selfVoicing",
+                    container: ".uioPlusJS-test-selfVoicing",
                     options: {
                         model: {
                             enabled: false
@@ -765,7 +765,7 @@
             components: {
                 syllabification: {
                     type: "uioPlus.chrome.enactor.syllabification",
-                    container: ".gpii-test-syllabification",
+                    container: ".uioPlusJS-test-syllabification",
                     options: {
                         terms: {
                             patternPrefix: "../../../node_modules/infusion/src/lib/hypher/patterns"
@@ -907,7 +907,7 @@
             components: {
                 domEnactor: {
                     type: "uioPlus.chrome.domEnactor",
-                    container: ".gpii-test-domEnactor"
+                    container: ".uioPlusJS-test-domEnactor"
                 },
                 domEnactorTester: {
                     type: "uioPlus.tests.domEnactorTester"
@@ -990,7 +990,7 @@
             components: {
                 domEnactor: {
                     type: "uioPlus.chrome.domEnactor",
-                    container: ".gpii-test-domEnactor",
+                    container: ".uioPlusJS-test-domEnactor",
                     createOnEvent: "afterSetup"
                 },
                 domEnactorTester: {

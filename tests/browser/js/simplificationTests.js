@@ -75,11 +75,11 @@
 
         fluid.defaults("uioPlus.tests.simplifyTests", {
             gradeNames: ["fluid.test.testEnvironment"],
-            markupFixture: ".gpii-test-simplify",
+            markupFixture: ".uioPlusJS-test-simplify",
             components: {
                 simplify: {
                     type: "uioPlus.simplify",
-                    container: ".gpii-test-simplify",
+                    container: ".uioPlusJS-test-simplify",
                     options: {
                         model: {
                             simplify: false,
@@ -194,11 +194,11 @@
 
         fluid.defaults("uioPlus.tests.simplifyNoNavToggleTests", {
             gradeNames: ["fluid.test.testEnvironment"],
-            markupFixture: ".gpii-test-simplify",
+            markupFixture: ".uioPlusJS-test-simplify",
             components: {
                 simplify: {
                     type: "uioPlus.simplify",
-                    container: ".gpii-test-simplify",
+                    container: ".uioPlusJS-test-simplify",
                     options: {
                         injectNavToggle: false,
                         model: {
