@@ -78,7 +78,6 @@
         ]
     },
     "web_accessible_resources": [
-        "images/gpii.png",
         "templates/TableOfContents.html",
         "messages/tableOfContents-enactor*.json",
         "fonts/Orator-Icons.woff"
