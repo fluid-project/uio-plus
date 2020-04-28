@@ -1,0 +1,12 @@
+.editorconfig
+.eslintignore
+.gitignore
+.npmignore
+.nycrc
+.vagrant
+coverage
+Gruntfile.js
+provisioning
+reports
+tests
+Vagrantfile
