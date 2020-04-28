@@ -55,12 +55,16 @@ that precipitated them.
 
 ## Class name conventions
 
-Class names can either be used as CSS selectors for styling or an element selector for JavaScript actions. To reduce confusion when styling, modifying HTML, or refactoring code; the same classes must not be used for both. The following outlines the conventions used.
+Class names can either be used as CSS selectors for styling or an element selector for JavaScript actions. To reduce
+confusion when styling, modifying HTML, or refactoring code; the same classes must not be used for both. The following
+outlines the conventions used.
 
 ### Classes for styling
 
-Styling classes must be prefixed with `uioPlus-`. Styling classes for components coming from Infusion may be prefixed with `fl-`.
+Styling classes must be prefixed with `uioPlus-`. Styling classes for components coming from Infusion may be prefixed
+with `fl-`.
 
 ### Classes used by JavaScript
 
-Classes used by JavaScript to locate and manipulate DOM elements must be prefixed with `uioPlusJS-`. Classes used by Infusion components may be prefixed with `flc-`
+Classes used by JavaScript to locate and manipulate DOM elements must be prefixed with `uioPlusJS-`. Classes used by
+Infusion components may be prefixed with `flc-`
