@@ -27,10 +27,10 @@ module.exports = function (grunt) {
             }
         },
         stylus: {
-            build: {
+            dist: {
                 options: {
                     compress: true,
-                    relativeDest: "../../build/css"
+                    relativeDest: "../../dist/css"
                 },
                 files: [{
                     expand: true,
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                     "templates/**/*",
                     "manifest.json"
                 ],
-                dest: "build/"
+                dest: "dist/"
             },
             lib: {
                 //TODO: Currently there is a bug in Chrome that prevents source maps from working for extensions.
@@ -63,12 +63,12 @@ module.exports = function (grunt) {
                     expand: true,
                     flatten: true,
                     src: "node_modules/infusion/dist/infusion-uio.min.js",
-                    dest: "build/js/lib/infusion/"
+                    dest: "dist/js/lib/infusion/"
                 }, {
                     expand: true,
                     flatten: true,
                     src: "node_modules/infusion/src/lib/hypher/patterns/*.js",
-                    dest: "build/js/lib/syllablePatterns/"
+                    dest: "dist/js/lib/syllablePatterns/"
                 }]
             },
             templates: {
@@ -79,13 +79,13 @@ module.exports = function (grunt) {
                     "components/tableOfContents/html/TableOfContents.html",
                     "framework/preferences/html/PrefsEditorTemplate-*.html"
                 ],
-                dest: "build/templates/"
+                dest: "dist/templates/"
             },
             messages: {
                 expand: true,
                 flatten: true,
                 src: "node_modules/infusion/src/framework/preferences/messages/*.json",
-                dest: "build/messages/"
+                dest: "dist/messages/"
             },
             fonts: {
                 cwd: "node_modules/infusion/src/",
@@ -96,7 +96,7 @@ module.exports = function (grunt) {
                     "components/orator/fonts/*.woff",
                     "lib/opensans/fonts/*.woff"
                 ],
-                dest: "build/fonts/"
+                dest: "dist/fonts/"
             },
             styles: {
                 cwd: "node_modules/infusion/",
@@ -110,12 +110,12 @@ module.exports = function (grunt) {
                     "dist/assets/src/framework/preferences/css/PrefsEditor.css",
                     "dist/assets/src/framework/preferences/css/SeparatedPanelPrefsEditorFrame.css"
                 ],
-                dest: "build/css/"
+                dest: "dist/css/"
             }
         },
         clean: {
             all: {
-                src: ["build/"]
+                src: ["dist/"]
             }
         }
     });

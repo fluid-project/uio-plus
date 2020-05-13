@@ -188,7 +188,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/PrefsEditorTemplate-textSize.html"
+                    url: "../../../dist/templates/PrefsEditorTemplate-textSize.html"
                 }
             }
         });
@@ -251,7 +251,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/PrefsEditorTemplate-lineSpace.html"
+                    url: "../../../dist/templates/PrefsEditorTemplate-lineSpace.html"
                 }
             }
         });
@@ -321,7 +321,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/PrefsEditorTemplate-letterSpace.html"
+                    url: "../../../dist/templates/PrefsEditorTemplate-letterSpace.html"
                 }
             }
         });
@@ -396,7 +396,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/PrefsEditorTemplate-contrast.html"
+                    url: "../../../dist/templates/PrefsEditorTemplate-contrast.html"
                 }
             },
             classnameMap: {
@@ -476,7 +476,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/SelectionHighlightPanelTemplate.html"
+                    url: "../../../dist/templates/SelectionHighlightPanelTemplate.html"
                 }
             },
             classnameMap: {
@@ -603,7 +603,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/SimplifyPanelTemplate.html"
+                    url: "../../../dist/templates/SimplifyPanelTemplate.html"
                 }
             }
         });
@@ -654,7 +654,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/PrefsEditorTemplate-syllabification.html"
+                    url: "../../../dist/templates/PrefsEditorTemplate-syllabification.html"
                 }
             }
         });
@@ -705,7 +705,7 @@
             },
             resources: {
                 template: {
-                    url: "../../../build/templates/ClickToSelectPanelTemplate.html"
+                    url: "../../../dist/templates/ClickToSelectPanelTemplate.html"
                 }
             }
         });
@@ -752,8 +752,8 @@
             auxiliarySchema: {
                 "namespace": "gpii.tests.chrome.prefs.constructed",
                 "terms": {
-                    "templatePrefix": "../../../build/templates/",
-                    "messagePrefix": "../../../build/messages/"
+                    "templatePrefix": "../../../dist/templates/",
+                    "messagePrefix": "../../../dist/messages/"
                 }
             }
         });
