@@ -77,7 +77,8 @@ module.exports = function (grunt) {
                 flatten: true,
                 src: [
                     "components/tableOfContents/html/TableOfContents.html",
-                    "framework/preferences/html/PrefsEditorTemplate-*.html"
+                    "framework/preferences/html/PrefsEditorTemplate-*.html",
+                    "framework/preferences/html/SeparatedPanelPrefsEditor.html"
                 ],
                 dest: "dist/templates/"
             },

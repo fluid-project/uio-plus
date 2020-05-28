@@ -269,138 +269,115 @@
      * schemas *
      ***********/
 
-    fluid.defaults("uioPlus.chrome.prefs.auxSchema", {
+    fluid.defaults("uioPlus.chrome.auxSchema.clickToSelect", {
         gradeNames: ["fluid.prefs.auxSchema"],
         auxiliarySchema: {
-            "loaderGrades": ["uioPlus.chrome.prefs.extensionPanel"],
-            "namespace": "uioPlus.chrome.prefs.constructed",
-            "terms": {
-                "templatePrefix": "../templates/",
-                "messagePrefix": "../messages/"
-            },
-            "template": "%templatePrefix/PrefsEditorPanel.html",
-            "message": "%messagePrefix/prefsEditor.json",
-            "charSpace": {
-                "type": "fluid.prefs.letterSpace",
-                "panel": {
-                    "type": "fluid.prefs.panel.letterSpace",
-                    "container": ".uioPlusJS-prefsEditor-char-space",
-                    "message": "%messagePrefix/charSpace.json",
-                    "template": "%templatePrefix/PrefsEditorTemplate-letterSpace.html"
-                }
-            },
-            "clickToSelect": {
-                "type": "uioPlus.chrome.prefs.clickToSelect",
-                "panel": {
+            "uioPlus.chrome.prefs.clickToSelect": {
+                panel: {
                     "type": "uioPlus.chrome.prefs.panel.clickToSelect",
                     "container": ".uioPlusJS-prefsEditor-clickToSelect",
                     "template": "%templatePrefix/ClickToSelectPanelTemplate.html",
                     "message": "%messagePrefix/clickToSelect.json"
                 }
-            },
-            "contrast": {
-                "type": "uioPlus.chrome.prefs.contrast",
-                "classes": {
-                    "default": "fl-theme-prefsEditor-default",
-                    "bw": "fl-theme-bw",
-                    "wb": "fl-theme-wb",
-                    "by": "fl-theme-by",
-                    "yb": "fl-theme-yb",
-                    "gd": "fl-theme-gd",
-                    "gw": "fl-theme-gw",
-                    "bbr": "fl-theme-bbr"
+            }
+        }
+    });
 
-                },
-                "panel": {
+    fluid.defaults("uioPlus.chrome.auxSchema.contrast", {
+        gradeNames: ["fluid.prefs.auxSchema"],
+        auxiliarySchema: {
+            "uioPlus.chrome.prefs.contrast": {
+                panel: {
                     "type": "uioPlus.chrome.prefs.panel.contrast",
                     "container": ".uioPlusJS-prefsEditor-contrast",
-                    "classnameMap": {"theme": "@contrast.classes"},
+                    "classnameMap": {
+                        "theme": {
+                            "default": "fl-theme-prefsEditor-default",
+                            "bw": "fl-theme-bw",
+                            "wb": "fl-theme-wb",
+                            "by": "fl-theme-by",
+                            "yb": "fl-theme-yb",
+                            "gd": "fl-theme-gd",
+                            "gw": "fl-theme-gw",
+                            "bbr": "fl-theme-bbr"
+                        }
+                    },
                     "template": "%templatePrefix/PrefsEditorTemplate-contrast.html",
                     "message": "%messagePrefix/contrast.json"
                 }
-            },
-            "enhanceInputs": {
-                "type": "fluid.prefs.enhanceInputs",
-                "panel": {
-                    "type": "fluid.prefs.panel.enhanceInputs",
-                    "container": ".uioPlusJS-prefsEditor-enhanceInputs",
-                    "template": "%templatePrefix/PrefsEditorTemplate-enhanceInputs.html",
-                    "message": "%messagePrefix/enhanceInputs.json"
-                }
-            },
-            "lineSpace": {
-                "type": "uioPlus.chrome.prefs.lineSpace",
-                "panel": {
+            }
+        }
+    });
+
+    fluid.defaults("uioPlus.chrome.auxSchema.lineSpace", {
+        gradeNames: ["fluid.prefs.auxSchema"],
+        auxiliarySchema: {
+            "uioPlus.chrome.prefs.lineSpace": {
+                panel: {
                     "type": "uioPlus.chrome.prefs.panel.lineSpace",
                     "container": ".uioPlusJS-prefsEditor-line-space",
                     "message": "%messagePrefix/lineSpace.json",
                     "template": "%templatePrefix/PrefsEditorTemplate-lineSpace.html"
                 }
-            },
-            "selectionHighlight": {
-                "type": "uioPlus.chrome.prefs.highlight",
-                "classes": {
-                    "default": "fl-theme-prefsEditor-default",
-                    "yellow": "uioPlus-selection-preview-yellow",
-                    "green": "uioPlus-selection-preview-green",
-                    "pink": "uioPlus-selection-preview-pink"
-                },
-                "panel": {
+            }
+        }
+    });
+
+    fluid.defaults("uioPlus.chrome.auxSchema.highlight", {
+        gradeNames: ["fluid.prefs.auxSchema"],
+        auxiliarySchema: {
+            "uioPlus.chrome.prefs.highlight": {
+                panel: {
                     "type": "uioPlus.chrome.prefs.panel.highlight",
                     "container": ".uioPlusJS-prefsEditor-selectionHighlight",
-                    "classnameMap": {"theme": "@selectionHighlight.classes"},
+                    "classnameMap": {
+                        "theme": {
+                            "default": "fl-theme-prefsEditor-default",
+                            "yellow": "uioPlus-selection-preview-yellow",
+                            "green": "uioPlus-selection-preview-green",
+                            "pink": "uioPlus-selection-preview-pink"
+                        }
+                    },
                     "template": "%templatePrefix/SelectionHighlightPanelTemplate.html",
                     "message": "%messagePrefix/selectionHighlight.json"
                 }
-            },
-            "selfVoicing": {
-                "type": "fluid.prefs.speak",
-                "panel": {
-                    "type": "fluid.prefs.panel.speak",
-                    "container": ".uioPlusJS-prefsEditor-selfVoicing",
-                    "template": "%templatePrefix/PrefsEditorTemplate-speak.html",
-                    "message": "%messagePrefix/speak.json"
-                }
-            },
-            "simplify": {
-                "type": "uioPlus.chrome.prefs.simplify",
-                "panel": {
+            }
+        }
+    });
+
+    fluid.defaults("uioPlus.chrome.auxSchema.simplify", {
+        gradeNames: ["fluid.prefs.auxSchema"],
+        auxiliarySchema: {
+            "uioPlus.chrome.prefs.simplify": {
+                panel: {
                     "type": "uioPlus.chrome.prefs.panel.simplify",
                     "container": ".uioPlusJS-prefsEditor-simplify",
                     "template": "%templatePrefix/SimplifyPanelTemplate.html",
                     "message": "%messagePrefix/simplify.json"
                 }
-            },
-            "syllabification": {
-                "type": "fluid.prefs.syllabification",
-                "panel": {
-                    "type": "fluid.prefs.panel.syllabification",
-                    "container": ".uioPlusJS-prefsEditor-syllabification",
-                    "template": "%templatePrefix/PrefsEditorTemplate-syllabification.html",
-                    "message": "%messagePrefix/syllabification.json"
-                }
-            },
-            "tableOfContents": {
-                "type": "fluid.prefs.tableOfContents",
-                "panel": {
-                    "type": "fluid.prefs.panel.layoutControls",
-                    "container": ".uioPlusJS-prefsEditor-layout-controls",
-                    "template": "%templatePrefix/PrefsEditorTemplate-layout.html",
-                    "message": "%messagePrefix/tableOfContents.json"
-                }
-            },
-            "textSize": {
-                "type": "uioPlus.chrome.prefs.textSize",
-                "panel": {
+            }
+        }
+    });
+
+    fluid.defaults("uioPlus.chrome.auxSchema.textSize", {
+        gradeNames: ["fluid.prefs.auxSchema"],
+        auxiliarySchema: {
+            "uioPlus.chrome.prefs.textSize": {
+                panel: {
                     "type": "uioPlus.chrome.prefs.panel.textSize",
                     "container": ".uioPlusJS-prefsEditor-text-size",
                     "message": "%messagePrefix/zoom.json",
                     "template": "%templatePrefix/PrefsEditorTemplate-textSize.html"
                 }
-            },
-            "wordSpace": {
-                "type": "uioPlus.chrome.prefs.wordSpace",
-                "panel": {
+            }
+        }
+    });
+
+    fluid.defaults("uioPlus.chrome.auxSchema.wordSpace", {
+        gradeNames: ["fluid.prefs.auxSchema"],
+        auxiliarySchema: {
+            "uioPlus.chrome.prefs.wordSpace": {
+                panel: {
                     "type": "uioPlus.chrome.prefs.panel.wordSpace",
                     "container": ".uioPlusJS-prefsEditor-word-space",
                     "message": "%messagePrefix/wordSpace.json",
@@ -487,6 +464,72 @@
                 "minimum": 0.7,
                 "maximum": 4,
                 "divisibleBy": 0.1
+            }
+        }
+    });
+
+    /****************
+     * Prefs Editor *
+     ****************/
+
+    fluid.defaults("uioPlus.chrome.prefsEditor", {
+        gradeNames: ["fluid.uiOptions"],
+        preferences: [
+            "uioPlus.chrome.prefs.textSize",
+            "fluid.prefs.letterSpace",
+            "uioPlus.chrome.prefs.wordSpace",
+            "uioPlus.chrome.prefs.lineSpace",
+            "fluid.prefs.syllabification",
+            "uioPlus.chrome.prefs.contrast",
+            "uioPlus.chrome.prefs.clickToSelect",
+            "uioPlus.chrome.prefs.highlight",
+            "fluid.prefs.speak",
+            "uioPlus.chrome.prefs.simplify",
+            "fluid.prefs.tableOfContents",
+            "fluid.prefs.enhanceInputs"
+        ],
+        auxiliarySchema: {
+            loaderGrades: ["uioPlus.chrome.prefs.extensionPanel"],
+            terms: {
+                templatePrefix: "../templates/",
+                messagePrefix: "../messages/"
+            },
+            // Remove aliases and enactors from schemas. UIO+ does not apply settings to the adjusters themselves.
+            // In the future if we wish to support that, the overrides will need to be removed.
+            "fluid.prefs.tableOfContents": {
+                alias: null,
+                enactor: null
+            },
+            "fluid.prefs.enhanceInputs": {
+                alias: null,
+                enactor: null
+            },
+            "fluid.prefs.speak": {
+                enactor: null
+            },
+            "fluid.prefs.syllabification": {
+                enactor: null
+            },
+            "fluid.prefs.letterSpace": {
+                enactor: null
+            }
+        },
+        prefsEditor: {
+            gradeNames: ["fluid.prefs.arrowScrolling"],
+            listeners: {
+                "onReady.scrollToPanel": {
+                    listener: "fluid.prefs.arrowScrolling.scrollToPanel",
+                    args: ["{that}", "{that}.model.panelIndex"]
+                }
+            },
+            // TODO: Remove this modelListener after FLUID-6230 is addressed
+            // https://issues.fluidproject.org/browse/FLUID-6230
+            modelListeners: {
+                "panelIndex": {
+                    listener: "fluid.prefs.arrowScrolling.scrollToPanel",
+                    args: ["{that}", "{that}.model.panelIndex"],
+                    includeSource: "scrollEvent"
+                }
             }
         }
     });
