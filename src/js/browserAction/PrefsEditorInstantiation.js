@@ -10,33 +10,9 @@
  * https://github.com/fluid-project/uio-plus/blob/master/LICENSE.txt
  */
 
-/* global fluid */
+/* global uioPlus */
 "use strict";
 
 $("document").ready(function () {
-    fluid.prefs.create("#uioPlusJS-adjusters", {
-        build: {
-            gradeNames: ["uioPlus.chrome.prefs.auxSchema"]
-        },
-        prefsEditor: {
-            prefsEditor: {
-                gradeNames: ["fluid.prefs.arrowScrolling"],
-                listeners: {
-                    "onReady.scrollToPanel": {
-                        listener: "fluid.prefs.arrowScrolling.scrollToPanel",
-                        args: ["{that}", "{that}.model.panelIndex"]
-                    }
-                },
-                // TODO: Remove this modelListener after FLUID-6230 is addressed
-                // https://issues.fluidproject.org/browse/FLUID-6230
-                modelListeners: {
-                    "panelIndex": {
-                        listener: "fluid.prefs.arrowScrolling.scrollToPanel",
-                        args: ["{that}", "{that}.model.panelIndex"],
-                        includeSource: "scrollEvent"
-                    }
-                }
-            }
-        }
-    });
+    uioPlus.chrome.prefsEditor("#uioPlusJS-adjusters");
 });

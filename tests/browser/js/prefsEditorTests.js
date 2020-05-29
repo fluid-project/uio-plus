@@ -747,19 +747,14 @@
         // TODO: Added "integration" tests for the prefs editor using the uioPlus.chrome.prefs.auxSchema schema.
         //       Ensure that adjuster models are updated in both directions, and that the store is triggered.
 
-        fluid.defaults("uioPlus.tests.chrome.prefs.auxSchema", {
-            gradeNames: ["uioPlus.chrome.prefs.auxSchema"],
+        fluid.defaults("uioPlus.tests.chrome.prefsEditor", {
+            gradeNames: ["uioPlus.chrome.prefsEditor"],
             auxiliarySchema: {
-                "namespace": "uioPlus.tests.chrome.prefs.constructed",
                 "terms": {
                     "templatePrefix": "../../../dist/templates/",
                     "messagePrefix": "../../../dist/messages/"
                 }
             }
-        });
-
-        uioPlus.tests.built = fluid.prefs.builder({
-            gradeNames: ["uioPlus.tests.chrome.prefs.auxSchema"]
         });
 
         fluid.defaults("uioPlus.tests.prefsEditorTests", {
@@ -773,7 +768,7 @@
             },
             components: {
                 prefsEditorStack: {
-                    type: uioPlus.tests.built.options.assembledPrefsEditorGrade,
+                    type: "uioPlus.tests.chrome.prefsEditor",
                     container: ".uioPlusJS-prefsEditor",
                     createOnEvent: "{prefsEditorStackTester}.events.onTestCaseStart",
                     options: {
