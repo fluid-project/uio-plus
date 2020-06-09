@@ -11,7 +11,7 @@
  */
 
 /* eslint-env node */
-/* global fluid, uioPlus */
+/* global fluid */
 
 "use strict";
 
@@ -35,14 +35,6 @@ fluid.defaults("uioPlus.chrome.settings", {
     },
     model: {
         settings: "{settings}.options.defaultSettings"
-    },
-    invokers: {
-        // A dedicated invoker instead of declaratively setting up the model change is required to provide a default
-        // value for the `settings` to set. This is useful for resetting the preferences.
-        updateSettings: {
-            funcName: "uioPlus.chrome.settings.updateSettings",
-            args: ["{that}",  "{arguments}.0"]
-        }
     },
     components: {
         domSettingsApplier: {
@@ -68,8 +60,9 @@ fluid.defaults("uioPlus.chrome.settings", {
                     reset: {
                         target: "{that reset}.options.invokers.click",
                         record: {
-                            func: "{settings}.updateSettings",
-                            args: ["{settings}.options.defaultSettings"]
+                            changePath: "{settings}.model.settings",
+                            value: "{settings}.options.defaultSettings",
+                            source: "reset"
                         }
                     }
                 }
@@ -77,10 +70,6 @@ fluid.defaults("uioPlus.chrome.settings", {
         }
     }
 });
-
-uioPlus.chrome.settings.updateSettings = function (that, settings) {
-    that.applier.change("settings", settings || that.options.defaultSettings);
-};
 
 fluid.defaults("uioPlus.chrome.settingsContextPanel", {
     gradeNames: ["uioPlus.chrome.contextMenuPanel"],
