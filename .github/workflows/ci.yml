@@ -29,15 +29,13 @@ jobs:
 
     - name: Get npm cache directory
       id: npm-cache
-      run: |
-        echo "::set-output name=dir::$(npm config get cache)"
+      run: echo "::set-output name=dir::$(npm config get cache)"
 
     - uses: actions/cache@v2
       with:
         path: ${{ steps.npm-cache.outputs.dir }}
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+        restore-keys: ${{ runner.os }}-node-
 
     - name: Install Node.js dependencies
       run: npm install
