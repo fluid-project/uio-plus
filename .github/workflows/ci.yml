@@ -3,39 +3,54 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
-    - name: Install Dependencies
-      run: npm install
-    - name: Lint
-      run: npm run lint
-
-  test:
-
+  tests:
     runs-on: ${{ matrix.os }}
 
+    timeout-minutes: 20
+
     strategy:
-      fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [10.x]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node-version: [12.x, 14.x]
+
+    env:
+      HEADLESS: true
 
     steps:
+    - name: Prepare git
+      run: git config --global core.autocrlf false
+
     - uses: actions/checkout@v2
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install Dependencies
+
+    - name: Get npm cache directory
+      id: npm-cache
+      run: echo "::set-output name=dir::$(npm config get cache)"
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ steps.npm-cache.outputs.dir }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: ${{ runner.os }}-node-
+
+    - name: Install Node.js dependencies
       run: npm install
-    - name: Tests
-      run: npm test
-      timeout-minutes: 10
-      env:
-        HEADLESS: true
+
+    - name: Code linter
+      run: npm run lint
+
+    - name: Build package and setup code coverage reporting
+      run: npm run pretest
+
+    - name: Browser tests
+      run: npm run test:browser
+
+    - name: Node.js tests
+      run: npm run test:node
+
+    - name: Code coverage
+      run: npm run posttest
