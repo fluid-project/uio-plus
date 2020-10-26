@@ -43,6 +43,9 @@ jobs:
     - name: Code linter
       run: npm run lint
 
+    - name: Build package and setup code coverage reporting
+      run: npm run pretest
+
     - name: Browser tests
       run: npm run test:browser
 
