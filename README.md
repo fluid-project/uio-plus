@@ -27,7 +27,7 @@ R&D Center at University of Maryland under funding for the FLOE Project from the
 and the National Institute on Disability, Independent Living, and Rehabilitation Research (NIDILRR), Administration for
 Community Living under grant #90RE5027.
 
-[![Chrome Webstore](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)
+[![Available in the Chrome Web Store](./chrome_web_store.png)](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)
 
 ## Contributing
 
