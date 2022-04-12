@@ -15,10 +15,10 @@ var fluid = require("infusion");
 fluid.setLogging(true);
 
 fluid.require("%uio-plus");
-require("gpii-testem");
+require("fluid-testem");
 
 fluid.defaults("fluid.tests.testem", {
-    gradeNames: ["gpii.testem.instrumentation"],
+    gradeNames: ["fluid.testem.instrumentation"],
     coverageDir: "%uio-plus/coverage",
     reportsDir: "%uio-plus/reports",
     testPages:  ["tests/browser/all-tests.html"],
