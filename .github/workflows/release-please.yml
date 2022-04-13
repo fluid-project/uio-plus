@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - main
+name: release-please
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          package-name: uio-plus
+          pull-request-title-pattern: "chore(release): release${component} ${version}"
+          bump-minor-pre-major: true
+          bump-patch-for-minor-pre-major: true
