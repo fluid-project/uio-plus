@@ -1,0 +1,48 @@
+/* Selection Highlight */
+
+.uioPlus-selection-yellow {
+    --uioPlus-selection-fgColor: #000;
+    --uioPlus-selection-bgColor: #eeee1a;
+    --uioPlus-selection-linkColor: #203bd6;
+}
+
+.uioPlus-selection-green {
+    --uioPlus-selection-fgColor: #000;
+    --uioPlus-selection-bgColor: #318712;
+    --uioPlus-selection-linkColor: #fff;
+}
+
+.uioPlus-selection-pink {
+    --uioPlus-selection-fgColor: #000;
+    --uioPlus-selection-bgColor: #de00a2;
+    --uioPlus-selection-linkColor: #fff;
+}
+
+[class*="uioPlus-selection-"]::selection,
+[class*="uioPlus-selection-"] *::selection,
+[class*="fl-theme"][class*="uioPlus-selection-"]::selection,
+[class*="fl-theme"][class*="uioPlus-selection-"] *::selection {
+    background-color: var(--uioPlus-selection-bgColor) !important;
+    color: var(--uioPlus-selection-fgColor) !important;
+}
+
+a[class*="uioPlus-selection-"]::selection,
+a[class*="uioPlus-selection-"] *::selection,
+[class*="uioPlus-selection-"] a::selection,
+[class*="uioPlus-selection-"] a *::selection,
+[class*="fl-theme"] a[class*="uioPlus-selection-"]::selection,
+[class*="fl-theme"] a[class*="uioPlus-selection-"] *::selection,
+[class*="fl-theme"][class*="uioPlus-selection-"] a::selection,
+[class*="fl-theme"][class*="uioPlus-selection-"] a *::selection {
+    color: var(--uioPlus-selection-linkColor) !important;
+}
+
+/* Table of Contents */
+
+.uioPlus-toc-tocContainer {
+    background-color: #fff;
+    border: solid 1px #000;
+    color: #000;
+    font-size: 1rem;
+    padding: 1rem;
+}

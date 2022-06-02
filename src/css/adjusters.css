@@ -1,0 +1,37 @@
+body {
+    font-size: 1rem;
+    min-height: 183px;
+    width: 500px;
+}
+
+.fl-toc-tocContainer {
+    display: none;
+}
+
+/* theme selection styles */
+.fl-choice label[class*="fl-theme"] {
+    background-color: var(--fl-bgColor) !important;
+    border-color: var(--fl-fgColor) !important;
+    color: var(--fl-fgColor) !important;
+}
+
+.fl-choice label[class*="uioPlus-selection-preview"] {
+    background-color: var(--uioPlus-selection-bgColor) !important;
+    border-color: var(--uioPlus-selection-fgColor) !important;
+    color: var(--uioPlus-selection-fgColor) !important;
+}
+
+.uioPlus-selection-preview-yellow {
+    --uioPlus-selection-fgColor: #000;
+    --uioPlus-selection-bgColor: #eeee1a;
+}
+
+.uioPlus-selection-preview-green {
+    --uioPlus-selection-fgColor: #000;
+    --uioPlus-selection-bgColor: #318712;
+}
+
+.uioPlus-selection-preview-pink {
+    --uioPlus-selection-fgColor: #000;
+    --uioPlus-selection-bgColor: #de00a2;
+}

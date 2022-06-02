@@ -13,7 +13,8 @@
 /* global require */
 "use strict";
 
-require("./zoomTests.js");
-require("./domSettingsApplierTests.js");
-require("./chromeEventedTests.js");
-require("./contextMenuPanelTests.js");
+require("./backgroundTests.js");
+// require("./zoomTests.js");
+// require("./domSettingsApplierTests.js");
+// require("./chromeEventedTests.js");
+// require("./contextMenuPanelTests.js");

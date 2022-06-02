@@ -31,14 +31,10 @@ confident in our ability to avoid regressions. Please view the Documentation for
 ### Linting
 
 JavaScript is a highly dynamic and loose language, and many common errors are not picked up until run time. In order to
-avoid errors and common pitfalls in the language, all code should be regularly checked using the provided Grunt lint
-task. You may also wish to setup linting in your IDE.
+avoid errors and common pitfalls in the language, all code should be regularly checked using the provided lint task. You
+may also wish to setup linting in your IDE.
 
 ```bash
-# Runs UIO+'s linting tasks
-grunt lint
-
-# or using npm
 npm run lint
 ```
 
@@ -75,9 +71,9 @@ Infusion components may be prefixed with `flc-`
    1. Ensure that all of the code, that should be published, has been merged into the main branch.
    2. Ensure that the code in main is working as expected.
       1. Run tests: `npm test`
-      2. Lint: `grunt lint`
+      2. Lint: `npm run lint`
       3. Manual test build.
-         1. Create a developer build: "grunt buildDev"
+         1. Create a developer build: "npm run dev"
          2. Load unpacked extension into Chrome.
             1. In Chrome, go to [chrome://extensions](chrome://extensions)
             2. Ensure that "Developer mode" is enabled.
@@ -91,7 +87,7 @@ Infusion components may be prefixed with `flc-`
             3. Multiple web pages should be tested. However, not all preferences will work with all sites.
    3. Increase the "version" number in the [manifest](./src/manifest.json#L5) file, and push changes to main.
 2. Create the release package.
-   1. Create a release build: `grunt build`
+   1. Create a release build: `npm run build`
       1. If making a beta, open the manifest file, located in the newly created dist directory, and add a
       [version name](https://developer.chrome.com/apps/manifest/version#version_name) with the beta release number (e.g.
       “version_name”:  “0.1.0 beta 10” ). The version name will be displayed instead of the version number in the Chrome

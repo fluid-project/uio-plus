@@ -93,11 +93,11 @@ fluid.defaults("uioPlus.tests.contentScriptInjectorTester", {
 });
 
 uioPlus.tests.contentScriptInjectorTester.setup = function () {
-    chrome.tabs.executeScript.callsArg(2);
+    chrome.scripting.executeScript.callsArg(2);
 };
 
 uioPlus.tests.contentScriptInjectorTester.tearDown = function () {
-    chrome.tabs.executeScript.flush();
+    chrome.scripting.executeScript.flush();
 };
 
 uioPlus.tests.contentScriptInjectorTester.triggerRuntimeMessage = function (req, sender, sendResponse) {
@@ -105,8 +105,8 @@ uioPlus.tests.contentScriptInjectorTester.triggerRuntimeMessage = function (req,
 };
 
 uioPlus.tests.contentScriptInjectorTester.assertExecuteScriptCall = function (callNum, expectedTabID, expectedMessage) {
-    var result = chrome.tabs.executeScript.getCall(callNum).calledWith(expectedTabID, expectedMessage);
-    jqUnit.assertTrue("Call index #" + callNum + " of chrome.tabs.executeScript should have been called with the correct message", result);
+    var result = chrome.scripting.executeScript.getCall(callNum).calledWith(expectedTabID, expectedMessage);
+    jqUnit.assertTrue("Call index #" + callNum + " of chrome.scripting.executeScript should have been called with the correct message", result);
 };
 
 /*********************************************************************************************************

@@ -6,7 +6,7 @@ This is the list of UIO+ copyright holders. It does not list all individual cont
 copyright to an institution, only made minor changes, or their contributions no longer appear in the codebase.
 Please see the version control system's revision history for details on contributions.
 
-Copyright 2016-2020
+Copyright 2016-2022
 
 * OCAD University
 * Raising the Floor - International

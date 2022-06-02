@@ -22,11 +22,10 @@ fluid.defaults("fluid.tests.testem", {
     coverageDir: "%uio-plus/coverage",
     reportsDir: "%uio-plus/reports",
     testPages:  ["tests/browser/all-tests.html"],
-    instrumentedSourceDir: "%uio-plus/instrumented",
     instrumentationOptions: {
         nonSources: [
             "./**/*.!(js)",
-            "./Gruntfile.js"
+            "./webpack.mix.js"
         ]
     },
     sourceDirs: {

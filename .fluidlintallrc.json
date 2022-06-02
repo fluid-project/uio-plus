@@ -1,0 +1,28 @@
+{
+    "sources": {
+        "js": [
+            "./*.js",
+            "./src/**/*.js",
+            "./tests/**/*.js"
+        ],
+        "json": [
+            "./*.json",
+            "./src/**/*.json",
+            "./tests/**/*.json"
+        ],
+        "md": [
+            "./*.md"
+        ],
+        "css": [
+            "./src/**/*.css"
+        ]
+    },
+    "json5lint": {
+        "enabled": false
+    },
+    "lintspaces": {
+        "newlines": {
+            "excludes": []
+        }
+    }
+}
