@@ -37,12 +37,6 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details about our contributi
 
 ### Dependencies
 
-Install [grunt-cli](https://gruntjs.com) globally:
-
-```bash
-npm install -g grunt-cli
-```
-
 Install required dependencies:
 
 ```bash
