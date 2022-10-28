@@ -41,6 +41,7 @@
             "js/schemas.js",
             "js/store.js",
             "js/contentView.js",
+            "js/panels.js",
             "js/enactors.js",
             "js/enhancer.js"
         ]

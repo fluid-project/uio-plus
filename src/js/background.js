@@ -91,7 +91,18 @@ uioPlus.messageHandlers = {
 
 // Functions
 
+/**
+ * A recursive function for creating checkbox menu items.
+ *
+ * @param {Object} menuItems - menu items structure. See `uioPlus.contextMenuItems` for an example.
+ * @param  {Number} parentId - the parent menu item id.
+ * @param  {Object} storage - the currently saved preferences.
+ */
 uioPlus.createMenuItems = async (menuItems, parentId, storage) => {
+    if (!menuItems) {
+        return undefined;
+    }
+
     storage ??= await chrome.storage.local.get("preferences");
 
     Object.entries(menuItems).forEach(([id, props]) => {
@@ -110,22 +121,14 @@ uioPlus.createMenuItems = async (menuItems, parentId, storage) => {
     });
 };
 
-uioPlus.storePref = async (prefName, state) => {
-    let {preferences = {}} = await chrome.storage.local.get("preferences");
-    state ? preferences[prefName] = state : delete preferences[prefName];
-    return chrome.storage.local.set({"preferences": preferences});
-};
-
-uioPlus.storeZoom = async (zoom) => {
-    let {preferences = {}} = await chrome.storage.local.get("preferences");
-    if ((preferences.uioPlus_prefs_zoom || 1) !== zoom) {
-        preferences.uioPlus_prefs_zoom = zoom;
-        return chrome.storage.local.set({"preferences": preferences});
-    }
-};
-
-uioPlus.updateQuickPanelState = (changes) => {
-    Object.keys(uioPlus.contextMenuItems.preferences.children).forEach(prefName => {
+/**
+ * Update checkbox states based on values updated into the local storage.
+ *
+ * @param {Object} menuItems - the changed preferences.
+ * @param {Object} menuItems - menu items structure. See `uioPlus.contextMenuItems` for an example.
+ */
+uioPlus.updateQuickPanelState = (menuItems, changes) => {
+    Object.keys(menuItems.preferences.children).forEach(prefName => {
         if (changes.preferences.newValue?.[prefName] !== changes.preferences.oldValue?.[prefName]) {
             chrome.contextMenus.update(prefName, {
                 checked: !!changes.preferences.newValue?.[prefName]
@@ -134,12 +137,52 @@ uioPlus.updateQuickPanelState = (changes) => {
     });
 };
 
+/**
+ * Save preferences whose values are boolean.
+ * If the previously saved preference value is false, remove it from the saved preferences object. Otherwise, save it.
+ *
+ * @param {String} prefName - a preference name.
+ * @param  {Boolean} arrays - the arrays to filter `toFilter` with.
+ * @return {Promise} - the result of saving the preference.
+ */
+uioPlus.storePref = async (prefName, state) => {
+    console.log("in storePref");
+    let {preferences = {}} = await chrome.storage.local.get("preferences");
+    state ? preferences[prefName] = state : delete preferences[prefName];
+    return chrome.storage.local.set({"preferences": preferences});
+};
+
+/**
+ * Save the zoom preference.
+ *
+ * @param {Number} zoom - the zoom value.
+ * @return {Promise} - the result of saving the preference.
+ */
+uioPlus.storeZoom = async (zoom) => {
+    if (!zoom) {
+        return undefined;
+    }
+
+    let {preferences = {}} = await chrome.storage.local.get("preferences");
+    if ((preferences.uioPlus_prefs_zoom || 1) !== zoom) {
+        preferences.uioPlus_prefs_zoom = zoom;
+        return chrome.storage.local.set({"preferences": preferences});
+    }
+};
+
+/**
+ * Apply zoom to a tab when the zoom value is changed.
+ *
+ * @param {Number} zoom - the zoom value.
+ * @param {Number} tabId - the tab id.
+ * @return {Promise} - the result of the applying action.
+ */
 uioPlus.applyZoom = async (zoom, tabId) => {
     zoom = zoom || 1;
     let currentZoom = await chrome.tabs.getZoom(tabId);
 
     if (currentZoom !== zoom) {
-        chrome.tabs.setZoom(tabId, zoom);
+        return chrome.tabs.setZoom(tabId, zoom);
     }
 };
 
@@ -152,7 +195,7 @@ chrome.contextMenus.onClicked.addListener((onClickData) => {
 chrome.storage.onChanged.addListener(
     (changes, areaName) => {
         if (areaName === "local" && changes.preferences) {
-            uioPlus.updateQuickPanelState(changes);
+            uioPlus.updateQuickPanelState(uioPlus.contextMenuItems, changes);
 
             uioPlus.applyZoom(changes.preferences.newValue?.uioPlus_prefs_zoom);
         }
@@ -184,4 +227,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // Quick Panel Init
-uioPlus.createMenuItems(uioPlus.contextMenuItems);
+let menu;
+// Create the menu only once
+if (!menu) {
+    menu = uioPlus.createMenuItems(uioPlus.contextMenuItems);
+}
+
+// For tests only as jest and jest-chrome only works with node.js module scripts
+if (typeof exports !== 'undefined') {
+    exports.createMenuItems = uioPlus.createMenuItems;
+    exports.storePref = uioPlus.storePref;
+    exports.storeZoom = uioPlus.storeZoom;
+    exports.applyZoom = uioPlus.applyZoom;
+    exports.updateQuickPanelState = uioPlus.updateQuickPanelState;
+}

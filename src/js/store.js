@@ -15,8 +15,7 @@
 "use strict";
 
 fluid.defaults("uioPlus.prefs.store", {
-    gradeNames: ["fluid.dataSource", "fluid.modelComponent"],
-    writableGrade: "uioPlus.prefs.store.writable",
+    gradeNames: ["fluid.dataSource", "fluid.dataSource.writable", "fluid.modelComponent"],
     components: {
         encoding: {
             type: "fluid.dataSource.encoding.model"
@@ -29,11 +28,17 @@ fluid.defaults("uioPlus.prefs.store", {
         "onRead.impl": {
             listener: "uioPlus.prefs.store.getFromStorage",
             args: ["{arguments}.1"]
+        },
+        "onWrite.impl": {
+            listener: "uioPlus.prefs.store.writeToStorage"
         }
     },
     invokers: {
         get: {
             args: ["{that}", "{arguments}.0", "{that}.options.storage"]
+        },
+        set: {
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{that}.options.storage"] // directModel, model, options/callback
         }
     }
 });
@@ -44,20 +49,6 @@ uioPlus.prefs.store.getFromStorage = function (options) {
 
     return chrome.storage[storageArea].get(key);
 };
-
-fluid.defaults("uioPlus.prefs.store.writable", {
-    gradeNames: ["fluid.dataSource.writable", "fluid.modelComponent"],
-    listeners: {
-        "onWrite.impl": {
-            listener: "uioPlus.prefs.store.writeToStorage"
-        }
-    },
-    invokers: {
-        set: {
-            args: ["{that}", "{arguments}.0", "{arguments}.1", "{that}.options.storage"] // directModel, model, options/callback
-        }
-    }
-});
 
 uioPlus.prefs.store.writeToStorage = async function (payload, options) {
     payload.preferences ??= {}; // for the case of an empty payload to ensure old preferences are removed
