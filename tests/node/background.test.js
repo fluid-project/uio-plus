@@ -462,3 +462,300 @@ describe("Test updateQuickPanelState()", () => {
         });
     });
 });
+
+describe("Test chrome.contextMenus.onClicked listener", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+
+        // Make sure chrome.storage.local.get() returns an object as per its spec
+        chrome.storage.local.get.mockImplementation(() => {
+            return {};
+        });
+    });
+
+    const listeners = chrome.contextMenus.onClicked.getListeners();
+    const listener = Array.from(listeners)[0];
+
+    test("Test reset listener", async () => {
+        // There is one and only one listener is defined
+        expect(listeners.size).toBe(1);
+        // Trigger listener to simulate a click on the "reset" menu item
+        await listener({menuItemId: "reset"});
+        expect(chrome.storage.local.clear.mock.calls.length).toBe(1);
+    });
+
+    const testCases = [
+        {
+            menuItemId: "fluid_prefs_syllabification",
+            checked: true
+        },
+        {
+            menuItemId: "uioPlus_prefs_clickToSelect",
+            checked: true
+        },
+        {
+            menuItemId: "fluid_prefs_speak",
+            checked: true
+        },
+        {
+            menuItemId: "uioPlus_prefs_simplify",
+            checked: true
+        },
+        {
+            menuItemId: "fluid_prefs_tableOfContents",
+            checked: true
+        },
+        {
+            menuItemId: "fluid_prefs_enhanceInputs",
+            checked: true
+        }
+    ];
+
+    testCases.forEach((oneClickData) => {
+        test("Test " + oneClickData.menuItemId + " listener", async () => {
+            // Trigger listener to simulate a click on a corresponding menu item
+            await listener(oneClickData);
+            expect(chrome.storage.local.get.mock.calls.length).toBe(1);
+            expect(chrome.storage.local.set.mock.calls.length).toBe(1);
+        });
+    });
+});
+
+describe("Test chrome.storage.onChanged listener", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    const listeners = chrome.storage.onChanged.getListeners();
+    const listener = Array.from(listeners)[0];
+
+    test("Test the number of listeners", () => {
+        expect(listeners.size).toBe(1);
+    });
+
+    const testCases = [
+        {
+            message: "Reach all actions",
+            areaName: "local",
+            changes: {
+                preferences: {
+                    oldValue: {
+                        uioPlus_prefs_clickToSelect: false
+                    },
+                    newValue: {
+                        uioPlus_prefs_clickToSelect: true,
+                        uioPlus_prefs_zoom: 2
+                    }
+                }
+            },
+            expected: {
+                numOfUpdatePanelCalls: 1,
+                numOfGetZoomCalls: 1
+            }
+        },
+        {
+            message: "No updates when the area name is not 'local'",
+            areaName: "remote",
+            expected: {
+                numOfUpdatePanelCalls: 0,
+                numOfGetZoomCalls: 0
+            }
+        },
+        {
+            message: "Only update zoom when zoom is changed and other preference values are not changed",
+            areaName: "local",
+            changes: {
+                preferences: {
+                    newValue: {
+                        uioPlus_prefs_zoom: 1
+                    }
+                }
+            },
+            expected: {
+                numOfUpdatePanelCalls: 0,
+                numOfGetZoomCalls: 1
+            }
+        },
+        {
+            message: "No actions when no changes",
+            areaName: "local",
+            changes: {},
+            expected: {
+                numOfUpdatePanelCalls: 0,
+                numOfGetZoomCalls: 0
+            }
+        }
+    ];
+
+    testCases.forEach((oneCase) => {
+        test(oneCase.message, async () => {
+            await listener(oneCase.changes, oneCase.areaName);
+            expect(chrome.contextMenus.update.mock.calls.length).toBe(oneCase.expected.numOfUpdatePanelCalls);
+            expect(chrome.tabs.getZoom.mock.calls.length).toBe(oneCase.expected.numOfGetZoomCalls);
+        });
+    });
+});
+
+describe("Test chrome.tabs.onActivated listener", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    const listeners = chrome.tabs.onActivated.getListeners();
+    const listener = Array.from(listeners)[0];
+
+    test("Test the number of listeners", () => {
+        expect(listeners.size).toBe(1);
+    });
+
+    const activeInfo = {tabId: 0};
+    const testCases = [
+        {
+            message: "Apply zoom preference when a tab is activated",
+            getPrefsResponse: {
+                preferences: {
+                    uioPlus_prefs_zoom: 2
+                }
+            },
+            expected: {
+                numOfGetPrefsCalls: 1,
+                numOfGetZoomCalls: 1
+            }
+        },
+        {
+            message: "Don't apply zoom value when there is not a saved zoom preference",
+            getPrefsResponse: {},
+            expected: {
+                numOfGetPrefsCalls: 1,
+                numOfGetZoomCalls: 0
+            }
+        }
+    ];
+
+    testCases.forEach((oneCase) => {
+        test(oneCase.message, async () => {
+            chrome.storage.local.get.mockImplementation(() => {
+                return oneCase.getPrefsResponse;
+            });
+
+            await listener(activeInfo);
+            expect(chrome.storage.local.get.mock.calls.length).toBe(oneCase.expected.numOfGetPrefsCalls);
+            expect(chrome.tabs.getZoom.mock.calls.length).toBe(oneCase.expected.numOfGetZoomCalls);
+            if (oneCase.expected.numOfGetZoomCalls > 0) {
+                expect(chrome.tabs.getZoom.mock.calls[0][0]).toBe(activeInfo.tabId);
+            }
+        });
+    });
+});
+
+describe("Test chrome.tabs.onZoomChange listener", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+
+        chrome.storage.local.get.mockImplementation(() => {
+            return {};
+        });
+    });
+
+    const listeners = chrome.tabs.onZoomChange.getListeners();
+    const listener = Array.from(listeners)[0];
+
+    test("Test the number of listeners", () => {
+        expect(listeners.size).toBe(1);
+    });
+
+    const activeInfo = {tabId: 0};
+    const testCases = [
+        {
+            message: "Store new zoom value when it's changed",
+            zoomChangeInfo: {
+                oldZoomFactor: 1,
+                newZoomFactor: 2
+            },
+            expected: {
+                numOfGetPrefsCalls: 1
+            }
+        },
+        {
+            message: "Don't store zoom value when there is not a change",
+            zoomChangeInfo: {
+                oldZoomFactor: 1,
+                newZoomFactor: 1
+            },
+            expected: {
+                numOfGetPrefsCalls: 0
+            }
+        }
+    ];
+
+    testCases.forEach((oneCase) => {
+        test(oneCase.message, async () => {
+            await listener(oneCase.zoomChangeInfo);
+            expect(chrome.storage.local.get.mock.calls.length).toBe(oneCase.expected.numOfGetPrefsCalls);
+        });
+    });
+});
+
+describe("Test chrome.runtime.onMessage listener", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        global.chrome.scripting.executeScript.mockImplementation(() => Promise.resolve());
+    });
+
+    const listeners = chrome.runtime.onMessage.getListeners();
+    const listener = Array.from(listeners)[0];
+
+    test("Test the number of listeners", () => {
+        expect(listeners.size).toBe(1);
+    });
+
+    const testCases = [
+        {
+            message: "Request content script injection",
+            input: {
+                message: {
+                    type: "uioPlus.requestContentScriptInjection",
+                    src: "contentScript.js"
+                },
+                sender: {
+                    tab: {
+                        id: 1
+                    }
+                }
+            },
+            expected: {
+                numOfExecScriptCalls: 1
+            }
+        },
+        {
+            message: "Listener doesn't execute when the incoming message type is unknown",
+            input: {
+                message: {
+                    type: "unknown",
+                    src: "contentScript.js"
+                },
+                sender: {
+                    tab: {
+                        id: 1
+                    }
+
+                }
+            },
+            expected: {
+                numOfExecScriptCalls: 0
+            }
+        }
+    ];
+
+    testCases.forEach((oneCase) => {
+        test(oneCase.message, async () => {
+            await listener(oneCase.input.message, oneCase.input.sender, {});
+            expect(chrome.scripting.executeScript.mock.calls.length).toBe(oneCase.expected.numOfExecScriptCalls);
+            if (oneCase.expected.numOfExecScriptCalls > 0) {
+                expect(chrome.scripting.executeScript.mock.calls[0][0]).toEqual({
+                    target: { tabId: oneCase.input.sender.tab.id, allFrames: true }, files: oneCase.input.message.src }
+                );
+            }
+        });
+    });
+});

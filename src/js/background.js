@@ -146,7 +146,6 @@ uioPlus.updateQuickPanelState = (menuItems, changes) => {
  * @return {Promise} - the result of saving the preference.
  */
 uioPlus.storePref = async (prefName, state) => {
-    console.log("in storePref");
     let {preferences = {}} = await chrome.storage.local.get("preferences");
     state ? preferences[prefName] = state : delete preferences[prefName];
     return chrome.storage.local.set({"preferences": preferences});
@@ -180,7 +179,6 @@ uioPlus.storeZoom = async (zoom) => {
 uioPlus.applyZoom = async (zoom, tabId) => {
     zoom = zoom || 1;
     let currentZoom = await chrome.tabs.getZoom(tabId);
-
     if (currentZoom !== zoom) {
         return chrome.tabs.setZoom(tabId, zoom);
     }
@@ -188,12 +186,12 @@ uioPlus.applyZoom = async (zoom, tabId) => {
 
 // Listeners
 
-chrome.contextMenus.onClicked.addListener((onClickData) => {
+chrome.contextMenus.onClicked.addListener(async (onClickData) => {
     uioPlus.contextMenuHandlers[onClickData.menuItemId]?.(onClickData);
 });
 
 chrome.storage.onChanged.addListener(
-    (changes, areaName) => {
+    async (changes, areaName) => {
         if (areaName === "local" && changes.preferences) {
             uioPlus.updateQuickPanelState(uioPlus.contextMenuItems, changes);
 
@@ -205,12 +203,14 @@ chrome.storage.onChanged.addListener(
 chrome.tabs.onActivated.addListener(
     async (activeInfo) => {
         let {preferences = {}} = await chrome.storage.local.get("preferences");
-        uioPlus.applyZoom(preferences.uioPlus_prefs_zoom, activeInfo.tabId);
+        if (preferences.uioPlus_prefs_zoom) {
+            uioPlus.applyZoom(preferences.uioPlus_prefs_zoom, activeInfo.tabId);
+        }
     }
 );
 
 chrome.tabs.onZoomChange.addListener(
-    (zoomChangeInfo) => {
+    async (zoomChangeInfo) => {
         // Only handle the onZoomChange event if the Zoom factor is actually different.
         // This is necessary because Chrome will fire its onZoomChange event when a new tab or window is opened;
         // with equivalent old and new zoom factors.
@@ -221,8 +221,10 @@ chrome.tabs.onZoomChange.addListener(
 );
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    let result = uioPlus.messageHandlers[message.type]?.(message, sender);
-    result.then(sendResponse);
+    if (uioPlus.messageHandlers[message.type]) {
+        let result = uioPlus.messageHandlers[message.type](message, sender);
+        result.then(sendResponse);
+    }
     return true;
 });
 
