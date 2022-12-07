@@ -30,7 +30,8 @@ fluid.defaults("uioPlus.prefsEditor.panelIndex", {
     }
 });
 
-fluid.uiOptions(".uioPlus", {
+fluid.defaults("uioPlus.prefsEditor", {
+    gradeNames: ["fluid.uiOptions"],
     preferences: [
         "uioPlus.prefs.zoom",
         "fluid.prefs.letterSpace",
@@ -48,13 +49,6 @@ fluid.uiOptions(".uioPlus", {
     storeType: "uioPlus.prefs.store",
     auxiliarySchema: {
         loaderGrades: ["fluid.prefs.fullNoPreview"],
-        terms: {
-            // adjust paths
-            templatePrefix: "../lib/infusion/src/framework/preferences/html",
-            messagePrefix: "../lib/infusion/src/framework/preferences/messages",
-            localTemplatePrefix: "../templates",
-            localMessagePrefix: "../messages"
-        },
         // Remove aliases and enactors from schemas. UIO+ does not apply settings to the adjusters themselves.
         // In the future if we wish to support that, the overrides will need to be removed.
         "fluid.prefs.tableOfContents": {

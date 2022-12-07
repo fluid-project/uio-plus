@@ -11,22 +11,40 @@
  */
 
 /* eslint-env node */
-/* global require */
+/* global Promise */
 
-const { chrome } = require("jest-chrome");
+"use strict";
+
+const fluid = require("infusion");
+const jqUnit = fluid.require("node-jqunit", require, "jqUnit"); // eslint-disable-line no-unused-vars
+const sinon = require("sinon");
+const chrome = require("sinon-chrome");
+
+chrome.scripting = {
+    executeScript: sinon.stub()
+};
+
 const uioPlus = require("../../src/js/background.js");
 
-describe("Test createMenuItems()", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
+const initStorageGetFunc = function () {
+    // Make sure chrome.storage.local.get() returns an object as per its spec
+    chrome.storage.local.get.callsFake(() => {
+        return {preferences: {}};
     });
+};
 
-    test("Return undefined when menu items to be created are not provided", async () => {
-        const menu = await uioPlus.createMenuItems();
-        expect(menu).toBe(undefined);
-    });
+jqUnit.test("Test createMenuItems()", async () => {
+    // Reset chrome API behaviour and history as sinon stubs
+    chrome.storage.local.get.reset();
+    chrome.contextMenus.create.reset();
 
-    const menuItems = {
+    // 1. Menu is not created when the argument is not provided
+    let menu = await uioPlus.createMenuItems();
+    jqUnit.assertUndefined("Return undefined when menu items to be created are not provided", menu);
+    jqUnit.assertEquals("chrome.storage.local.get is not called", 0, chrome.storage.local.get.callCount);
+
+    // 2. Menu is created when the argument is provided
+    let menuItems = {
         preferences: {
             title: "Preferences Quick Panel",
             children: {
@@ -40,95 +58,90 @@ describe("Test createMenuItems()", () => {
             title: "Reset"
         }
     };
-
-    test("Menu is created when menu items are provided", async () => {
-        const expected = [
-            [
-                {
-                    id: "preferences",
-                    title: "Preferences Quick Panel",
-                    type: "normal",
-                    parentId: undefined,
-                    contexts: ["action"],
-                    checked: false
-                }
-            ], [
-                {
-                    id: "reset",
-                    title: "Reset",
-                    type: "normal",
-                    parentId: undefined,
-                    contexts: ["action"],
-                    checked: false
-                }
-            ], [
-                {
-                    id: "fluid_prefs_syllabification",
-                    title: "Syllables",
-                    type: "checkbox",
-                    parentId: "preferences",
-                    contexts: ["action"],
-                    checked: false
-                }
-            ]
-        ];
-
-        const menu = await uioPlus.createMenuItems(menuItems);
-        expect(chrome.storage.local.get.mock.calls.length).toBe(2);
-        expect(chrome.contextMenus.create.mock.calls).toEqual(expected);
-    });
-
-    test("Status of menu items are set properly according to saved preferences", async () => {
-        // Implement a mock response for chrome.storage.local.get()
-        chrome.storage.local.get.mockImplementation(() => {
-            return {
-                preferences: {
-                    "fluid_prefs_syllabification": true
-                }
+    let expected = [
+        [
+            {
+                id: "preferences",
+                title: "Preferences Quick Panel",
+                type: "normal",
+                parentId: undefined,
+                contexts: ["action"],
+                checked: false
             }
-        });
+        ], [
+            {
+                id: "reset",
+                title: "Reset",
+                type: "normal",
+                parentId: undefined,
+                contexts: ["action"],
+                checked: false
+            }
+        ], [
+            {
+                id: "fluid_prefs_syllabification",
+                title: "Syllables",
+                type: "checkbox",
+                parentId: "preferences",
+                contexts: ["action"],
+                checked: false
+            }
+        ]
+    ];
 
-        const expected = [
-            [
-                {
-                    id: "preferences",
-                    title: "Preferences Quick Panel",
-                    type: "normal",
-                    parentId: undefined,
-                    contexts: ["action"],
-                    checked: false
-                }
-            ], [
-                {
-                    id: "fluid_prefs_syllabification",
-                    title: "Syllables",
-                    type: "checkbox",
-                    parentId: "preferences",
-                    contexts: ["action"],
-                    checked: true
-                }
-            ], [
-                {
-                    id: "reset",
-                    title: "Reset",
-                    type: "normal",
-                    parentId: undefined,
-                    contexts: ["action"],
-                    checked: false
-                }
-            ]
-        ];
+    menu = await uioPlus.createMenuItems(menuItems);
+    jqUnit.assertEquals("chrome.storage.local.get is called", 2, chrome.storage.local.get.callCount);
+    jqUnit.assertDeepEq("chrome.contextMenus.create() is called with the expected argument", expected, chrome.contextMenus.create.args);
 
-        const menu = await uioPlus.createMenuItems(menuItems);
-        expect(chrome.contextMenus.create.mock.calls).toEqual(expected);
+    // 3. Menu reflects preferences changes saved in the storage
+    chrome.storage.local.get.reset();
+    chrome.contextMenus.create.reset();
+
+    chrome.storage.local.get.callsFake(() => {
+        return {
+            preferences: {
+                "fluid_prefs_syllabification": true
+            }
+        };
     });
+
+    expected = [
+        [
+            {
+                id: "preferences",
+                title: "Preferences Quick Panel",
+                type: "normal",
+                parentId: undefined,
+                contexts: ["action"],
+                checked: false
+            }
+        ], [
+            {
+                id: "fluid_prefs_syllabification",
+                title: "Syllables",
+                type: "checkbox",
+                parentId: "preferences",
+                contexts: ["action"],
+                checked: true
+            }
+        ], [
+            {
+                id: "reset",
+                title: "Reset",
+                type: "normal",
+                parentId: undefined,
+                contexts: ["action"],
+                checked: false
+            }
+        ]
+    ];
+
+    menu = await uioPlus.createMenuItems(menuItems);
+    jqUnit.assertEquals("chrome.storage.local.get is called", 1, chrome.storage.local.get.callCount);
+    jqUnit.assertDeepEq("chrome.contextMenus.create() is called with the expected argument", expected, chrome.contextMenus.create.args);
 });
 
-describe("Test storePref()", () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
+jqUnit.test("Test storePref()", async () => {
     const testCases = [
         {
             message: "The preference with the false value is removed if it was already a part of the saved preferences",
@@ -189,25 +202,21 @@ describe("Test storePref()", () => {
         }
     ];
 
-    testCases.forEach((oneTestCase) => {
-        test(oneTestCase.message, async () => {
-            chrome.storage.local.get.mockImplementation(() => {
-                return {
-                    preferences: oneTestCase.input.getResponse
-                };
-            });
-
-            await uioPlus.storePref(oneTestCase.input.prefName, oneTestCase.input.state);
-            expect(chrome.storage.local.set.mock.calls[0][0]).toEqual(oneTestCase.expected);
+    for (const oneTestCase of testCases) {
+        chrome.storage.local.get.callsFake(() => {
+            return {
+                preferences: oneTestCase.input.getResponse
+            };
         });
-    });
+
+        await uioPlus.storePref(oneTestCase.input.prefName, oneTestCase.input.state);
+        jqUnit.assertDeepEq(oneTestCase.message, oneTestCase.expected, chrome.storage.local.set.args[0][0]);
+        chrome.storage.local.get.reset();
+        chrome.storage.local.set.reset();
+    }
 });
 
-describe("Test storeZoom()", () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
+jqUnit.test("Test storeZoom()", async () => {
     const testCases = [
         {
             message: "The zoom value null is not saved",
@@ -289,28 +298,23 @@ describe("Test storeZoom()", () => {
         }
     ];
 
-    testCases.forEach((oneTestCase) => {
-        test(oneTestCase.message, async () => {
-            chrome.storage.local.get.mockImplementation(() => {
-                return oneTestCase.input.getResponse ? {
-                    preferences: oneTestCase.input.getResponse
-                } : {};
-            });
-
-            await uioPlus.storeZoom(oneTestCase.input.zoom);
-            expect(chrome.storage.local.set.mock.calls.length).toBe(oneTestCase.expected.setCallsCount);
-            if (oneTestCase.expected.setCallsCount > 0) {
-                expect(chrome.storage.local.set.mock.calls[0][0]).toEqual(oneTestCase.expected.preferences);
-            }
+    for (const oneTestCase of testCases) {
+        chrome.storage.local.get.callsFake(() => {
+            return oneTestCase.input.getResponse ? {
+                preferences: oneTestCase.input.getResponse
+            } : {};
         });
-    });
+
+        await uioPlus.storeZoom(oneTestCase.input.zoom);
+        jqUnit.assertDeepEq(oneTestCase.message + " - call counts on chrome.storage.local.set() is expected", oneTestCase.expected.setCallsCount, chrome.storage.local.set.callCount);
+        if (chrome.storage.local.set.callCount > 0) {
+            jqUnit.assertDeepEq(oneTestCase.message + " - arguments to chrome.storage.local.set() is expected", oneTestCase.expected.preferences, chrome.storage.local.set.args[0][0]);
+        }
+        chrome.storage.local.set.reset();
+    }
 });
 
-describe("Test applyZoom()", () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
+jqUnit.test("Test applyZoom()", async () => {
     const testCases = [
         {
             message: "The unchanged zoom value is not applied",
@@ -337,26 +341,22 @@ describe("Test applyZoom()", () => {
         }
     ];
 
-    testCases.forEach((oneTestCase) => {
-        test(oneTestCase.message, async () => {
-            chrome.tabs.getZoom.mockImplementation(() => {
-                return oneTestCase.input.getResponse;
-            });
-
-            await uioPlus.applyZoom(oneTestCase.input.zoom, oneTestCase.input.tabId);
-            expect(chrome.tabs.setZoom.mock.calls.length).toBe(oneTestCase.expected.setCallsCount);
-            if (oneTestCase.expected.setCallsCount > 0) {
-                expect(chrome.tabs.setZoom.mock.calls[0]).toEqual(oneTestCase.expected.setResponse);
-            }
+    for (const oneTestCase of testCases) {
+        chrome.tabs.getZoom.callsFake(() => {
+            return oneTestCase.input.getResponse;
         });
-    });
+
+        await uioPlus.applyZoom(oneTestCase.input.zoom, oneTestCase.input.tabId);
+
+        jqUnit.assertDeepEq(oneTestCase.message + " - call counts on chrome.tabs.setZoom() is expected", oneTestCase.expected.setCallsCount, chrome.tabs.setZoom.callCount);
+        if (chrome.tabs.setZoom.callCount > 0) {
+            jqUnit.assertDeepEq(oneTestCase.message + " - arguments to chrome.tabs.setZoom() is expected", oneTestCase.expected.setResponse, chrome.tabs.setZoom.args[0]);
+        }
+        chrome.tabs.setZoom.reset();
+    }
 });
 
-describe("Test updateQuickPanelState()", () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
+jqUnit.test("Test updateQuickPanelState()", async () => {
     const menuItems = {
         preferences: {
             children: {
@@ -452,37 +452,24 @@ describe("Test updateQuickPanelState()", () => {
         }
     ];
 
-    testCases.forEach((oneTestCase) => {
-        test(oneTestCase.message, async () => {
-            await uioPlus.updateQuickPanelState(menuItems, oneTestCase.input.changes);
-            expect(chrome.contextMenus.update.mock.calls.length).toBe(oneTestCase.expected.setCallsCount);
-            if (oneTestCase.expected.setCallsCount > 0) {
-                expect(chrome.contextMenus.update.mock.calls).toEqual(oneTestCase.expected.updateResponse);
-            }
-        });
-    });
+    for (const oneTestCase of testCases) {
+        await uioPlus.updateQuickPanelState(menuItems, oneTestCase.input.changes);
+        jqUnit.assertDeepEq(oneTestCase.message + " - call counts on chrome.contextMenus.update() is expected", oneTestCase.expected.setCallsCount, chrome.contextMenus.update.callCount);
+        if (chrome.contextMenus.update.callCount > 0) {
+            jqUnit.assertDeepEq(oneTestCase.message + " - arguments to chrome.contextMenus.update() is expected", oneTestCase.expected.updateResponse, chrome.contextMenus.update.args);
+        }
+        chrome.contextMenus.update.reset();
+    }
 });
 
-describe("Test chrome.contextMenus.onClicked listener", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
+jqUnit.test("Test updateQuickPanelState()", async () => {
+    initStorageGetFunc();
+    const listeners = chrome.contextMenus.onClicked._listeners;
 
-        // Make sure chrome.storage.local.get() returns an object as per its spec
-        chrome.storage.local.get.mockImplementation(() => {
-            return {};
-        });
-    });
-
-    const listeners = chrome.contextMenus.onClicked.getListeners();
-    const listener = Array.from(listeners)[0];
-
-    test("Test reset listener", async () => {
-        // There is one and only one listener is defined
-        expect(listeners.size).toBe(1);
-        // Trigger listener to simulate a click on the "reset" menu item
-        await listener({menuItemId: "reset"});
-        expect(chrome.storage.local.clear.mock.calls.length).toBe(1);
-    });
+    jqUnit.assertEquals("Test reset listener - there is one and only one listener is defined", 1, listeners.length);
+    const listener = listeners[0];
+    await listener({menuItemId: "reset"});
+    jqUnit.assertEquals("Test reset listener - chrome.storage.local.clear() is called", 1, chrome.storage.local.clear.callCount);
 
     const testCases = [
         {
@@ -511,27 +498,25 @@ describe("Test chrome.contextMenus.onClicked listener", () => {
         }
     ];
 
-    testCases.forEach((oneClickData) => {
-        test("Test " + oneClickData.menuItemId + " listener", async () => {
-            // Trigger listener to simulate a click on a corresponding menu item
-            await listener(oneClickData);
-            expect(chrome.storage.local.get.mock.calls.length).toBe(1);
-            expect(chrome.storage.local.set.mock.calls.length).toBe(1);
-        });
-    });
+    chrome.storage.local.get.reset();
+    chrome.storage.local.set.reset();
+    for (const oneClickData of testCases) {
+        initStorageGetFunc();
+
+        // Trigger listener to simulate a click on a corresponding menu item
+        await listener(oneClickData);
+        jqUnit.assertEquals("Test " + oneClickData.menuItemId + " listener - get() is called", 1, chrome.storage.local.get.callCount);
+        jqUnit.assertEquals("Test " + oneClickData.menuItemId + " listener - set() is called", 1, chrome.storage.local.set.callCount);
+        chrome.storage.local.get.reset();
+        chrome.storage.local.set.reset();
+    }
 });
 
-describe("Test chrome.storage.onChanged listener", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+jqUnit.test("Test chrome.storage.onChanged listener", async () => {
+    const listeners = chrome.storage.onChanged._listeners;
+    jqUnit.assertEquals("Test chrome.storage.onChanged listener - there is one and only one listener is defined", 1, listeners.length);
 
-    const listeners = chrome.storage.onChanged.getListeners();
-    const listener = Array.from(listeners)[0];
-
-    test("Test the number of listeners", () => {
-        expect(listeners.size).toBe(1);
-    });
+    const listener = listeners[0];
 
     const testCases = [
         {
@@ -587,26 +572,22 @@ describe("Test chrome.storage.onChanged listener", () => {
         }
     ];
 
-    testCases.forEach((oneCase) => {
-        test(oneCase.message, async () => {
-            await listener(oneCase.changes, oneCase.areaName);
-            expect(chrome.contextMenus.update.mock.calls.length).toBe(oneCase.expected.numOfUpdatePanelCalls);
-            expect(chrome.tabs.getZoom.mock.calls.length).toBe(oneCase.expected.numOfGetZoomCalls);
-        });
-    });
+    chrome.contextMenus.update.reset();
+    chrome.tabs.getZoom.reset();
+    for (const oneCase of testCases) {
+        await listener(oneCase.changes, oneCase.areaName);
+        jqUnit.assertEquals(oneCase.message + " - chrome.contextMenus.update() is called", oneCase.expected.numOfUpdatePanelCalls, chrome.contextMenus.update.callCount);
+        jqUnit.assertEquals(oneCase.message + " - chrome.tabs.getZoom() is called", oneCase.expected.numOfGetZoomCalls, chrome.tabs.getZoom.callCount);
+        chrome.contextMenus.update.reset();
+        chrome.tabs.getZoom.reset();
+    }
 });
 
-describe("Test chrome.tabs.onActivated listener", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
 
-    const listeners = chrome.tabs.onActivated.getListeners();
-    const listener = Array.from(listeners)[0];
-
-    test("Test the number of listeners", () => {
-        expect(listeners.size).toBe(1);
-    });
+jqUnit.test("Test chrome.tabs.onActivated listener", async () => {
+    const listeners = chrome.tabs.onActivated._listeners;
+    jqUnit.assertEquals("Test chrome.tabs.onActivated listener - there is one and only one listener is defined", 1, listeners.length);
+    const listener = listeners[0];
 
     const activeInfo = {tabId: 0};
     const testCases = [
@@ -632,39 +613,29 @@ describe("Test chrome.tabs.onActivated listener", () => {
         }
     ];
 
-    testCases.forEach((oneCase) => {
-        test(oneCase.message, async () => {
-            chrome.storage.local.get.mockImplementation(() => {
-                return oneCase.getPrefsResponse;
-            });
-
-            await listener(activeInfo);
-            expect(chrome.storage.local.get.mock.calls.length).toBe(oneCase.expected.numOfGetPrefsCalls);
-            expect(chrome.tabs.getZoom.mock.calls.length).toBe(oneCase.expected.numOfGetZoomCalls);
-            if (oneCase.expected.numOfGetZoomCalls > 0) {
-                expect(chrome.tabs.getZoom.mock.calls[0][0]).toBe(activeInfo.tabId);
-            }
+    chrome.storage.local.get.reset();
+    chrome.tabs.getZoom.reset();
+    for (const oneCase of testCases) {
+        chrome.storage.local.get.callsFake(() => {
+            return oneCase.getPrefsResponse;
         });
-    });
+
+        await listener(activeInfo);
+        jqUnit.assertEquals(oneCase.message + " - chrome.storage.local.get() is called", oneCase.expected.numOfGetPrefsCalls, chrome.storage.local.get.callCount);
+        jqUnit.assertEquals(oneCase.message + " - chrome.tabs.getZoom() is called", oneCase.expected.numOfGetZoomCalls, chrome.tabs.getZoom.callCount);
+        if (oneCase.expected.numOfGetZoomCalls > 0) {
+            jqUnit.assertDeepEq(oneCase.message + " - arguments to chrome.tabs.getZoom() is expected", activeInfo.tabId, chrome.tabs.getZoom.args[0][0]);
+        }
+        chrome.storage.local.get.reset();
+        chrome.tabs.getZoom.reset();
+    }
 });
 
-describe("Test chrome.tabs.onZoomChange listener", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
+jqUnit.test("Test chrome.tabs.onZoomChange listener", async () => {
+    const listeners = chrome.tabs.onZoomChange._listeners;
+    jqUnit.assertEquals("Test chrome.tabs.onZoomChange listener - there is one and only one listener is defined", 1, listeners.length);
+    const listener = listeners[0];
 
-        chrome.storage.local.get.mockImplementation(() => {
-            return {};
-        });
-    });
-
-    const listeners = chrome.tabs.onZoomChange.getListeners();
-    const listener = Array.from(listeners)[0];
-
-    test("Test the number of listeners", () => {
-        expect(listeners.size).toBe(1);
-    });
-
-    const activeInfo = {tabId: 0};
     const testCases = [
         {
             message: "Store new zoom value when it's changed",
@@ -688,26 +659,19 @@ describe("Test chrome.tabs.onZoomChange listener", () => {
         }
     ];
 
-    testCases.forEach((oneCase) => {
-        test(oneCase.message, async () => {
-            await listener(oneCase.zoomChangeInfo);
-            expect(chrome.storage.local.get.mock.calls.length).toBe(oneCase.expected.numOfGetPrefsCalls);
-        });
-    });
+    chrome.storage.local.get.reset();
+    for (const oneCase of testCases) {
+        initStorageGetFunc();
+        await listener(oneCase.zoomChangeInfo);
+        jqUnit.assertEquals(oneCase.message + " - chrome.storage.local.get() is called", oneCase.expected.numOfGetPrefsCalls, chrome.storage.local.get.callCount);
+        chrome.storage.local.get.reset();
+    }
 });
 
-describe("Test chrome.runtime.onMessage listener", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-        global.chrome.scripting.executeScript.mockImplementation(() => Promise.resolve());
-    });
-
-    const listeners = chrome.runtime.onMessage.getListeners();
-    const listener = Array.from(listeners)[0];
-
-    test("Test the number of listeners", () => {
-        expect(listeners.size).toBe(1);
-    });
+jqUnit.test("Test chrome.runtime.onMessage listener", async () => {
+    const listeners = chrome.runtime.onMessage._listeners;
+    jqUnit.assertEquals("Test chrome.runtime.onMessage listener - there is one and only one listener is defined", 1, listeners.length);
+    const listener = listeners[0];
 
     const testCases = [
         {
@@ -747,15 +711,19 @@ describe("Test chrome.runtime.onMessage listener", () => {
         }
     ];
 
-    testCases.forEach((oneCase) => {
-        test(oneCase.message, async () => {
-            await listener(oneCase.input.message, oneCase.input.sender, {});
-            expect(chrome.scripting.executeScript.mock.calls.length).toBe(oneCase.expected.numOfExecScriptCalls);
-            if (oneCase.expected.numOfExecScriptCalls > 0) {
-                expect(chrome.scripting.executeScript.mock.calls[0][0]).toEqual({
-                    target: { tabId: oneCase.input.sender.tab.id, allFrames: true }, files: oneCase.input.message.src }
-                );
-            }
-        });
-    });
+    chrome.scripting.executeScript.reset();
+    for (const oneCase of testCases) {
+        chrome.scripting.executeScript.callsFake(() => Promise.resolve());
+        await listener(oneCase.input.message, oneCase.input.sender, {});
+        jqUnit.assertEquals(oneCase.message + " - chrome.scripting.executeScript() is called", oneCase.expected.numOfExecScriptCalls, chrome.scripting.executeScript.callCount);
+        if (oneCase.expected.numOfExecScriptCalls > 0) {
+            jqUnit.assertDeepEq(oneCase.message + " - arguments to chrome.scripting.executeScript() is expected",
+                {
+                    target: { tabId: oneCase.input.sender.tab.id, allFrames: true }, files: oneCase.input.message.src
+                },
+                chrome.scripting.executeScript.args[0][0]
+            );
+        }
+        chrome.scripting.executeScript.reset();
+    }
 });

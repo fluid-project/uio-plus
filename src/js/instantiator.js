@@ -10,6 +10,18 @@
  * https://github.com/fluid-project/uio-plus/blob/main/LICENSE.txt
  */
 
+/* global uioPlus */
+
 "use strict";
 
-require("./backgroundTests.js");
+uioPlus.prefsEditor(".uioPlus", {
+    auxiliarySchema: {
+        terms: {
+            // adjust paths
+            templatePrefix: "../lib/infusion/src/framework/preferences/html",
+            messagePrefix: "../lib/infusion/src/framework/preferences/messages",
+            localTemplatePrefix: "../templates",
+            localMessagePrefix: "../messages"
+        }
+    }
+});

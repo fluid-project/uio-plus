@@ -43,7 +43,9 @@
             "js/contentView.js",
             "js/panels.js",
             "js/enactors.js",
-            "js/enhancer.js"
+            "js/enhancer.js",
+            "js/prefsEditor.js",
+            "js/instantiator.js"
         ]
     }],
     "commands": {

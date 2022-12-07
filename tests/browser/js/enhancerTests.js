@@ -10,7 +10,8 @@
  * https://github.com/fluid-project/uio-plus/blob/main/LICENSE.txt
  */
 
-/* global fluid, jqUnit, uioPlus */
+/* global jqUnit, uio, uioPlus, chrome */
+
 "use strict";
 
 (function ($) {
@@ -19,17 +20,11 @@
 
         fluid.registerNamespace("uioPlus.tests");
 
-        uioPlus.tests.verifySubcomponentsExist = function (that, subcomponents) {
-            subcomponents.forEach((oneComponent) => {
-                jqUnit.assertNotUndefined(oneComponent + " exist", that[oneComponent]);
-            });
-        };
-
         jqUnit.test("Test instantiated UIO", function () {
             // Initial Instantiation
             jqUnit.assertNotUndefined("UIO enhancer has been instantiated", uio);
             jqUnit.assertEquals("The enhancer acts on the body element", "body", uio.container.selector);
-            uioPlus.tests.verifySubcomponentsExist(uio, ["store", "enhancer"])
+            uioPlus.tests.verifySubcomponentsExist(uio, ["store", "enhancer"]);
             uioPlus.tests.verifySubcomponentsExist(uio.enhancer.uiEnhancer, [
                 "fluid_prefs_enactor_letterSpace",
                 "fluid_prefs_enactor_wordSpace",
@@ -75,8 +70,8 @@
                 fluid_prefs_syllabification: true
             });
             jqUnit.assertTrue("The model value is properly relayed to the syllabification enactor", uio.enhancer.uiEnhancer.fluid_prefs_enactor_syllabification.model.enabled);
-            jqUnit.assertEquals("The patternPrefix has been set properly", "lib/infusion/src/lib/hypher/patterns", uio.enhancer.uiEnhancer.fluid_prefs_enactor_syllabification.options.terms.patternPrefix)
-            jqUnit.assertEquals("The injectScript function is properly set", "uioPlus.contentScript.requestInjection", uio.enhancer.uiEnhancer.fluid_prefs_enactor_syllabification.options.invokers.injectScript.funcName)
+            jqUnit.assertEquals("The patternPrefix has been set properly", "lib/infusion/src/lib/hypher/patterns", uio.enhancer.uiEnhancer.fluid_prefs_enactor_syllabification.options.terms.patternPrefix);
+            jqUnit.assertEquals("The injectScript function is properly set", "uioPlus.contentScript.requestInjection", uio.enhancer.uiEnhancer.fluid_prefs_enactor_syllabification.options.invokers.injectScript.funcName);
 
             // Contrast
             uio.enhancer.uiEnhancer.applier.change("", {
@@ -141,9 +136,8 @@
             const onChangedListener = chrome.storage.onChanged._listeners[0];
             jqUnit.assertTrue("chrome.storage.onChanged has a listener", typeof onChangedListener === "function");
 
-            // Trigger listener
+            // Trigger the listener and test the result
             const initialModel = uio.enhancer.uiEnhancer.initialModel;
-            console.log("initialModel: ", initialModel);
             const testCases = [
                 {
                     areaName: "local",
@@ -183,7 +177,6 @@
                         {...uio.enhancer.uiEnhancer.initialModel.preferences, ...oneTestCase.changes.preferences.newValue},
                         uio.enhancer.uiEnhancer.model
                     );
-                    console.log(uio.enhancer.uiEnhancer.model);
                     // Reset the uiEnhancer model back to the initial for the next test to run
                     uio.enhancer.uiEnhancer.updateModel(initialModel);
                 }

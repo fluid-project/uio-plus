@@ -10,11 +10,10 @@
  * https://github.com/fluid-project/uio-plus/blob/main/LICENSE.txt
  */
 
-/* global chrome */
-
 "use strict";
 
 const uioPlus = {};
+var chrome = chrome || require("sinon-chrome");
 
 // Quick Panel Config
 
@@ -124,8 +123,8 @@ uioPlus.createMenuItems = async (menuItems, parentId, storage) => {
 /**
  * Update checkbox states based on values updated into the local storage.
  *
- * @param {Object} menuItems - the changed preferences.
  * @param {Object} menuItems - menu items structure. See `uioPlus.contextMenuItems` for an example.
+ * @param {Object} changes - the changed preferences.
  */
 uioPlus.updateQuickPanelState = (menuItems, changes) => {
     Object.keys(menuItems.preferences.children).forEach(prefName => {
@@ -142,7 +141,7 @@ uioPlus.updateQuickPanelState = (menuItems, changes) => {
  * If the previously saved preference value is false, remove it from the saved preferences object. Otherwise, save it.
  *
  * @param {String} prefName - a preference name.
- * @param  {Boolean} arrays - the arrays to filter `toFilter` with.
+ * @param  {Boolean} state - the state of the given preference.
  * @return {Promise} - the result of saving the preference.
  */
 uioPlus.storePref = async (prefName, state) => {
@@ -235,8 +234,8 @@ if (!menu) {
     menu = uioPlus.createMenuItems(uioPlus.contextMenuItems);
 }
 
-// For tests only as jest and jest-chrome only works with node.js module scripts
-if (typeof exports !== 'undefined') {
+// For node.js tests only
+if (typeof exports !== "undefined") {
     exports.createMenuItems = uioPlus.createMenuItems;
     exports.storePref = uioPlus.storePref;
     exports.storeZoom = uioPlus.storeZoom;

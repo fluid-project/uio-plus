@@ -11,19 +11,17 @@
         <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
         <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
         <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
         <script src="../../../node_modules/sinon-chrome/bundle/sinon-chrome.min.js"></script>
-        <script src="../../../node_modules/sinon/pkg/sinon.js"></script>
-        <script src="../../../src/js/shared/portBinding.js"></script>
-        <script src="../../../src/js/browserAction/PrefsEditor.js"></script>
+        <script src="../../../src/js/panels.js"></script>
+        <script src="../../../src/js/schemas.js"></script>
+        <script src="../../../src/js/store.js"></script>
+        <script src="../../../src/js/prefsEditor.js" defer></script>
 
         <!-- Required to send coverage data at the end of the test run on this page -->
         <script src="/testem.js"></script>
         <script src="/coverage/client/coverageSender.js"></script>
 
-        <script src="../js/portTestUtils.js"></script>
-        <script src="../js/portBindingTestUtils.js"></script>
-        <script src="../js/PanelTestUtils.js"></script>
+        <script src="../js/testUtils.js"></script>
         <script src="../js/prefsEditorTests.js"></script>
     </head>
 
@@ -35,16 +33,6 @@
         <ol id="qunit-tests"></ol>
         <!-- Test Markup -->
 
-        <div class="uioPlusJS-textSize"></div>
-        <div class="uioPlusJS-lineSpace"></div>
-        <div class="uioPlusJS-charSpace"></div>
-        <div class="uioPlusJS-syllabification"></div>
-        <div class="uioPlusJS-contrast"></div>
-        <div class="uioPlusJS-highlight"></div>
-        <div class="uioPlusJS-simplify"></div>
-        <div class="uioPlusJS-clickToSelect"></div>
-
-        <div class="uioPlusJS-prefsEditor"></div>
-
+        <div class="uioPlus"></div>
     </body>
 </html>

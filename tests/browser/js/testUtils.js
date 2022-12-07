@@ -10,6 +10,14 @@
  * https://github.com/fluid-project/uio-plus/blob/main/LICENSE.txt
  */
 
+/* global jqUnit, uioPlus */
+
 "use strict";
 
-require("./backgroundTests.js");
+fluid.registerNamespace("uioPlus.tests");
+
+uioPlus.tests.verifySubcomponentsExist = function (that, subcomponents) {
+    subcomponents.forEach((oneComponent) => {
+        jqUnit.assertNotUndefined(oneComponent + " exist", that[oneComponent]);
+    });
+};
