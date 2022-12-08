@@ -73,7 +73,7 @@ Infusion components may be prefixed with `flc-`
       1. Run tests: `npm test`
       2. Lint: `npm run lint`
       3. Manual test build.
-         1. Create a developer build: "npm run dev"
+         1. Create a build: "npm run build"
          2. Load unpacked extension into Chrome.
             1. In Chrome, go to [chrome://extensions](chrome://extensions)
             2. Ensure that "Developer mode" is enabled.

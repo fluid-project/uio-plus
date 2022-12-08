@@ -52,15 +52,6 @@ can also be run as an unpacked extension.
 npm run build
 ```
 
-#### Dev Build
-
-Dev builds can be generated as well, although at the moment they are very similar to a production build. The only
-difference being that laravel-mix is run in dev mode.
-
-```bash
-npm run dev
-```
-
 ## Testing
 
 ### Node

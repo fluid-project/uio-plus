@@ -24,8 +24,7 @@ fluid.defaults("fluid.tests.testem", {
     testPages:  ["tests/browser/all-tests.html"],
     instrumentationOptions: {
         nonSources: [
-            "./**/*.!(js)",
-            "./webpack.mix.js"
+            "./**/*.!(js)"
         ]
     },
     sourceDirs: {
