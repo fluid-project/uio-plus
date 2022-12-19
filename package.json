@@ -37,7 +37,7 @@
         "clean:build": "rimraf dist",
         "clean:test": "rimraf reports coverage",
         "build": "run-s -l clean:build build:*",
-        "build:dist": "cpy . ../dist --cwd=src; cpy . ../../dist/lib/infusion --cwd=node_modules/infusion"
+        "build:dist": "cpy . ../dist --cwd=src && cpy . ../../dist/lib/infusion --cwd=node_modules/infusion"
     },
     "dependencies": {
         "infusion": "4.6.0"
