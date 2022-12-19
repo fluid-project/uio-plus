@@ -281,6 +281,13 @@ fluid.defaults("uioPlus.enactor.tableOfContents", {
     }
 });
 
+// As UIO+ runs on arbitrary sites, inject the necessary ToC container markup into the pages content,
+// and this container will then be used by the ToC component.
+// 1. If the ToC container already exists, do nothing;
+// 2. If the ToC container is not found:
+// 2.1 The first choice is to append the ToC container to the page's main content area (e.g. <main>, <article> etc.)
+// 2.2 If the main content is not found, for example when a page is marked up like
+// `<body><div></div><div></div></body>`, inject the ToC container to the enactor's container.
 uioPlus.enactor.tableOfContents.injectToCContainer = function (that) {
     if (!that.locate("tocContainer").length) {
         if (that.content.length === 1) {
