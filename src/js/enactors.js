@@ -304,29 +304,17 @@ uioPlus.enactor.tableOfContents.injectToCContainer = function (that) {
 
 fluid.defaults("uioPlus.enactor.selfVoicing", {
     gradeNames: ["uioPlus.contentView", "fluid.prefs.enactor.selfVoicing"],
-    selectors: {
-        controllerParentContainer: ".flc-prefs-selfVoicingWidget",
-        domReaderContent: ".flc-orator-content"
-    },
-    domReaderContent: ["domReaderContent", "main", "article"],
-    controllerParentContainer: ["controllerParentContainer", "main", "article"],
-    distributeOptions: [{
-        record: {
-            expander: {
-                funcName: "uioPlus.contentView.findFirstSelector",
-                args: ["{selfVoicing}.locate", "{selfVoicing}.options.controllerParentContainer", "{selfVoicing}.container"]
-            }
+    // Temporarily disable the page level reading due to these issues:
+    // https://issues.fluidproject.org/browse/FLUID-6760
+    // https://issues.fluidproject.org/browse/FLUID-6761
+    distributeOptions: {
+        removeController: {
+            record: "fluid.emptySubcomponent",
+            target: "{that orator controller}.type"
         },
-        target: "{that orator > controller}.options.parentContainer",
-        namespace: "controllerParentContainer"
-    }, {
-        record: {
-            expander: {
-                funcName: "uioPlus.contentView.findFirstSelector",
-                args: ["{selfVoicing}.locate", "{selfVoicing}.options.domReaderContent", "{selfVoicing}.container"]
-            }
-        },
-        target: "{that orator}.options.components.domReader.container",
-        namespace: "domReaderContainer"
-    }]
+        removeDomReader: {
+            record: "fluid.emptySubcomponent",
+            target: "{that orator domReader}.type"
+        }
+    }
 });

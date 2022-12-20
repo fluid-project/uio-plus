@@ -622,7 +622,7 @@ fluid.defaults("uioPlus.tests.selfVoicingTester", {
         name: "Self Voicing Tests",
         tests: [{
             name: "Model Changes",
-            expect: 5,
+            expect: 3,
             sequence: [{
                 // The orator subcomponent is not initialized until the enactor is enabled for the first time.
                 func: "uioPlus.tests.assertSubComponentNotCreated",
@@ -635,26 +635,14 @@ fluid.defaults("uioPlus.tests.selfVoicingTester", {
                 spec: {priority: "last:testing"},
                 listener: "uioPlus.tests.selfVoicingTester.assertOratorInit",
                 args: ["{selfVoicing}"]
-            }, {
-                func: "{selfVoicing}.applier.change",
-                args: ["enabled", false]
-            }, {
-                changeEvent: "{selfVoicing}.applier.modelChanged",
-                spec: {path: "enabled", priority: "last:testing"},
-                listener: "jqUnit.notVisible",
-                args: ["The orator controller should no longer be visible", "{selfVoicing}.orator.controller.container"]
             }]
         }]
     }]
 });
 
 uioPlus.tests.selfVoicingTester.assertOratorInit = function (that) {
-    var controller = that.orator.controller;
-    var domReader = that.orator.domReader;
-
-    jqUnit.assertTrue("The domReaders's container should be set properly", domReader.container.hasClass("flc-orator-content"));
-    jqUnit.assertTrue("The controller's parentContainer should be set properly", controller.options.parentContainer.hasClass("flc-prefs-selfVoicingWidget"));
-    jqUnit.isVisible("The orator controller should be visible", controller.container);
+    jqUnit.assertUndefined("The controller component is not instantiated", that.orator.controller);
+    jqUnit.assertUndefined("The domReaders component is not instantiated", that.orator.domReader);
 };
 
 fluid.test.runTests([
