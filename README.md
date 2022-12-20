@@ -99,7 +99,7 @@ _**NOTE:** Published versions can be installed from the [Chrome Web Store](
 
 ### BSD 3-Clause
 
-* [Infusion v4.0.0](https://fluidproject.org/infusion.html)
+* [Infusion v4.6.0](https://fluidproject.org/infusion.html)
 
 ### MIT License
 
