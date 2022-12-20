@@ -308,8 +308,8 @@ fluid.defaults("uioPlus.enactor.selfVoicing", {
         controllerParentContainer: ".flc-prefs-selfVoicingWidget",
         domReaderContent: ".flc-orator-content"
     },
-    domReaderContent: ["domReaderContent", "article", "main", "genericContent"],
-    controllerParentContainer: ["controllerParentContainer", "article", "main", "genericContent"],
+    domReaderContent: ["domReaderContent", "main", "article"],
+    controllerParentContainer: ["controllerParentContainer", "main", "article"],
     distributeOptions: [{
         record: {
             expander: {

@@ -12,12 +12,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/infusion/src/framework/preferences/css/SeparatedPanelPrefsEditor.css" />
         <link rel="stylesheet" type="text/css" href="../css/adjusters.css" />
 
-        <script src="../lib/infusion/dist/infusion-uio.js" defer></script>
-        <script src="../js/schemas.js" defer></script>
-        <script src="../js/store.js" defer></script>
-        <script src="../js/panels.js" defer></script>
-        <script src="../js/prefsEditor.js" defer></script>
-        <script src="../js/instantiator.js" defer></script>
+        <script src="../lib/infusion/dist/infusion-uio.js"></script>
+        <script src="../js/schemas.js"></script>
+        <script src="../js/store.js"></script>
+        <script src="../js/panels.js"></script>
+        <script src="../js/prefsEditor.js"></script>
 
         <title>Preferences Editor</title>
      </head>
@@ -25,6 +24,9 @@
     <body class="fl-prefsEditor-separatedPanel fl-focus">
         <div class="uioPlus"></div>
         <div class="flc-toc-tocContainer fl-toc-tocContainer"></div>
+
+        <!-- Instantiate when containers are loaded. Using "defer" is not reliable. -->
+        <script src="../js/instantiator.js"></script>
     </body>
 
 </html>
