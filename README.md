@@ -37,12 +37,6 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details about our contributi
 
 ### Dependencies
 
-Install [grunt-cli](https://gruntjs.com) globally:
-
-```bash
-npm install -g grunt-cli
-```
-
 Install required dependencies:
 
 ```bash
@@ -55,7 +49,7 @@ This will generate a `dist` directory at the root of the project. This is used w
 can also be run as an unpacked extension.
 
 ```bash
-grunt build
+npm run build
 ```
 
 ## Testing
@@ -83,9 +77,6 @@ Run all the tests and generate reports which can be viewed in the browser from t
 ```bash
 # run on the host machine
 npm test
-
-# run in a vagrant vm
-npm run test:vagrant
 ```
 
 ## Trying UIO+ in the browser
@@ -96,11 +87,9 @@ Requirements:
 
 Follow these steps if you want to use the unpacked version of the extension:
 
-1. Visit [chrome://extensions](chrome://extension) in your Chrome browser. Alternatively, open Chrome's menu by
-   clicking the icon to the far right of the Omnibox; the menu's icon is three horizontal bars. Select *Extensions*
-   under the *Tools* menu to open Chrome's extension settings.
-2. Ensure that the *Developer mode* checkbox in the top right-hand corner is checked.
-3. Click *Load unpacked extension* to open a file-selection dialog.
+1. Visit [chrome://extensions](chrome://extension) in your Chrome browser.
+2. Ensure that the _Developer mode_ toggle in the top right-hand corner is enabled.
+3. Click _Load unpacked extension_ to open a file-selection dialog.
 4. Navigate to the directory in which your local copy of the extension lives, and select the `dist` folder.
 
 _**NOTE:** Published versions can be installed from the [Chrome Web Store](
@@ -110,7 +99,7 @@ _**NOTE:** Published versions can be installed from the [Chrome Web Store](
 
 ### BSD 3-Clause
 
-* [Infusion v3.0.0-dev](https://fluidproject.org/infusion.html)
+* [Infusion v4.6.0](https://fluidproject.org/infusion.html)
 
 ### MIT License
 

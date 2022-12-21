@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>UIO+ Enactor tests</title>
+
+        <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
+        <link rel="stylesheet" href="../../../node_modules/infusion/tests/lib/qunit/addons/composite/qunit-composite.css">
+
+        <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
+        <script src="../../../src/js/contentView.js"></script>
+        <script src="../../../src/js/enactors.js"></script>
+
+        <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
+        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
+        <script src="../../../node_modules/sinon/pkg/sinon.js"></script>
+
+        <!-- Required to send coverage data at the end of the test run on this page -->
+        <script src="/testem.js"></script>
+        <script src="/coverage/client/coverageSender.js"></script>
+
+        <script src="../js/enactorTests.js" defer></script>
+    </head>
+
+    <body id="body">
+        <h1 id="qunit-header">UIO+ Enactor tests</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <!-- Test Markup -->
+
+        <!-- Click-to-Select -->
+        <div class="uioPlusJS-test-clickToSelect">
+            <p class="uioPlusJS-test-clickToSelect-paragraph">
+                Text in a <strong class="uioPlusJS-test-clickToSelect-nestedElm">paragraph</strong>
+            </p>
+            <div class="uioPlusJS-test-clickToSelect-node">Other text</div>
+        </div>
+
+        <!-- Selection Highlight -->
+        <div class="uioPlusJS-test-selectionHighlight"></div>
+
+        <!-- Simplify -->
+        <div class="uioPlusJS-test-simplify-init">
+            <article>
+                <nav>Nest nav</nav>
+                Article
+            </article>
+        </div>
+
+        <div class="uioPlusJS-test-simplify-init-withNav">
+            <nav>navigation</nav>
+            <article>Article</article>
+        </div>
+
+        <div class="uioPlusJS-test-simplify-init-noContent">
+            <div>No discernible content</div>
+        </div>
+
+        <div class="uioPlusJS-test-simplify-navigation">
+            <nav>nav element</nav>
+            <div role="navigation">navigation role</div>
+            <div class="navigation">navigation class</div>
+            <div class="nav">nav class</div>
+            <div id="navigation">navigation id</div>
+            <div id="nav">nav id</div>
+            <input role="search" type="text">
+            <input type="search">
+
+            <article>
+                <nav>nav in content</nav>
+            </article>
+        </div>
+
+        <div class="uioPlusJS-test-simplify">
+            <nav>nav element</nav>
+            <input type="search">
+
+            <h2>some heading</h2>
+            <article>
+                <h3>article heading</h3>
+            </article>
+            <section class="article">
+                <h3>second article heading</h3>
+            </section>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="uioPlusJS-test-toc">
+            <h1>Heading 1</h1>
+            <h2>Heading 1.1</h2>
+            <h1>Heading 2</h1>
+        </div>
+
+        <!-- Text-to-Speech -->
+        <div class="uioPlusJS-test-selfVoicing">
+            <div class="flc-prefs-selfVoicingWidget"></div>
+            <div class="flc-orator-content"></div>
+        </div>
+        <p class="uioPlusJS-test-syllabification" lang="en">Global temperature has increased over the past 50 years.</p>
+        <div class="uioPlusJS-test-domEnactor"></div>
+    </body>
+</html>

@@ -2,37 +2,38 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>UIO+ prefs editor tests</title>
+        <title>UIO+ Panel tests</title>
 
         <link rel="stylesheet" media="screen" href="../../../node_modules/infusion/tests/lib/qunit/css/qunit.css" />
         <link rel="stylesheet" href="../../../node_modules/infusion/tests/lib/qunit/addons/composite/qunit-composite.css">
 
         <script src="../../../node_modules/infusion/dist/infusion-all.js"></script>
+        <script src="../../../src/js/panels.js"></script>
+
         <script src="../../../node_modules/infusion/tests/lib/qunit/js/qunit.js"></script>
         <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit.js"></script>
         <script src="../../../node_modules/infusion/tests/test-core/jqUnit/js/jqUnit-browser.js"></script>
-        <script src="../../../node_modules/sinon-chrome/bundle/sinon-chrome.min.js"></script>
-        <script src="../../../src/js/panels.js"></script>
-        <script src="../../../src/js/schemas.js"></script>
-        <script src="../../../src/js/store.js"></script>
-        <script src="../../../src/js/prefsEditor.js" defer></script>
+        <script src="../../../node_modules/infusion/tests/test-core/utils/js/IoCTestUtils.js"></script>
 
         <!-- Required to send coverage data at the end of the test run on this page -->
         <script src="/testem.js"></script>
         <script src="/coverage/client/coverageSender.js"></script>
 
-        <script src="../js/testUtils.js"></script>
-        <script src="../js/prefsEditorTests.js"></script>
+        <script src="../js/PanelTestUtils.js" defer></script>
+        <script src="../js/panelTests.js" defer></script>
     </head>
 
     <body id="body">
-        <h1 id="qunit-header">UIO+ prefs editor tests</h1>
+        <h1 id="qunit-header">UIO+ Panel tests</h1>
         <h2 id="qunit-banner"></h2>
         <div id="qunit-testrunner-toolbar"></div>
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests"></ol>
         <!-- Test Markup -->
 
-        <div class="uioPlus"></div>
+        <div class="uioPlusJS-prefsEditor-clickToSelect"></div>
+        <div class="uioPlusJS-prefsEditor-selectionHighlight"></div>
+        <div class="uioPlusJS-prefsEditor-simplify"></div>
+        <div class="uioPlusJS-prefsEditor-zoom"></div>
     </body>
 </html>

@@ -6,12 +6,9 @@
 .gitignore
 .npmignore
 .nycrc
-.vagrant
 chrome_web_store.png
 coverage
-Gruntfile.js
 provisioning
 reports
 src
 tests
-Vagrantfile
