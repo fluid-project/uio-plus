@@ -92,8 +92,7 @@ Follow these steps if you want to use the unpacked version of the extension:
 3. Click _Load unpacked extension_ to open a file-selection dialog.
 4. Navigate to the directory in which your local copy of the extension lives, and select the `dist` folder.
 
-_**NOTE:** Published versions can be installed from the [Chrome Web Store](
-    https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)._
+_**NOTE:** Published versions can be installed from the [Chrome Web Store](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)._
 
 ## 3rd Party Software
 

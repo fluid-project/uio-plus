@@ -44,8 +44,7 @@ After a Pull Request (PR) has been submitted, one or more members of the communi
 typically results in a back and forth conversation and modifications to the PR. Merging into the project repo is a
 manual process and requires at least one Maintainer to sign off on the PR and merge it into the project repo.
 
-When merging a Pull Request, it is recommended to use a [Squash Merge](
-https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits).
+When merging a Pull Request, it is recommended to use a [Squash Merge](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits).
 While this does modify commit history, it will enable us to more easily establish a link between code changes and Issues
 that precipitated them.
 
@@ -103,8 +102,7 @@ Infusion components may be prefixed with `flc-`
    5. Update the screenshots if necessary. They will need to be the exact size requested.
    6. Until a full release is published, we will want to ensure that the “Visibility Options” are set to “Unlisted”.
       This means that UIO+ will be available for install from the Chrome Web Store, but won't be searchable. It will
-      only be accessible by the direct link: [UIO+](
-      https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek).
+      only be accessible by the direct link: [UIO+](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek).
    7. Click "Preview Changes".
       1. Verify that everything appears correct. Pay particular attention to anything that was changed,
          e.g., version number/name, descriptions, screenshots, etc.
@@ -123,9 +121,9 @@ Infusion components may be prefixed with `flc-`
        7. If this is a beta release, check "This is a pre-release".
        8. After all the information has been entered correctly, click "Publish release".
 4. Verify Published UIO+.
-   1. Ensure that the contents of the [UIO+](
-      https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek) page on the
-      Chrome Web Store appear correct. Double check things like version number/name, descriptions, screenshots, etc.
+   1. Ensure that the contents of the [UIO+](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)
+      page on the Chrome Web Store appear correct. Double check things like version number/name, descriptions,
+      screenshots, etc.
    2. Install the version from the Chrome Web Store, and run through the manual testing again. (See: step 1.2.3 above)
    3. If everything is working, announce release where required (e.g., fluid-work list, project teams, etc.). If there
       are any issues, fix them and repeat the process.
