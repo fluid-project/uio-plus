@@ -24,5 +24,8 @@
         "newlines": {
             "excludes": []
         }
+    },
+    "markdownlint": {
+        "excludes": ["CHANGELOG.md"]
     }
 }

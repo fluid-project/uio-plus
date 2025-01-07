@@ -1,7 +1,6 @@
 /dist/
 *.pem
 *.crx
-package-lock.json
 /node_modules/
 report.tap
 coverage

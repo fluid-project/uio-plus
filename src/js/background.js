@@ -96,6 +96,8 @@ uioPlus.messageHandlers = {
  * @param {Object} menuItems - menu items structure. See `uioPlus.contextMenuItems` for an example.
  * @param  {Number} parentId - the parent menu item id.
  * @param  {Object} storage - the currently saved preferences.
+ *
+ * @return {undefined} - returns undefined and will exit early if `menuItems` isn't truthy.
  */
 uioPlus.createMenuItems = async (menuItems, parentId, storage) => {
     if (!menuItems) {
