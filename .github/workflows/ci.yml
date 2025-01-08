@@ -3,8 +3,33 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Prepare git
+        run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run code linter
+        run: npm run lint
+
   tests:
     runs-on: ${{ matrix.os }}
+
+    needs:
+      - lint
 
     timeout-minutes: 20
 
@@ -30,9 +55,6 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm ci
-
-    - name: Code linter
-      run: npm run lint
 
     - name: Build package and setup code coverage reporting
       run: npm run pretest
