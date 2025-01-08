@@ -51,7 +51,7 @@
         "node-jqunit": "1.1.9",
         "npm-run-all2": "7.0.2",
         "nyc": "17.1.0",
-        "rimraf": "5.0.10",
+        "rimraf": "6.0.1",
         "sinon": "19.0.2",
         "sinon-chrome": "3.0.1",
         "testem": "3.15.2"
