@@ -98,8 +98,12 @@ _**NOTE:** Published versions can be installed from the [Chrome Web Store](https
 
 ### BSD 3-Clause
 
-* [Infusion v4.6.0](https://fluidproject.org/infusion.html)
+* [Infusion v4.8.0](https://fluidproject.org/infusion.html)
 
 ### MIT License
 
 * [Font-Awesome-SVG-PNG v1.1.5](https://github.com/encharm/Font-Awesome-SVG-PNG)
+
+## License
+
+UIO+ is an open source project using the [BSD 3-Clause License](./LICENSE.txt).
