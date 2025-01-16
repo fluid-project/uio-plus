@@ -41,7 +41,7 @@
         "build:dist-lib": "cpy . '../../../../dist/lib/infusion/' --cwd=node_modules/infusion"
     },
     "dependencies": {
-        "infusion": "4.7.1"
+        "infusion": "4.8.0"
     },
     "devDependencies": {
         "cpy-cli": "5.0.0",
