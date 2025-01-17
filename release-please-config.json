@@ -11,7 +11,8 @@
             "extra-files": [
                 {
                     "type": "json",
-                    "path": "src/manifest.json"
+                    "path": "src/manifest.json",
+                    "jsonpath": "$.version"
                 }
             ]
         }
