@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "UI Options Plus (UIO+)",
     "short_name": "UIO+",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "User Interface Options Plus (UIO+) allows you to customize websites to match your own personal needs and preferences.",
     "author": "Fluid Project",
     "permissions": [
@@ -26,27 +26,29 @@
     "background": {
         "service_worker": "js/background.js"
     },
-    "content_scripts": [{
-        "matches": [
-            "<all_urls>"
-        ],
-        "css": [
-            "lib/infusion/src/framework/preferences/css/Enactors.css",
-            "lib/infusion/src/components/orator/css/Orator.css",
-            "css/enactors.css"
-        ],
-        "js": [
-            "lib/infusion/dist/infusion-uio.js",
-            "js/webInjection.js",
-            "js/schemas.js",
-            "js/store.js",
-            "js/contentView.js",
-            "js/panels.js",
-            "js/enactors.js",
-            "js/enhancer.js",
-            "js/prefsEditor.js"
-        ]
-    }],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "css": [
+                "lib/infusion/src/framework/preferences/css/Enactors.css",
+                "lib/infusion/src/components/orator/css/Orator.css",
+                "css/enactors.css"
+            ],
+            "js": [
+                "lib/infusion/dist/infusion-uio.js",
+                "js/webInjection.js",
+                "js/schemas.js",
+                "js/store.js",
+                "js/contentView.js",
+                "js/panels.js",
+                "js/enactors.js",
+                "js/enhancer.js",
+                "js/prefsEditor.js"
+            ]
+        }
+    ],
     "commands": {
         "_execute_action": {
             "suggested_key": {
@@ -62,8 +64,12 @@
     },
     "web_accessible_resources": [
         {
-            "resources": ["lib/infusion/**.*"],
-            "matches": ["<all_urls>"]
+            "resources": [
+                "lib/infusion/**.*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
         }
     ]
 }
