@@ -84,42 +84,31 @@ Infusion components may be prefixed with `flc-`
                preferences are working properly. For example (Text-to-Speech and Syllabification, Text-to-Speech with
                Reading Mode).
             3. Multiple web pages should be tested. However, not all preferences will work with all sites.
-   3. Increase the "version" number in the [manifest](./src/manifest.json#L5) file, and push changes to main.
 2. Create the release package.
-   1. Create a release build: `npm run build`
-      1. If making a beta, open the manifest file, located in the newly created dist directory, and add a
-      [version name](https://developer.chrome.com/apps/manifest/version#version_name) with the beta release number (e.g.
-      “version_name”:  “0.1.0 beta 10” ). The version name will be displayed instead of the version number in the Chrome
-      Web Store.
-   2. Create a zip archive of the dist directory.
+   1. This Project uses release-please to automatically generate release PRs based on commits to the `main` branch.
+      To create a release simply merge the release PR into the `main` branch. This will update the version numbers
+      in the `package.json` and `manifest.json` files, update the change logs, create the GitHub release and generate
+      the git tag.
+   2. Create a release build
+      1. Checkout the tag created after merging the release PR.
+      2. Run: `npm run build`
+      3. Copy the zip archive and rename after the version number, e.g. `uio_plus_vX.Y.Z`
+      4. Create a zip archive of the directory.
+      5. Add this zip archive to the GitHub release page
 3. Publish to the [Chrome Web Store](https://chrome.google.com/webstore/category/extensions).
    1. Go to the [Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard/g02818309428530539805)
       on the Chrome Web Store and log in using the fluid team account.
    2. On the Developer Dashboard, click “Edit”; located on the right-hand side of the UI Options Plus (UIO+) listing.
-   3. On the UI Options Plus (UIO+) edit page, click “upload updated package” and upload the zip created in step 2.2
+   3. On the UI Options Plus (UIO+) edit page, click “upload updated package” and upload the zip created in step 2.4
       above.
    4. Update the “Detailed description” field as necessary. Similar information is contained in this README.
    5. Update the screenshots if necessary. They will need to be the exact size requested.
-   6. Until a full release is published, we will want to ensure that the “Visibility Options” are set to “Unlisted”.
-      This means that UIO+ will be available for install from the Chrome Web Store, but won't be searchable. It will
-      only be accessible by the direct link: [UIO+](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek).
-   7. Click "Preview Changes".
+   6. Click "Preview Changes".
       1. Verify that everything appears correct. Pay particular attention to anything that was changed,
          e.g., version number/name, descriptions, screenshots, etc.
-   8. When everything appears correct, publish the changes.
-      1. The actual publishing to the Chrome Web Store will take about an hour.
-   9. Tag the main branch with the release (e.g., v0.1.0-beta.10).
-   10. Create a GitHub release for the tag.
-       1. Go to the [uio-plus](https://github.com/fluid-project/uio-plus) GitHub page.
-       2. Click on "releases".
-       3. Click "Draft a new release".
-       4. For "Tag Version" and "Release Title", enter the tag name created in step 3.9 (e.g., v0.1.0-beta.10).
-       5. For the description, add a summary of changes and any other relevant information. View prior releases, for
-          example.
-       6. Attach the build zip file created in step 2.2. Before uploading, make sure the file is named "build_{tag}.zip"
-          (e.g., build_v0.1.0-beta.10.zip).
-       7. If this is a beta release, check "This is a pre-release".
-       8. After all the information has been entered correctly, click "Publish release".
+   7. When everything appears correct, publish the changes.
+      1. The actual publishing to the Chrome Web Store will take about an hour, but could be longer depending on
+         their review process.
 4. Verify Published UIO+.
    1. Ensure that the contents of the [UIO+](https://chrome.google.com/webstore/detail/ui-options-plus-uio%20/okenndailhmikjjfcnmolpaefecbpaek)
       page on the Chrome Web Store appear correct. Double check things like version number/name, descriptions,
