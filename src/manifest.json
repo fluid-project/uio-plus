@@ -8,8 +8,7 @@
     "permissions": [
         "contextMenus",
         "scripting",
-        "storage",
-        "tabs"
+        "storage"
     ],
     "host_permissions": [
         "*://*/*"
