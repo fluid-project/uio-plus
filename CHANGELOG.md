@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/fluid-project/uio-plus/compare/v0.3.1...v0.3.2) (2025-01-22)
+
+
+### Bug Fixes
+
+* tabs permissions are not required (resolves [#67](https://github.com/fluid-project/uio-plus/issues/67)) ([#68](https://github.com/fluid-project/uio-plus/issues/68)) ([5867b4d](https://github.com/fluid-project/uio-plus/commit/5867b4d66f88cbd33f6e74499aad41f9e3e883c5))
+
 ## [0.3.1](https://github.com/fluid-project/uio-plus/compare/v0.3.0...v0.3.1) (2025-01-20)
 
 
