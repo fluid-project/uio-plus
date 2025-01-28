@@ -40,8 +40,10 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details about our contributi
 Install required dependencies:
 
 ```bash
-npm install
+npm ci
 ```
+
+_**NOTE:** Can use `nvm use` to set the node version from the included `.nvmrc` file._
 
 ### Build
 
