@@ -49,7 +49,7 @@
         "fluid-lint-all": "1.2.14",
         "fluid-testem": "2.2.1",
         "node-jqunit": "1.1.9",
-        "npm-run-all2": "7.0.2",
+        "npm-run-all2": "8.0.1",
         "nyc": "17.1.0",
         "rimraf": "5.0.10",
         "sinon": "20.0.0",
