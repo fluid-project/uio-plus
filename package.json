@@ -50,7 +50,7 @@
         "fluid-testem": "2.2.1",
         "node-jqunit": "1.1.9",
         "npm-run-all2": "8.0.4",
-        "nyc": "17.1.0",
+        "nyc": "18.0.0",
         "rimraf": "5.0.10",
         "sinon": "20.0.0",
         "sinon-chrome": "3.0.1",
